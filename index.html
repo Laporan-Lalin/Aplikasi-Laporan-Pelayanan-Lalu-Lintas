@@ -379,15 +379,15 @@
         <i class="fa-solid fa-chevron-down chevron-icon" id="icon-cat-layanan"></i>
       </div>
       <div class="submenu" id="cat-layanan">
-        <a href="#" class="submenu-item active" onclick="selectMenu(this, 'Penanganan Kendaraan Trouble')">
+        <a href="#" class="submenu-item active" data-view="kendaraan-trouble" onclick="selectMenu(this, 'Penanganan Kendaraan Trouble')">
           <i class="fa-solid fa-car-burst"></i>
           <span>Kendaraan Trouble</span>
         </a>
-        <a href="#" class="submenu-item" onclick="selectMenu(this, 'Penderekan')">
+        <a href="#" class="submenu-item" data-view="penderekan" onclick="selectMenu(this, 'Penderekan')">
           <i class="fa-solid fa-truck-pickup"></i>
           <span>Penderekan</span>
         </a>
-        <a href="#" class="submenu-item" onclick="selectMenu(this, 'Penanganan Kejadian Khusus')">
+        <a href="#" class="submenu-item" data-view="kejadian-khusus" onclick="selectMenu(this, 'Penanganan Kejadian Khusus')">
           <i class="fa-solid fa-triangle-exclamation"></i>
           <span>Kejadian Khusus</span>
         </a>
@@ -402,27 +402,27 @@
         <i class="fa-solid fa-chevron-down chevron-icon" id="icon-cat-aset"></i>
       </div>
       <div class="submenu" id="cat-aset">
-        <a href="#" class="submenu-item" onclick="selectMenu(this, 'Pemantauan Rambu')">
+        <a href="#" class="submenu-item" data-view="rambu" onclick="selectMenu(this, 'Pemantauan Rambu')">
           <i class="fa-solid fa-diamond-turn-right"></i>
           <span>Rambu</span>
         </a>
-        <a href="#" class="submenu-item" onclick="selectMenu(this, 'Pemantauan Guardrail')">
+        <a href="#" class="submenu-item" data-view="guardrail" onclick="selectMenu(this, 'Pemantauan Guardrail')">
           <i class="fa-solid fa-road-barrier"></i>
           <span>Guardrail</span>
         </a>
-        <a href="#" class="submenu-item" onclick="selectMenu(this, 'Pemantauan Pagar')">
+        <a href="#" class="submenu-item" data-view="pagar" onclick="selectMenu(this, 'Pemantauan Pagar')">
           <i class="fa-solid fa-bars-staggered"></i>
           <span>Pagar</span>
         </a>
-        <a href="#" class="submenu-item" onclick="selectMenu(this, 'Pemantauan Lampu Flip-Flop')">
+        <a href="#" class="submenu-item" data-view="lampu-flipflop" onclick="selectMenu(this, 'Pemantauan Lampu Flip-Flop')">
           <i class="fa-solid fa-lightbulb"></i>
           <span>Lampu Flip-Flop</span>
         </a>
-        <a href="#" class="submenu-item" onclick="selectMenu(this, 'Pemantauan Lampu PJU')">
+        <a href="#" class="submenu-item" data-view="lampu-pju" onclick="selectMenu(this, 'Pemantauan Lampu PJU')">
           <i class="fa-solid fa-bolt"></i>
           <span>Lampu PJU</span>
         </a>
-        <a href="#" class="submenu-item" onclick="selectMenu(this, 'Pemantauan VMS Jalan')">
+        <a href="#" class="submenu-item" data-view="vms-jalan" onclick="selectMenu(this, 'Pemantauan VMS Jalan')">
           <i class="fa-solid fa-tv"></i>
           <span>VMS Jalan</span>
         </a>
@@ -507,3 +507,5 @@
   </script>
 </body>
 </html>
+
+print("Updated index.html successfully.")
