@@ -1376,54 +1376,59 @@
     }
 
     // ============================================================
-    // UPLOAD FOTO - HANYA google.script.run
-    // ============================================================
+// UPLOAD FOTO - MENGGUNAKAN FORM DATA + FETCH
+// ============================================================
 
-    function handleFotoUpload(input) {
-      const file = input.files[0];
-      if (!file) return;
+function handleFotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
 
-      const statusEl = document.getElementById('asetFotoStatus');
-      const nameEl = document.getElementById('asetFotoName');
-      const previewEl = document.getElementById('asetFotoPreview');
+  const statusEl = document.getElementById('asetFotoStatus');
+  const nameEl = document.getElementById('asetFotoName');
+  const previewEl = document.getElementById('asetFotoPreview');
 
-      nameEl.textContent = file.name;
-      statusEl.textContent = '📤 Mengupload...';
-      statusEl.className = 'upload-status';
+  nameEl.textContent = file.name;
+  statusEl.textContent = '📤 Mengupload...';
+  statusEl.className = 'upload-status';
 
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        if (typeof google !== 'undefined' && google.script && google.script.run) {
-          google.script.run
-            .withSuccessHandler(function(result) {
-              if (result.success) {
-                uploadedFotoUrl = result.url;
-                document.getElementById('asetFotoUrl').value = result.url;
-                statusEl.textContent = '✅ Foto berhasil diupload!';
-                statusEl.className = 'upload-status success';
-                previewEl.innerHTML = `<img src="${result.url}" class="preview-img" alt="Preview">`;
-              } else {
-                statusEl.textContent = '❌ ' + (result.error || 'Gagal upload');
-                statusEl.className = 'upload-status error';
-              }
-            })
-            .withFailureHandler(function(error) {
-              statusEl.textContent = '❌ ' + error.message;
-              statusEl.className = 'upload-status error';
-            })
-            .uploadFoto({
-              fotoData: e.target.result,
-              fotoType: 'image/jpeg',
-              fotoName: file.name.replace(/\.[^/.]+$/, '') + '.jpg'
-            });
-        } else {
-          statusEl.textContent = '❌ google.script.run tidak tersedia';
-          statusEl.className = 'upload-status error';
-        }
-      };
-      reader.readAsDataURL(file);
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    try {
+      const base64Data = e.target.result;
+      
+      // BUAT FORM DATA
+      const formData = new FormData();
+      formData.append('action', 'uploadFoto');
+      formData.append('fotoData', base64Data);
+      formData.append('fotoType', 'image/jpeg');
+      formData.append('fotoName', file.name.replace(/\.[^/.]+$/, '') + '.jpg');
+      
+      // KIRIM VIA FETCH
+      const response = await fetch(APP_CONFIG.API_URL, {
+        method: 'POST',
+        body: formData
+        // TIDAK PERLU HEADER Content-Type, fetch akan set otomatis untuk FormData
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        uploadedFotoUrl = result.url;
+        document.getElementById('asetFotoUrl').value = result.url;
+        statusEl.textContent = '✅ Foto berhasil diupload!';
+        statusEl.className = 'upload-status success';
+        previewEl.innerHTML = `<img src="${result.url}" class="preview-img" alt="Preview">`;
+      } else {
+        statusEl.textContent = '❌ ' + (result.error || 'Gagal upload');
+        statusEl.className = 'upload-status error';
+      }
+    } catch (err) {
+      statusEl.textContent = '❌ Gagal upload: ' + err.message;
+      statusEl.className = 'upload-status error';
     }
-
+  };
+  reader.readAsDataURL(file);
+}
     // ============================================================
     // TOAST
     // ============================================================
