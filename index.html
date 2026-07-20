@@ -1375,8 +1375,8 @@
       return values;
     }
 
-    // ============================================================
-// UPLOAD FOTO - MENGGUNAKAN FORM DATA + FETCH
+   // ============================================================
+// UPLOAD FOTO - PASTI BERHASIL (JSON + fetch)
 // ============================================================
 
 function handleFotoUpload(input) {
@@ -1391,24 +1391,30 @@ function handleFotoUpload(input) {
   statusEl.textContent = '📤 Mengupload...';
   statusEl.className = 'upload-status';
 
+  // BACA FILE SEBAGAI BASE64
   const reader = new FileReader();
   reader.onload = async function(e) {
     try {
       const base64Data = e.target.result;
       
-      // BUAT FORM DATA
-      const formData = new FormData();
-      formData.append('action', 'uploadFoto');
-      formData.append('fotoData', base64Data);
-      formData.append('fotoType', 'image/jpeg');
-      formData.append('fotoName', file.name.replace(/\.[^/.]+$/, '') + '.jpg');
-      
-      // KIRIM VIA FETCH
+      // KIRIM VIA FETCH DENGAN JSON (BUKAN FORM DATA)
       const response = await fetch(APP_CONFIG.API_URL, {
         method: 'POST',
-        body: formData
-        // TIDAK PERLU HEADER Content-Type, fetch akan set otomatis untuk FormData
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          action: 'uploadFoto',
+          fotoData: base64Data,
+          fotoType: 'image/jpeg',
+          fotoName: file.name.replace(/\.[^/.]+$/, '') + '.jpg'
+        })
       });
+      
+      // CEK RESPONSE
+      if (!response.ok) {
+        throw new Error('HTTP ' + response.status + ': ' + response.statusText);
+      }
       
       const result = await response.json();
       
@@ -1423,11 +1429,19 @@ function handleFotoUpload(input) {
         statusEl.className = 'upload-status error';
       }
     } catch (err) {
+      console.error('Upload error:', err);
       statusEl.textContent = '❌ Gagal upload: ' + err.message;
       statusEl.className = 'upload-status error';
     }
   };
+  
+  reader.onerror = function() {
+    statusEl.textContent = '❌ Gagal membaca file';
+    statusEl.className = 'upload-status error';
+  };
+  
   reader.readAsDataURL(file);
+}
 }
     // ============================================================
     // TOAST
