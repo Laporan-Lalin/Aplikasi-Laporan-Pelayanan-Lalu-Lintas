@@ -5,22 +5,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
+  <!-- ============================================================
+  ════════════════════════════════════════════════════════════════════
+  BAGIAN 1: KONFIGURASI APLIKASI
+  ════════════════════════════════════════════════════════════════════
+  📌 YANG PERLU DIGANTI: 
+     - API_URL: Ganti dengan URL Web App Anda setelah deploy
+  ============================================================ -->
   <script>
-    // =============================================
-    // KONFIGURASI - GANTI DENGAN URL WEB APP ANDA
-    // =============================================
     const APP_CONFIG = {
+      // ═══════════════════════════════════════════════════════════
+      // 🔧 GANTI URL INI dengan URL Web App Google Apps Script Anda
+      // ═══════════════════════════════════════════════════════════
       API_URL: 'https://script.google.com/macros/s/AKfycbz4fxgTfXQvdTXqrDno8slIrVfc_VKK6RMcaPRrCy-ORuP7FgIz7XMRyQJYJE9C1rJ0/exec',
+      
+      // URL Logo (opsional, bisa diganti)
       LOGO_URL: 'https://drive.google.com/uc?export=view&id=12ZmHCesB52Wwd2Enmmii_IpYMaVb8C5b',
+      
+      // Nama Aplikasi (bisa diubah sesuai kebutuhan)
       APP_NAME: 'Laporan Pelayanan Lalu Lintas',
       APP_SUBTITLE: 'Tol Makassar'
     };
   </script>
   
+  <!-- ============================================================
+  ════════════════════════════════════════════════════════════════════
+  BAGIAN 2: STYLE CSS
+  ════════════════════════════════════════════════════════════════════
+  📌 YANG PERLU DIGANTI:
+     - Warna: Ubah nilai di :root untuk tema berbeda
+     - Radius: Ubah nilai --radius untuk bentuk card
+  ============================================================ -->
   <style>
-    /* ==============================================
-       ROOT VARIABLES & RESET
-       ============================================== */
+    /* =============================================================
+       VARIABEL WARNA (THEME)
+       =============================================================
+       💡 Ganti nilai di bawah ini untuk mengubah tema warna:
+         - --secondary: warna aksen utama (oranye)
+         - --primary: warna dasar (biru tua)
+         - --bg-dark: warna latar belakang
+       ============================================================= */
     :root {
       --primary: #1a237e;
       --primary-dark: #0d1445;
@@ -40,6 +64,9 @@
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    /* =============================================================
+       RESET & DASAR
+       ============================================================= */
     * {
       margin: 0;
       padding: 0;
@@ -55,6 +82,9 @@
       overflow-x: hidden;
     }
 
+    /* =============================================================
+       BACKGROUND GRADIENT (animasi)
+       ============================================================= */
     .bg-gradient {
       position: fixed;
       top: 0;
@@ -84,9 +114,11 @@
       66% { transform: translate(-5%, 5%) rotate(-5deg); }
     }
 
-    /* ==============================================
-       SIDEBAR
-       ============================================== */
+    /* =============================================================
+       SIDEBAR / NAVIGASI
+       =============================================================
+       💡 Ubah lebar sidebar: width: 280px → sesuaikan
+       ============================================================= */
     .sidebar {
       position: fixed;
       top: 0;
@@ -155,6 +187,11 @@
       margin-top: 2px;
     }
 
+    /* =============================================================
+       MENU SIDEBAR
+       =============================================================
+       💡 Tambah menu: copy .menu-item dan .sub-menu
+       ============================================================= */
     .menu-label {
       font-size: 10px;
       text-transform: uppercase;
@@ -235,9 +272,9 @@
       transform: rotate(180deg);
     }
 
-    /* ==============================================
-       MAIN CONTENT
-       ============================================== */
+    /* =============================================================
+       MAIN CONTENT & TOP BAR
+       ============================================================= */
     .main-content {
       padding: 16px;
       padding-top: 70px;
@@ -281,9 +318,9 @@
       color: var(--secondary);
     }
 
-    /* ==============================================
+    /* =============================================================
        DASHBOARD
-       ============================================== */
+       ============================================================= */
     .dashboard {
       display: none;
     }
@@ -322,6 +359,11 @@
       letter-spacing: 0.5px;
     }
 
+    /* =============================================================
+       STATISTIK CARD
+       =============================================================
+       💡 Tambah card: copy .stat-card
+       ============================================================= */
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -362,9 +404,9 @@
       display: block;
     }
 
-    /* ==============================================
-       PAGE
-       ============================================== */
+    /* =============================================================
+       PAGE / SECTION
+       ============================================================= */
     .page {
       display: none;
     }
@@ -388,9 +430,43 @@
       color: var(--text-muted);
     }
 
-    /* ==============================================
+    /* =============================================================
+       SUB FORM CARD
+       ============================================================= */
+    .sub-form-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: var(--transition);
+    }
+
+    .sub-form-card .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--secondary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sub-form-card .card-title .badge-sub {
+      font-size: 10px;
+      background: rgba(255, 111, 0, 0.15);
+      padding: 2px 10px;
+      border-radius: 12px;
+      color: var(--secondary);
+      font-weight: 500;
+    }
+
+    /* =============================================================
        FORM STYLE
-       ============================================== */
+       =============================================================
+       💡 Tambah field: copy .form-group
+       💡 Ubah layout: .form-row (2 kolom), .form-row-3 (3 kolom)
+       ============================================================= */
     .form-group {
       margin-bottom: 16px;
     }
@@ -445,6 +521,22 @@
       padding-right: 40px;
     }
 
+    /* Multi-select khusus */
+    select.form-control[multiple] {
+      background-image: none;
+      padding-right: 14px;
+      min-height: 80px;
+    }
+
+    select.form-control[multiple] option {
+      padding: 6px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    select.form-control[multiple] option:checked {
+      background: var(--secondary) linear-gradient(0deg, var(--secondary) 0%, var(--secondary) 100%);
+    }
+
     textarea.form-control {
       resize: vertical;
       min-height: 80px;
@@ -471,40 +563,9 @@
       }
     }
 
-    /* ==============================================
-       SUB FORM CARD
-       ============================================== */
-    .sub-form-card {
-      background: var(--bg-card);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 16px;
-      border: 1px solid rgba(255,255,255,0.06);
-      transition: var(--transition);
-    }
-
-    .sub-form-card .card-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--secondary);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .sub-form-card .card-title .badge-sub {
-      font-size: 10px;
-      background: rgba(255, 111, 0, 0.15);
-      padding: 2px 10px;
-      border-radius: 12px;
-      color: var(--secondary);
-      font-weight: 500;
-    }
-
-    /* ==============================================
+    /* =============================================================
        BUTTON
-       ============================================== */
+       ============================================================= */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -541,35 +602,15 @@
       transform: none !important;
     }
 
-    .btn-secondary {
-      background: rgba(255,255,255,0.08);
-      color: var(--text-primary);
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.14);
-    }
-
-    .btn-success {
-      background: linear-gradient(135deg, var(--success), #1b5e20);
-      color: #fff;
-    }
-
-    .btn-danger {
-      background: linear-gradient(135deg, var(--danger), #b71c1c);
-      color: #fff;
-    }
-
     .btn-sm {
       padding: 8px 16px;
       font-size: 12px;
       width: auto;
     }
 
-    /* ==============================================
-       LIST LAPORAN
-       ============================================== */
+    /* =============================================================
+       LAPORAN LIST
+       ============================================================= */
     .laporan-list {
       margin-top: 16px;
     }
@@ -632,9 +673,11 @@
       color: #ef5350;
     }
 
-    /* ==============================================
+    /* =============================================================
        TAB FILTER
-       ============================================== */
+       =============================================================
+       💡 Tambah filter: copy .tab-btn dan tambahkan data-filter
+       ============================================================= */
     .tab-wrapper {
       display: flex;
       gap: 8px;
@@ -668,9 +711,9 @@
       box-shadow: 0 4px 16px rgba(255, 111, 0, 0.3);
     }
 
-    /* ==============================================
-       TOAST & NOTIFIKASI
-       ============================================== */
+    /* =============================================================
+       TOAST / NOTIFIKASI
+       ============================================================= */
     .toast {
       position: fixed;
       bottom: 20px;
@@ -705,6 +748,9 @@
       border-color: var(--danger);
     }
 
+    /* =============================================================
+       LOADING & EMPTY STATE
+       ============================================================= */
     .spinner {
       display: inline-block;
       width: 20px;
@@ -735,6 +781,9 @@
       font-size: 14px;
     }
 
+    /* =============================================================
+       OFFLINE BANNER
+       ============================================================= */
     .offline-banner {
       display: none;
       background: var(--danger);
@@ -751,9 +800,11 @@
       display: block;
     }
 
-    /* ==============================================
+    /* =============================================================
        RESPONSIVE
-       ============================================== */
+       =============================================================
+       💡 Ubah breakpoint: 768px → sesuaikan
+       ============================================================= */
     @media (min-width: 768px) {
       .sidebar {
         left: 0;
@@ -791,6 +842,9 @@
       }
     }
 
+    /* =============================================================
+       SCROLLBAR
+       ============================================================= */
     ::-webkit-scrollbar {
       width: 4px;
       height: 4px;
@@ -805,6 +859,9 @@
       border-radius: 4px;
     }
 
+    /* =============================================================
+       ANIMASI
+       ============================================================= */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -814,46 +871,113 @@
       animation: fadeIn 0.4s ease forwards;
     }
 
-    /* ==============================================
+    /* =============================================================
        AUTO GROW TEXTAREA
-       ============================================== */
+       ============================================================= */
     .auto-grow {
       overflow: hidden;
       resize: none;
+    }
+
+    /* =============================================================
+       UPLOAD FOTO
+       ============================================================= */
+    .upload-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .upload-wrapper .file-input {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .upload-wrapper .file-name {
+      font-size: 12px;
+      color: var(--text-muted);
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .upload-wrapper .preview-img {
+      max-width: 80px;
+      max-height: 80px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .upload-status {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .upload-status.success {
+      color: var(--success);
+    }
+
+    .upload-status.error {
+      color: var(--danger);
     }
   </style>
 </head>
 
 <body>
 
+  <!-- ============================================================
+  ════════════════════════════════════════════════════════════════════
+  BAGIAN 3: HTML - STRUKTUR HALAMAN
+  ════════════════════════════════════════════════════════════════════
+  📌 YANG PERLU DIGANTI:
+     - Logo: ubah src pada .sidebar-brand img
+     - Menu: tambah/hapus .menu-item di sidebar
+     - Form: tambah/hapus field di setiap form
+     - Filter: tambah/hapus .tab-btn di setiap halaman lihat
+  ============================================================ -->
+
+  <!-- BACKGROUND -->
   <div class="bg-gradient"></div>
 
-  <!-- ============================================= -->
-  <!-- SIDEBAR OVERLAY                              -->
-  <!-- ============================================= -->
+  <!-- SIDEBAR OVERLAY -->
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-  <!-- ============================================= -->
-  <!-- SIDEBAR                                      -->
-  <!-- ============================================= -->
+  <!-- =============================================================
+       SIDEBAR - NAVIGASI
+       =============================================================
+       💡 Untuk menambah menu:
+       1. Copy <a class="menu-item" data-page="nama-page">
+       2. Tambahkan page di bagian MAIN CONTENT
+       💡 Untuk menambah sub-menu:
+       1. Copy <a class="menu-item has-sub">
+       2. Tambahkan .sub-menu dengan child menu-item
+       ============================================================= -->
   <nav class="sidebar" id="sidebar">
+    <!-- BRAND / LOGO -->
     <div class="sidebar-brand">
+      <!-- 🔧 Ganti src logo jika diperlukan -->
       <img src="https://drive.google.com/uc?export=view&id=12ZmHCesB52Wwd2Enmmii_IpYMaVb8C5b" 
            alt="Logo MMN" 
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2270%22 height=%2270%22%3E%3Crect width=%2270%22 height=%2270%22 fill=%22%231a237e%22/%3E%3Ctext x=%2235%22 y=%2238%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2212%22 font-weight=%22bold%22%3EMMN%3C/text%3E%3C/svg%3E'">
-      <h2>Laporan Pelayanan</h2>
+      <h2>Laporan Layanan & Pemantauan Asset</h2>
       <small>Lalu Lintas Tol Makassar</small>
     </div>
 
+    <!-- MENU LABEL -->
     <div class="menu-label">Navigasi</div>
     
+    <!-- DASHBOARD -->
     <a class="menu-item active" data-page="dashboard" onclick="showPage('dashboard')">
       <span class="icon">📊</span> Dashboard
     </a>
 
     <div class="menu-label">Laporan</div>
 
-    <!-- LIHAT LAPORAN -->
+    <!-- LIHAT LAPORAN (SUB MENU) -->
     <a class="menu-item has-sub" onclick="toggleSubMenu(this)">
       <span class="icon">📋</span> Lihat Laporan
       <span class="arrow">▾</span>
@@ -873,7 +997,7 @@
       </a>
     </div>
 
-    <!-- ISI FORM LAPORAN -->
+    <!-- ISI FORM LAPORAN (SUB MENU) -->
     <a class="menu-item has-sub" onclick="toggleSubMenu(this)">
       <span class="icon">✏️</span> Isi Form Laporan
       <span class="arrow">▾</span>
@@ -893,16 +1017,17 @@
       </a>
     </div>
 
+    <!-- FOOTER SIDEBAR -->
     <div style="margin-top: auto; padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.06);">
       <small style="color: var(--text-muted); font-size: 10px;">
-        v2.0 &bull; © 2026 MMN
+        v3.0 &bull; © 2026 MMN
       </small>
     </div>
   </nav>
 
-  <!-- ============================================= -->
-  <!-- TOP BAR                                      -->
-  <!-- ============================================= -->
+  <!-- =============================================================
+       TOP BAR
+       ============================================================= -->
   <header class="top-bar">
     <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle menu">
       ☰
@@ -911,24 +1036,29 @@
     <div style="width: 28px;"></div>
   </header>
 
-  <!-- ============================================= -->
-  <!-- MAIN CONTENT                                 -->
-  <!-- ============================================= -->
+  <!-- =============================================================
+       MAIN CONTENT
+       ============================================================= -->
   <main class="main-content" id="mainContent">
 
+    <!-- OFFLINE BANNER -->
     <div class="offline-banner" id="offlineBanner">
       ⚠️ Koneksi terputus. Data mungkin tidak sinkron.
     </div>
 
-    <!-- ========================================= -->
-    <!-- DASHBOARD                                 -->
-    <!-- ========================================= -->
+    <!-- ===========================================================
+         HALAMAN: DASHBOARD
+         ===========================================================
+         💡 Tambah statistik: copy .stat-card di .stats-grid
+         =========================================================== -->
     <section class="dashboard active" id="page-dashboard">
+      <!-- JAM DIGITAL -->
       <div class="clock-wrapper">
         <div class="clock-time" id="clockTime">00:00:00</div>
         <div class="clock-date" id="clockDate">--</div>
       </div>
 
+      <!-- STATISTIK -->
       <div class="stats-grid">
         <div class="stat-card">
           <span class="icon-big">🚗</span>
@@ -952,6 +1082,7 @@
         </div>
       </div>
 
+      <!-- INFO TAMBAHAN -->
       <div style="margin-top: 20px; background: var(--bg-card); border-radius: var(--radius); padding: 16px; border: 1px solid rgba(255,255,255,0.06);">
         <p style="font-size: 13px; color: var(--text-secondary); text-align: center;">
           📌 <strong>Sistem Laporan Pelayanan Lalu Lintas</strong><br>
@@ -960,9 +1091,14 @@
       </div>
     </section>
 
-    <!-- ========================================= -->
-    <!-- FORM KENDARAAN TROUBLE                    -->
-    <!-- ========================================= -->
+    <!-- ===========================================================
+         HALAMAN: FORM KENDARAAN TROUBLE
+         ===========================================================
+         💡 Untuk menambah field:
+         1. Copy .form-group di dalam .sub-form-card
+         2. Beri id dengan format: troble[namaField]
+         3. Tambahkan di fungsi submitLaporan bagian troble
+         =========================================================== -->
     <section class="page" id="page-form-troble">
       <div class="page-title">
         🚗 Form Kendaraan Trouble
@@ -970,6 +1106,7 @@
       </div>
 
       <form id="formTroble" onsubmit="submitLaporan(event, 'troble')">
+        <!-- CARD 1: Data Kejadian -->
         <div class="sub-form-card">
           <div class="card-title">
             📋 Data Kejadian
@@ -1020,13 +1157,18 @@
             </div>
             <div class="form-group">
               <label>Nama Petugas <span class="required">*</span></label>
-              <select class="form-control" id="troblePetugas" required>
-                <option value="">-- Pilih Petugas --</option>
+              <!-- 🔧 Multi-select: tambahkan attribute multiple -->
+              <select class="form-control" id="troblePetugas" multiple required>
+                <option value="" disabled selected>-- Pilih Petugas --</option>
               </select>
+              <small style="color: var(--text-muted); font-size: 11px;">
+                💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
+              </small>
             </div>
           </div>
         </div>
 
+        <!-- CARD 2: Data Kendaraan -->
         <div class="sub-form-card">
           <div class="card-title">
             🚘 Data Kendaraan
@@ -1054,6 +1196,7 @@
 
           <div class="form-group">
             <label>Jenis Kerusakan <span class="required">*</span></label>
+            <!-- 🔧 Data dari master sheet kolom D2:D -->
             <select class="form-control" id="trobleKerusakan" required>
               <option value="">-- Pilih Jenis Kerusakan --</option>
             </select>
@@ -1073,9 +1216,14 @@
       </form>
     </section>
 
-    <!-- ========================================= -->
-    <!-- FORM KEJADIAN KHUSUS                     -->
-    <!-- ========================================= -->
+    <!-- ===========================================================
+         HALAMAN: FORM KEJADIAN KHUSUS
+         ===========================================================
+         💡 Untuk menambah field:
+         1. Copy .form-group di dalam .sub-form-card
+         2. Beri id dengan format: khusus[namaField]
+         3. Tambahkan di fungsi submitLaporan bagian khusus
+         =========================================================== -->
     <section class="page" id="page-form-khusus">
       <div class="page-title">
         ⚠️ Form Kejadian Khusus
@@ -1098,9 +1246,9 @@
               <label>Shift <span class="required">*</span></label>
               <select class="form-control" id="khususShift" required>
                 <option value="">-- Pilih --</option>
-                <option value="Shift 1">Shift 1 (07:00-15:00)</option>
-                <option value="Shift 2">Shift 2 (15:00-23:00)</option>
-                <option value="Shift 3">Shift 3 (23:00-07:00)</option>
+                <option value="Shift 1">Shift 1</option>
+                <option value="Shift 2">Shift 2</option>
+                <option value="Shift 3">Shift 3</option>
               </select>
             </div>
           </div>
@@ -1133,9 +1281,12 @@
             </div>
             <div class="form-group">
               <label>Nama Petugas <span class="required">*</span></label>
-              <select class="form-control" id="khususPetugas" required>
-                <option value="">-- Pilih Petugas --</option>
+              <select class="form-control" id="khususPetugas" multiple required>
+                <option value="" disabled selected>-- Pilih Petugas --</option>
               </select>
+              <small style="color: var(--text-muted); font-size: 11px;">
+                💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
+              </small>
             </div>
           </div>
         </div>
@@ -1148,6 +1299,7 @@
 
           <div class="form-group">
             <label>Jenis Kejadian <span class="required">*</span></label>
+            <!-- 🔧 Data dari master sheet kolom E2:E -->
             <select class="form-control" id="khususJenis" required>
               <option value="">-- Pilih Jenis Kejadian --</option>
             </select>
@@ -1167,9 +1319,14 @@
       </form>
     </section>
 
-    <!-- ========================================= -->
-    <!-- FORM PENDEREKAN                          -->
-    <!-- ========================================= -->
+    <!-- ===========================================================
+         HALAMAN: FORM PENDEREKAN
+         ===========================================================
+         💡 Untuk menambah field:
+         1. Copy .form-group di dalam .sub-form-card
+         2. Beri id dengan format: derek[namaField]
+         3. Tambahkan di fungsi submitLaporan bagian derek
+         =========================================================== -->
     <section class="page" id="page-form-derek">
       <div class="page-title">
         🔧 Form Penderekan
@@ -1192,9 +1349,9 @@
               <label>Shift <span class="required">*</span></label>
               <select class="form-control" id="derekShift" required>
                 <option value="">-- Pilih --</option>
-                <option value="Shift 1">Shift 1 (07:00-15:00)</option>
-                <option value="Shift 2">Shift 2 (15:00-23:00)</option>
-                <option value="Shift 3">Shift 3 (23:00-07:00)</option>
+                <option value="Shift 1">Shift 1</option>
+                <option value="Shift 2">Shift 2</option>
+                <option value="Shift 3">Shift 3</option>
               </select>
             </div>
           </div>
@@ -1229,9 +1386,13 @@
 
           <div class="form-group">
             <label>Nama Petugas Derek <span class="required">*</span></label>
-            <select class="form-control" id="derekPetugas" required>
-              <option value="">-- Pilih Petugas Derek --</option>
+            <!-- 🔧 Data dari master sheet kolom F2:F -->
+            <select class="form-control" id="derekPetugas" multiple required>
+              <option value="" disabled selected>-- Pilih Petugas Derek --</option>
             </select>
+            <small style="color: var(--text-muted); font-size: 11px;">
+              💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
+            </small>
           </div>
         </div>
 
@@ -1300,9 +1461,14 @@
       </form>
     </section>
 
-    <!-- ========================================= -->
-    <!-- FORM PEMANTAUAN ASET                     -->
-    <!-- ========================================= -->
+    <!-- ===========================================================
+         HALAMAN: FORM PEMANTAUAN ASET
+         ===========================================================
+         💡 Untuk menambah field:
+         1. Copy .form-group di dalam .sub-form-card
+         2. Beri id dengan format: aset[namaField]
+         3. Tambahkan di fungsi submitLaporan bagian aset
+         =========================================================== -->
     <section class="page" id="page-form-aset">
       <div class="page-title">
         🔧 Form Pemantauan Aset
@@ -1318,54 +1484,87 @@
 
           <div class="form-row">
             <div class="form-group">
-              <label>Tanggal <span class="required">*</span></label>
+              <label>Tanggal Bertugas <span class="required">*</span></label>
               <input type="date" class="form-control" id="asetTanggal" required>
             </div>
             <div class="form-group">
-              <label>Waktu <span class="required">*</span></label>
-              <input type="time" class="form-control" id="asetWaktu" required>
+              <label>Shift <span class="required">*</span></label>
+              <select class="form-control" id="asetShift" required>
+                <option value="">-- Pilih --</option>
+                <option value="Shift 1">Shift 1</option>
+                <option value="Shift 2">Shift 2</option>
+                <option value="Shift 3">Shift 3</option>
+              </select>
             </div>
           </div>
 
           <div class="form-group">
-            <label>Nama Petugas <span class="required">*</span></label>
-            <input type="text" class="form-control" id="asetPetugas" 
-                   placeholder="Masukkan nama petugas" required>
+            <label>Jam Temuan <span class="required">*</span></label>
+            <input type="time" class="form-control" id="asetJam" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Jalur <span class="required">*</span></label>
+              <select class="form-control" id="asetJalur" required>
+                <option value="">-- Pilih Jalur --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Lokasi/STA <span class="required">*</span></label>
+              <input type="text" class="form-control" id="asetLokasi" 
+                     placeholder="Contoh: 0+500 atau Nama Gerbang" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Unit <span class="required">*</span></label>
+              <select class="form-control" id="asetUnit" required>
+                <option value="">-- Pilih Unit --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Nama Petugas <span class="required">*</span></label>
+              <select class="form-control" id="asetPetugas" multiple required>
+                <option value="" disabled selected>-- Pilih Petugas --</option>
+              </select>
+              <small style="color: var(--text-muted); font-size: 11px;">
+                💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
+              </small>
+            </div>
           </div>
 
           <div class="form-group">
             <label>Jenis Aset <span class="required">*</span></label>
-            <select class="form-control" id="asetSubKategori" required>
-              <option value="">-- Pilih --</option>
-              <option value="rambu">Rambu</option>
-              <option value="guadril">Guadril</option>
-              <option value="pagar">Pagar</option>
-              <option value="liplop">Lampu Liplop</option>
-              <option value="pju">Lampu PJU</option>
-              <option value="vms">VMS</option>
+            <!-- 🔧 Data dari master sheet kolom G2:G -->
+            <select class="form-control" id="asetJenis" required>
+              <option value="">-- Pilih Jenis Aset --</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>Lokasi <span class="required">*</span></label>
-            <input type="text" class="form-control" id="asetLokasi" 
-                   placeholder="Contoh: KM 15+200" required>
-          </div>
-
-          <div class="form-group">
-            <label>Kondisi <span class="required">*</span></label>
-            <select class="form-control" id="asetKondisi" required>
-              <option value="baik">Baik</option>
-              <option value="kurang">Kurang Baik</option>
-              <option value="rusak">Rusak</option>
-              <option value="perbaikan">Dalam Perbaikan</option>
+            <label>Jenis Kerusakan <span class="required">*</span></label>
+            <!-- 🔧 Data dari master sheet kolom H2:H (dinamis berdasarkan jenis aset) -->
+            <select class="form-control" id="asetKerusakan" multiple required>
+              <option value="" disabled selected>-- Pilih Jenis Kerusakan --</option>
             </select>
+            <small style="color: var(--text-muted); font-size: 11px;">
+              💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
+            </small>
           </div>
 
           <div class="form-group">
-            <label>Keterangan</label>
-            <textarea class="form-control auto-grow" id="asetKeterangan" 
-                      placeholder="Catatan tambahan (opsional)"></textarea>
+            <label>Dokumentasi (Foto)</label>
+            <div class="upload-wrapper">
+              <input type="file" class="form-control file-input" id="asetFoto" 
+                     accept="image/*" onchange="handleFotoUpload(this)">
+              <span class="file-name" id="asetFotoName">Belum ada foto</span>
+            </div>
+            <div id="asetFotoStatus" class="upload-status"></div>
+            <!-- Preview foto yang sudah diupload -->
+            <div id="asetFotoPreview" style="margin-top: 8px;"></div>
+            <input type="hidden" id="asetFotoUrl" value="">
           </div>
         </div>
 
@@ -1376,21 +1575,23 @@
       </form>
     </section>
 
-    <!-- ========================================= -->
-    <!-- LIHAT LAPORAN - TROUBLE                  -->
-    <!-- ========================================= -->
+    <!-- ===========================================================
+         HALAMAN: LIHAT KENDARAAN TROUBLE
+         ===========================================================
+         💡 Untuk menambah filter:
+         1. Copy .tab-btn di .tab-wrapper
+         2. Tambahkan data-filter sesuai nilai di master
+         =========================================================== -->
     <section class="page" id="page-lihat-troble">
       <div class="page-title">
         🚗 Laporan Kendaraan Trouble
         <small>Penanganan Kendaraan</small>
       </div>
 
+      <!-- 🔧 Filter diisi dari master sheet kolom D2:D -->
       <div class="tab-wrapper">
         <button class="tab-btn active" data-filter="semua">Semua</button>
-        <button class="tab-btn" data-filter="mesin">Mesin</button>
-        <button class="tab-btn" data-filter="ban">Ban</button>
-        <button class="tab-btn" data-filter="kelistrikan">Kelistrikan</button>
-        <button class="tab-btn" data-filter="transmisi">Transmisi</button>
+        <!-- Akan diisi dinamis dari JavaScript -->
       </div>
 
       <div class="laporan-list" id="listTroble">
@@ -1401,9 +1602,9 @@
       </div>
     </section>
 
-    <!-- ========================================= -->
-    <!-- LIHAT LAPORAN - DEREK                    -->
-    <!-- ========================================= -->
+    <!-- ===========================================================
+         HALAMAN: LIHAT PENDEREKAN
+         =========================================================== -->
     <section class="page" id="page-lihat-derek">
       <div class="page-title">
         🔧 Laporan Penderekan
@@ -1424,9 +1625,11 @@
       </div>
     </section>
 
-    <!-- ========================================= -->
-    <!-- LIHAT LAPORAN - KHUSUS                   -->
-    <!-- ========================================= -->
+    <!-- ===========================================================
+         HALAMAN: LIHAT KEJADIAN KHUSUS
+         ===========================================================
+         💡 Filter diisi dari master sheet kolom E2:E
+         =========================================================== -->
     <section class="page" id="page-lihat-khusus">
       <div class="page-title">
         ⚠️ Laporan Kejadian Khusus
@@ -1435,10 +1638,7 @@
 
       <div class="tab-wrapper">
         <button class="tab-btn active" data-filter="semua">Semua</button>
-        <button class="tab-btn" data-filter="kecelakaan">Kecelakaan</button>
-        <button class="tab-btn" data-filter="kebakaran">Kebakaran</button>
-        <button class="tab-btn" data-filter="banjir">Banjir</button>
-        <button class="tab-btn" data-filter="longsor">Longsor</button>
+        <!-- Akan diisi dinamis dari JavaScript -->
       </div>
 
       <div class="laporan-list" id="listKhusus">
@@ -1449,9 +1649,9 @@
       </div>
     </section>
 
-    <!-- ========================================= -->
-    <!-- LIHAT LAPORAN - ASET                     -->
-    <!-- ========================================= -->
+    <!-- ===========================================================
+         HALAMAN: LIHAT PEMANTAUAN ASET
+         =========================================================== -->
     <section class="page" id="page-lihat-aset">
       <div class="page-title">
         🔧 Laporan Pemantauan Aset
@@ -1460,12 +1660,12 @@
 
       <div class="tab-wrapper">
         <button class="tab-btn active" data-filter="semua">Semua</button>
-        <button class="tab-btn" data-filter="rambu">Rambu</button>
-        <button class="tab-btn" data-filter="guadril">Guadril</button>
-        <button class="tab-btn" data-filter="pagar">Pagar</button>
-        <button class="tab-btn" data-filter="liplop">Lampu Liplop</button>
-        <button class="tab-btn" data-filter="pju">Lampu PJU</button>
-        <button class="tab-btn" data-filter="vms">VMS</button>
+        <button class="tab-btn" data-filter="Rambu">Rambu</button>
+        <button class="tab-btn" data-filter="Guadril">Guadril</button>
+        <button class="tab-btn" data-filter="Pagar">Pagar</button>
+        <button class="tab-btn" data-filter="Lampu Liplop">Lampu Liplop</button>
+        <button class="tab-btn" data-filter="Lampu PJU">Lampu PJU</button>
+        <button class="tab-btn" data-filter="VMS">VMS</button>
       </div>
 
       <div class="laporan-list" id="listAset">
@@ -1478,34 +1678,46 @@
 
   </main>
 
-  <!-- ============================================= -->
-  <!-- TOAST                                       -->
-  <!-- ============================================= -->
+  <!-- ============================================================
+  ════════════════════════════════════════════════════════════════════
+  BAGIAN 4: TOAST NOTIFIKASI
+  ════════════════════════════════════════════════════════════════════ -->
   <div class="toast" id="toast"></div>
 
-  <!-- ============================================= -->
-  <!-- JAVASCRIPT                                   -->
-  <!-- ============================================= -->
+  <!-- ============================================================
+  ════════════════════════════════════════════════════════════════════
+  BAGIAN 5: JAVASCRIPT - LOGIKA APLIKASI
+  ════════════════════════════════════════════════════════════════════
+  📌 YANG PERLU DIGANTI:
+     - API_URL: sudah di BAGIAN 1
+     - Fungsi renderLaporan: jika ingin ubah tampilan item
+     - Fungsi submitLaporan: jika ada field baru
+     - Fungsi populateSelects: jika ada master data baru
+  ============================================================ -->
   <script>
-    // =============================================
-    // 1. KONFIGURASI & STATE
-    // =============================================
+    // =============================================================
+    // 5.1 KONFIGURASI
+    // =============================================================
+    // 💡 MAP untuk label sub kategori aset
     const MAP_SUB_KATEGORI = {
       aset: {
         rambu: 'Rambu',
         guadril: 'Guadril',
         pagar: 'Pagar',
-        liplop: 'Lampu Liplop',
-        pju: 'Lampu PJU',
+        'lampu liplop': 'Lampu Liplop',
+        'lampu pju': 'Lampu PJU',
         vms: 'VMS'
       }
     };
 
+    // State global
     let masterData = {};
+    let uploadedFotoUrl = '';
 
-    // =============================================
-    // 2. API HELPER
-    // =============================================
+    // =============================================================
+    // 5.2 API HELPER
+    // =============================================================
+    // 💡 Tidak perlu diubah kecuali ada perubahan endpoint
     const API = {
       async get(action) {
         try {
@@ -1542,9 +1754,10 @@
       }
     };
 
-    // =============================================
-    // 3. SIDEBAR & NAVIGASI
-    // =============================================
+    // =============================================================
+    // 5.3 SIDEBAR & NAVIGASI
+    // =============================================================
+    // 💡 Tidak perlu diubah
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
       const overlay = document.getElementById('sidebarOverlay');
@@ -1591,9 +1804,10 @@
       return active ? active.dataset.filter : 'semua';
     }
 
-    // =============================================
-    // 4. JAM DIGITAL
-    // =============================================
+    // =============================================================
+    // 5.4 JAM DIGITAL
+    // =============================================================
+    // 💡 Tidak perlu diubah
     function updateClock() {
       const now = new Date();
       const time = now.toTimeString().split(' ')[0];
@@ -1612,7 +1826,7 @@
         const el = document.getElementById(id);
         if (el && !el.value) el.value = today;
       });
-      ['trobleJam', 'khususJam', 'derekJam', 'asetWaktu'].forEach(id => {
+      ['trobleJam', 'khususJam', 'derekJam', 'asetJam'].forEach(id => {
         const el = document.getElementById(id);
         if (el && !el.value) el.value = timeStr;
       });
@@ -1621,14 +1835,16 @@
     updateClock();
     setInterval(updateClock, 1000);
 
-    // =============================================
-    // 5. LOAD MASTER DATA
-    // =============================================
+    // =============================================================
+    // 5.5 LOAD MASTER DATA
+    // =============================================================
+    // 💡 Jika ada kolom master baru, tambahkan di sini
     async function loadMasterData() {
       try {
         const data = await API.get('getMaster');
         masterData = data;
         populateSelects(data);
+        populateFilterTabs(data);
         document.getElementById('offlineBanner').classList.remove('show');
         return data;
       } catch (err) {
@@ -1637,111 +1853,188 @@
       }
     }
 
+    // =============================================================
+    // 5.6 POPULATE SELECT (FORM)
+    // =============================================================
+    // 💡 Jika ada select baru, tambahkan di sini
     function populateSelects(data) {
-      // Jalur
-      ['trobleJalur', 'khususJalur', 'derekJalur'].forEach(id => {
-        const sel = document.getElementById(id);
-        if (!sel) return;
-        // Keep first option
-        const first = sel.options[0];
-        sel.innerHTML = '';
-        sel.appendChild(first);
-        if (data.jalur) {
-          data.jalur.forEach(item => {
-            const opt = document.createElement('option');
-            opt.value = item;
-            opt.textContent = item;
-            sel.appendChild(opt);
-          });
-        }
+      // === JALUR (A2:A) ===
+      ['trobleJalur', 'khususJalur', 'derekJalur', 'asetJalur'].forEach(id => {
+        populateSelect(id, data.jalur, '-- Pilih Jalur --');
       });
 
-      // Unit
-      ['trobleUnit', 'khususUnit'].forEach(id => {
-        const sel = document.getElementById(id);
-        if (!sel) return;
-        const first = sel.options[0];
-        sel.innerHTML = '';
-        sel.appendChild(first);
-        if (data.unit) {
-          data.unit.forEach(item => {
-            const opt = document.createElement('option');
-            opt.value = item;
-            opt.textContent = item;
-            sel.appendChild(opt);
-          });
-        }
+      // === UNIT (B2:B) ===
+      ['trobleUnit', 'khususUnit', 'asetUnit'].forEach(id => {
+        populateSelect(id, data.unit, '-- Pilih Unit --');
       });
 
-      // Petugas Layanan
-      ['troblePetugas', 'khususPetugas'].forEach(id => {
-        const sel = document.getElementById(id);
-        if (!sel) return;
-        const first = sel.options[0];
-        sel.innerHTML = '';
-        sel.appendChild(first);
-        if (data.petugasLayanan) {
-          data.petugasLayanan.forEach(item => {
-            const opt = document.createElement('option');
-            opt.value = item;
-            opt.textContent = item;
-            sel.appendChild(opt);
-          });
-        }
+      // === PETUGAS LAYANAN (C2:C) - MULTI SELECT ===
+      ['troblePetugas', 'khususPetugas', 'asetPetugas'].forEach(id => {
+        populateSelectMulti(id, data.petugasLayanan, '-- Pilih Petugas --');
       });
 
-      // Petugas Derek
-      const derekPetugas = document.getElementById('derekPetugas');
-      if (derekPetugas) {
-        const first = derekPetugas.options[0];
-        derekPetugas.innerHTML = '';
-        derekPetugas.appendChild(first);
-        if (data.petugasDerek) {
-          data.petugasDerek.forEach(item => {
-            const opt = document.createElement('option');
-            opt.value = item;
-            opt.textContent = item;
-            derekPetugas.appendChild(opt);
+      // === PETUGAS DEREK (F2:F) - MULTI SELECT ===
+      populateSelectMulti('derekPetugas', data.petugasDerek, '-- Pilih Petugas Derek --');
+
+      // === JENIS KERUSAKAN (D2:D) ===
+      populateSelect('trobleKerusakan', data.jenisKerusakan, '-- Pilih Jenis Kerusakan --');
+
+      // === JENIS KEJADIAN (E2:E) ===
+      populateSelect('khususJenis', data.jenisKejadian, '-- Pilih Jenis Kejadian --');
+
+      // === JENIS ASET (G2:G) ===
+      const asetSelect = document.getElementById('asetJenis');
+      if (asetSelect) {
+        asetSelect.innerHTML = '';
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.textContent = '-- Pilih Jenis Aset --';
+        opt.disabled = true;
+        opt.selected = true;
+        asetSelect.appendChild(opt);
+        
+        if (data.jenisAset) {
+          data.jenisAset.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item;
+            option.textContent = item;
+            asetSelect.appendChild(option);
           });
         }
+        
+        // Event untuk update kerusakan aset
+        asetSelect.addEventListener('change', function() {
+          updateAsetKerusakan(this.value);
+        });
       }
 
-      // Jenis Kerusakan
-      const kerusakan = document.getElementById('trobleKerusakan');
-      if (kerusakan) {
-        const first = kerusakan.options[0];
-        kerusakan.innerHTML = '';
-        kerusakan.appendChild(first);
-        if (data.jenisKerusakan) {
-          data.jenisKerusakan.forEach(item => {
-            const opt = document.createElement('option');
-            opt.value = item.toLowerCase();
-            opt.textContent = item;
-            kerusakan.appendChild(opt);
-          });
-        }
-      }
-
-      // Jenis Kejadian
-      const kejadian = document.getElementById('khususJenis');
-      if (kejadian) {
-        const first = kejadian.options[0];
-        kejadian.innerHTML = '';
-        kejadian.appendChild(first);
-        if (data.jenisKejadian) {
-          data.jenisKejadian.forEach(item => {
-            const opt = document.createElement('option');
-            opt.value = item.toLowerCase();
-            opt.textContent = item;
-            kejadian.appendChild(opt);
-          });
-        }
+      // === JENIS KERUSAKAN ASET (H2:H) - MULTI SELECT ===
+      // Akan diisi dinamis saat jenis aset dipilih
+      const kerusakanSelect = document.getElementById('asetKerusakan');
+      if (kerusakanSelect) {
+        kerusakanSelect.innerHTML = '';
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.textContent = '-- Pilih Jenis Kerusakan --';
+        opt.disabled = true;
+        opt.selected = true;
+        kerusakanSelect.appendChild(opt);
       }
     }
 
-    // =============================================
-    // 6. LOAD DASHBOARD
-    // =============================================
+    // Helper: Single select
+    function populateSelect(id, data, placeholder) {
+      const sel = document.getElementById(id);
+      if (!sel) return;
+      sel.innerHTML = '';
+      const opt = document.createElement('option');
+      opt.value = '';
+      opt.textContent = placeholder || '-- Pilih --';
+      opt.disabled = true;
+      opt.selected = true;
+      sel.appendChild(opt);
+      
+      if (data) {
+        data.forEach(item => {
+          const option = document.createElement('option');
+          option.value = item;
+          option.textContent = item;
+          sel.appendChild(option);
+        });
+      }
+    }
+
+    // Helper: Multi select
+    function populateSelectMulti(id, data, placeholder) {
+      const sel = document.getElementById(id);
+      if (!sel) return;
+      sel.innerHTML = '';
+      
+      if (data) {
+        data.forEach(item => {
+          const option = document.createElement('option');
+          option.value = item;
+          option.textContent = item;
+          sel.appendChild(option);
+        });
+      }
+    }
+
+    // =============================================================
+    // 5.7 UPDATE KERUSAKAN ASET (Dinamis)
+    // =============================================================
+    // 💡 Jika struktur master berubah, update di sini
+    function updateAsetKerusakan(jenisAset) {
+      const kerusakanSelect = document.getElementById('asetKerusakan');
+      if (!kerusakanSelect) return;
+      
+      kerusakanSelect.innerHTML = '';
+      
+      const kerusakanList = masterData.asetKerusakanMap && masterData.asetKerusakanMap[jenisAset] 
+        ? masterData.asetKerusakanMap[jenisAset] 
+        : [];
+      
+      if (kerusakanList.length === 0) {
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.textContent = '-- Tidak ada data kerusakan --';
+        opt.disabled = true;
+        opt.selected = true;
+        kerusakanSelect.appendChild(opt);
+        return;
+      }
+      
+      kerusakanList.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item;
+        option.textContent = item;
+        kerusakanSelect.appendChild(option);
+      });
+    }
+
+    // =============================================================
+    // 5.8 POPULATE FILTER TAB
+    // =============================================================
+    // 💡 Filter diisi dari master data
+    function populateFilterTabs(data) {
+      // Filter Trouble (D2:D)
+      const trobleWrapper = document.querySelector('#page-lihat-troble .tab-wrapper');
+      if (trobleWrapper && data.jenisKerusakan) {
+        // Keep "Semua" button
+        const semuaBtn = trobleWrapper.querySelector('.tab-btn');
+        trobleWrapper.innerHTML = '';
+        trobleWrapper.appendChild(semuaBtn);
+        
+        data.jenisKerusakan.forEach(item => {
+          const btn = document.createElement('button');
+          btn.className = 'tab-btn';
+          btn.dataset.filter = item.toLowerCase();
+          btn.textContent = item;
+          trobleWrapper.appendChild(btn);
+        });
+      }
+
+      // Filter Khusus (E2:E)
+      const khususWrapper = document.querySelector('#page-lihat-khusus .tab-wrapper');
+      if (khususWrapper && data.jenisKejadian) {
+        const semuaBtn = khususWrapper.querySelector('.tab-btn');
+        khususWrapper.innerHTML = '';
+        khususWrapper.appendChild(semuaBtn);
+        
+        data.jenisKejadian.forEach(item => {
+          const btn = document.createElement('button');
+          btn.className = 'tab-btn';
+          btn.dataset.filter = item.toLowerCase();
+          btn.textContent = item;
+          khususWrapper.appendChild(btn);
+        });
+      }
+    }
+
+    // =============================================================
+    // 5.9 LOAD DASHBOARD
+    // =============================================================
+    // 💡 Tidak perlu diubah
     async function loadDashboard() {
       try {
         const data = await API.get('dashboard');
@@ -1755,18 +2048,40 @@
       }
     }
 
-    // =============================================
-    // 7. LOAD LAPORAN
-    // =============================================
+    // =============================================================
+    // 5.10 LOAD LAPORAN
+    // =============================================================
+    // 💡 Untuk mengubah tampilan item, edit bagian render
     async function loadLaporan(jenis, filter) {
-      const mapId = {
-        troble: { list: 'listTroble', action: 'getTroble', filterField: 'jenisKerusakan' },
-        derek: { list: 'listDerek', action: 'getDerek', filterField: 'alasanPenderekan' },
-        khusus: { list: 'listKhusus', action: 'getKhusus', filterField: 'jenisKejadian' },
-        aset: { list: 'listAset', action: 'getAset', filterField: 'subKategori' }
+      const mapConfig = {
+        troble: { 
+          list: 'listTroble', 
+          action: 'getTroble', 
+          filterField: 'jenisKerusakan',
+          golonganField: 'golonganKendaraan',
+          title: '🚗 Kendaraan Trouble'
+        },
+        derek: { 
+          list: 'listDerek', 
+          action: 'getDerek', 
+          filterField: 'alasanPenderekan',
+          title: '🔧 Penderekan'
+        },
+        khusus: { 
+          list: 'listKhusus', 
+          action: 'getKhusus', 
+          filterField: 'jenisKejadian',
+          title: '⚠️ Kejadian Khusus'
+        },
+        aset: { 
+          list: 'listAset', 
+          action: 'getAset', 
+          filterField: 'jenisAset',
+          title: '🔧 Pemantauan Aset'
+        }
       };
 
-      const config = mapId[jenis];
+      const config = mapConfig[jenis];
       if (!config) return;
 
       const container = document.getElementById(config.list);
@@ -1780,7 +2095,7 @@
           container.innerHTML = `
             <div class="empty-state">
               <span class="icon">📭</span>
-              <p>Belum ada data laporan</p>
+              <p>Belum ada data laporan ${config.title}</p>
             </div>
           `;
           return;
@@ -1789,15 +2104,25 @@
         const headers = data[0];
         const rows = data.slice(1);
         
+        // Filter
         let filtered = rows;
         if (filter && filter !== 'semua') {
-          const idx = headers.indexOf(config.filterField);
-          if (idx > -1) {
-            filtered = rows.filter(row => {
-              const val = String(row[idx] || '').toLowerCase();
-              return val === filter || val.includes(filter);
-            });
-          }
+          const fieldIdx = headers.indexOf(config.filterField);
+          const golonganIdx = headers.indexOf('golonganKendaraan');
+          
+          filtered = rows.filter(row => {
+            // Cek filter field
+            const fieldVal = String(row[fieldIdx] || '').toLowerCase();
+            if (fieldVal.includes(filter)) return true;
+            
+            // Untuk trouble, cek juga golongan
+            if (jenis === 'troble' && golonganIdx > -1) {
+              const golongan = String(row[golonganIdx] || '').toLowerCase();
+              if (golongan.includes(filter)) return true;
+            }
+            
+            return false;
+          });
         }
         
         if (filtered.length === 0) {
@@ -1810,12 +2135,16 @@
           return;
         }
         
+        // =============================================================
+        // RENDER LAPORAN - Edit di sini untuk ubah tampilan
+        // =============================================================
         let html = '';
         const dateIdx = headers.indexOf('tanggalBertugas') > -1 ? headers.indexOf('tanggalBertugas') : headers.indexOf('tanggal');
         const timeIdx = headers.indexOf('jamKejadian') > -1 ? headers.indexOf('jamKejadian') : headers.indexOf('waktu');
-        const petugasIdx = headers.indexOf('namaPetugas') > -1 ? headers.indexOf('namaPetugas') : headers.indexOf('petugas');
+        const petugasIdx = headers.indexOf('namaPetugas');
         const lokasiIdx = headers.indexOf('lokasiSTA') > -1 ? headers.indexOf('lokasiSTA') : headers.indexOf('lokasi');
         const jalurIdx = headers.indexOf('jalur');
+        const shiftIdx = headers.indexOf('shift');
         
         filtered.slice().reverse().forEach(row => {
           const tanggal = (dateIdx > -1) ? row[dateIdx] || '-' : '-';
@@ -1823,11 +2152,17 @@
           const petugas = (petugasIdx > -1) ? row[petugasIdx] || '-' : '-';
           const lokasi = (lokasiIdx > -1) ? row[lokasiIdx] || '-' : '-';
           const jalur = (jalurIdx > -1) ? row[jalurIdx] || '-' : '-';
+          const shift = (shiftIdx > -1) ? row[shiftIdx] || '-' : '-';
           
           let detail = '';
+          let subTitle = '';
+          
           if (jenis === 'troble') {
             const kerusakan = headers.indexOf('jenisKerusakan') > -1 ? row[headers.indexOf('jenisKerusakan')] || '-' : '-';
+            const golongan = headers.indexOf('golonganKendaraan') > -1 ? row[headers.indexOf('golonganKendaraan')] || '-' : '-';
+            const jenisKendaraan = headers.indexOf('jenisKendaraan') > -1 ? row[headers.indexOf('jenisKendaraan')] || '-' : '-';
             const tindak = headers.indexOf('tindakLanjut') > -1 ? row[headers.indexOf('tindakLanjut')] || '' : '';
+            subTitle = `${golongan} - ${jenisKendaraan}`;
             detail = `
               <div style="font-size:13px; color:var(--text-secondary);">🔧 ${kerusakan}</div>
               <div style="font-size:12px; color:var(--text-muted);">${tindak.substring(0, 100)}${tindak.length > 100 ? '...' : ''}</div>
@@ -1835,6 +2170,8 @@
           } else if (jenis === 'derek') {
             const alasan = headers.indexOf('alasanPenderekan') > -1 ? row[headers.indexOf('alasanPenderekan')] || '-' : '-';
             const tujuan = headers.indexOf('tujuanPenderekan') > -1 ? row[headers.indexOf('tujuanPenderekan')] || '-' : '-';
+            const derek = headers.indexOf('derekDigunakan') > -1 ? row[headers.indexOf('derekDigunakan')] || '-' : '-';
+            subTitle = `${derek}`;
             detail = `
               <div style="font-size:13px; color:var(--text-secondary);">📌 ${alasan}</div>
               <div style="font-size:12px; color:var(--text-muted);">Tujuan: ${tujuan}</div>
@@ -1842,27 +2179,30 @@
           } else if (jenis === 'khusus') {
             const jenisKej = headers.indexOf('jenisKejadian') > -1 ? row[headers.indexOf('jenisKejadian')] || '-' : '-';
             const uraian = headers.indexOf('uraianKejadian') > -1 ? row[headers.indexOf('uraianKejadian')] || '' : '';
+            subTitle = `${jenisKej}`;
             detail = `
-              <div style="font-size:13px; color:var(--text-secondary);">⚠️ ${jenisKej}</div>
               <div style="font-size:12px; color:var(--text-muted);">${uraian.substring(0, 100)}${uraian.length > 100 ? '...' : ''}</div>
             `;
           } else if (jenis === 'aset') {
-            const sub = headers.indexOf('subKategori') > -1 ? row[headers.indexOf('subKategori')] || '-' : '-';
-            const kondisi = headers.indexOf('kondisi') > -1 ? row[headers.indexOf('kondisi')] || '-' : '-';
-            const kondisiLabel = { baik: '✅ Baik', kurang: '⚠️ Kurang', rusak: '❌ Rusak', perbaikan: '🔧 Perbaikan' }[kondisi] || kondisi;
+            const aset = headers.indexOf('jenisAset') > -1 ? row[headers.indexOf('jenisAset')] || '-' : '-';
+            const kerusakan = headers.indexOf('jenisKerusakan') > -1 ? row[headers.indexOf('jenisKerusakan')] || '-' : '-';
+            const foto = headers.indexOf('fotoUrl') > -1 ? row[headers.indexOf('fotoUrl')] || '' : '';
+            subTitle = `${aset}`;
             detail = `
-              <div style="font-size:13px; color:var(--text-secondary);">${MAP_SUB_KATEGORI.aset[sub] || sub}</div>
-              <div style="font-size:12px; color:var(--text-muted);">Kondisi: ${kondisiLabel}</div>
+              <div style="font-size:13px; color:var(--text-secondary);">🔧 ${kerusakan}</div>
+              ${foto ? `<div style="margin-top:4px;"><img src="${foto}" style="max-width:60px; max-height:60px; border-radius:6px; object-fit:cover;"></div>` : ''}
             `;
           }
           
           html += `
             <div class="laporan-item fade-in">
               <div class="header">
-                <span class="title">${jalur}</span>
+                <span class="title">${subTitle || jalur}</span>
                 <span class="time">${tanggal} ${waktu}</span>
               </div>
-              <div style="font-size:13px; color:var(--text-muted);">📍 ${lokasi} &bull; 👤 ${petugas}</div>
+              <div style="font-size:13px; color:var(--text-muted);">
+                📍 ${lokasi} &bull; 👤 ${petugas} &bull; 🕐 ${shift}
+              </div>
               <div style="margin-top:6px;">${detail}</div>
             </div>
           `;
@@ -1880,20 +2220,41 @@
       }
     }
 
-    // =============================================
-    // 8. SUBMIT LAPORAN
-    // =============================================
+    // =============================================================
+    // 5.11 SUBMIT LAPORAN
+    // =============================================================
+    // 💡 Jika ada field baru, tambahkan di sini
     async function submitLaporan(event, jenis) {
       event.preventDefault();
       
-      const mapAction = {
-        troble: { form: 'formTroble', btnText: 'btnTrobleText', btnSpinner: 'btnTrobleSpinner', action: 'saveTroble' },
-        khusus: { form: 'formKhusus', btnText: 'btnKhususText', btnSpinner: 'btnKhususSpinner', action: 'saveKhusus' },
-        derek: { form: 'formDerek', btnText: 'btnDerekText', btnSpinner: 'btnDerekSpinner', action: 'saveDerek' },
-        aset: { form: 'formAset', btnText: 'btnAsetText', btnSpinner: 'btnAsetSpinner', action: 'saveAset' }
+      const mapConfig = {
+        troble: { 
+          form: 'formTroble', 
+          btnText: 'btnTrobleText', 
+          btnSpinner: 'btnTrobleSpinner', 
+          action: 'saveTroble' 
+        },
+        khusus: { 
+          form: 'formKhusus', 
+          btnText: 'btnKhususText', 
+          btnSpinner: 'btnKhususSpinner', 
+          action: 'saveKhusus' 
+        },
+        derek: { 
+          form: 'formDerek', 
+          btnText: 'btnDerekText', 
+          btnSpinner: 'btnDerekSpinner', 
+          action: 'saveDerek' 
+        },
+        aset: { 
+          form: 'formAset', 
+          btnText: 'btnAsetText', 
+          btnSpinner: 'btnAsetSpinner', 
+          action: 'saveAset' 
+        }
       };
       
-      const config = mapAction[jenis];
+      const config = mapConfig[jenis];
       if (!config) return;
       
       const btnText = document.getElementById(config.btnText);
@@ -1904,7 +2265,9 @@
       btnText.style.display = 'none';
       btnSpinner.style.display = 'inline-block';
       
-      // Kumpulkan data berdasarkan jenis
+      // =============================================================
+      // KUMPULKAN DATA - Tambah field baru di sini
+      // =============================================================
       let data = {};
       
       if (jenis === 'troble') {
@@ -1915,7 +2278,7 @@
           jalur: document.getElementById('trobleJalur').value,
           lokasiSTA: document.getElementById('trobleLokasi').value,
           unit: document.getElementById('trobleUnit').value,
-          namaPetugas: document.getElementById('troblePetugas').value,
+          namaPetugas: getMultiSelectValues('troblePetugas'),
           golonganKendaraan: document.getElementById('trobleGolongan').value,
           jenisKendaraan: document.getElementById('trobleJenis').value,
           jenisKerusakan: document.getElementById('trobleKerusakan').value,
@@ -1929,7 +2292,7 @@
           jalur: document.getElementById('khususJalur').value,
           lokasiSTA: document.getElementById('khususLokasi').value,
           unit: document.getElementById('khususUnit').value,
-          namaPetugas: document.getElementById('khususPetugas').value,
+          namaPetugas: getMultiSelectValues('khususPetugas'),
           jenisKejadian: document.getElementById('khususJenis').value,
           uraianKejadian: document.getElementById('khususUraian').value
         };
@@ -1943,7 +2306,7 @@
           jalur: document.getElementById('derekJalur').value,
           lokasiSTA: document.getElementById('derekLokasi').value,
           derekDigunakan: document.getElementById('derekJenis').value,
-          namaPetugas: document.getElementById('derekPetugas').value,
+          namaPetugas: getMultiSelectValues('derekPetugas'),
           alasanPenderekan: alasan === 'Lainnya' ? alasanLain : alasan,
           tujuanPenderekan: document.getElementById('derekTujuan').value,
           kilometerAwal: document.getElementById('derekKmAwal').value,
@@ -1954,13 +2317,16 @@
         };
       } else if (jenis === 'aset') {
         data = {
-          tanggal: document.getElementById('asetTanggal').value,
-          waktu: document.getElementById('asetWaktu').value,
-          petugas: document.getElementById('asetPetugas').value,
-          subKategori: document.getElementById('asetSubKategori').value,
-          lokasi: document.getElementById('asetLokasi').value,
-          kondisi: document.getElementById('asetKondisi').value,
-          keterangan: document.getElementById('asetKeterangan').value
+          tanggalBertugas: document.getElementById('asetTanggal').value,
+          shift: document.getElementById('asetShift').value,
+          jamTemuan: document.getElementById('asetJam').value,
+          jalur: document.getElementById('asetJalur').value,
+          lokasiSTA: document.getElementById('asetLokasi').value,
+          unit: document.getElementById('asetUnit').value,
+          namaPetugas: getMultiSelectValues('asetPetugas'),
+          jenisAset: document.getElementById('asetJenis').value,
+          jenisKerusakan: getMultiSelectValues('asetKerusakan'),
+          fotoUrl: document.getElementById('asetFotoUrl').value || ''
         };
       }
       
@@ -1971,12 +2337,23 @@
           resetButton();
           return;
         }
+        // Untuk array, cek apakah kosong
+        if (Array.isArray(data[key]) && data[key].length === 0) {
+          showToast('⚠️ Harap pilih minimal satu ' + key.replace('namaPetugas', 'petugas').replace('jenisKerusakan', 'kerusakan'), 'error');
+          resetButton();
+          return;
+        }
       }
       
       try {
         await API.post(config.action, { data: data });
         showToast('✅ Laporan berhasil disimpan!', 'success');
         document.getElementById(config.form).reset();
+        uploadedFotoUrl = '';
+        document.getElementById('asetFotoUrl').value = '';
+        document.getElementById('asetFotoName').textContent = 'Belum ada foto';
+        document.getElementById('asetFotoStatus').textContent = '';
+        document.getElementById('asetFotoPreview').innerHTML = '';
         updateClock();
         loadDashboard();
         
@@ -1997,9 +2374,136 @@
       }
     }
 
-    // =============================================
-    // 9. TOAST
-    // =============================================
+    // Helper: Get values from multi-select
+    function getMultiSelectValues(id) {
+      const sel = document.getElementById(id);
+      if (!sel) return [];
+      const values = [];
+      for (let i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].selected && sel.options[i].value) {
+          values.push(sel.options[i].value);
+        }
+      }
+      return values;
+    }
+
+    // =============================================================
+    // 5.12 UPLOAD FOTO (Dengan Kompresi)
+    // =============================================================
+    // 💡 Ubah MAX_SIZE untuk mengubah ukuran maksimal foto
+    async function handleFotoUpload(input) {
+      const file = input.files[0];
+      if (!file) return;
+      
+      const statusEl = document.getElementById('asetFotoStatus');
+      const nameEl = document.getElementById('asetFotoName');
+      const previewEl = document.getElementById('asetFotoPreview');
+      
+      nameEl.textContent = file.name;
+      statusEl.textContent = '📤 Mengupload...';
+      statusEl.className = 'upload-status';
+      
+      try {
+        // Kompresi foto
+        const compressed = await compressImageClient(file);
+        
+        // Convert ke base64
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+          try {
+            const result = await API.post('uploadFoto', {
+              fotoData: e.target.result,
+              fotoType: 'image/jpeg',
+              fotoName: file.name.replace(/\.[^/.]+$/, '') + '.jpg'
+            });
+            
+            if (result.success) {
+              uploadedFotoUrl = result.url;
+              document.getElementById('asetFotoUrl').value = result.url;
+              statusEl.textContent = '✅ Foto berhasil diupload!';
+              statusEl.className = 'upload-status success';
+              
+              // Preview
+              previewEl.innerHTML = `<img src="${result.url}" class="preview-img" alt="Preview">`;
+            } else {
+              statusEl.textContent = '❌ Gagal upload: ' + (result.error || 'Error');
+              statusEl.className = 'upload-status error';
+            }
+          } catch (err) {
+            statusEl.textContent = '❌ Gagal upload: ' + err.message;
+            statusEl.className = 'upload-status error';
+          }
+        };
+        reader.readAsDataURL(compressed);
+        
+      } catch (err) {
+        statusEl.textContent = '❌ Gagal kompresi: ' + err.message;
+        statusEl.className = 'upload-status error';
+      }
+    }
+
+    // Client-side image compression
+    // 💡 Ubah MAX_SIZE untuk mengubah ukuran maksimal gambar
+    function compressImageClient(file) {
+      return new Promise((resolve, reject) => {
+        const MAX_SIZE = 1200;
+        const QUALITY = 0.7;
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = new Image();
+          img.onload = function() {
+            try {
+              const canvas = document.createElement('canvas');
+              let width = img.width;
+              let height = img.height;
+              
+              if (width > MAX_SIZE || height > MAX_SIZE) {
+                if (width > height) {
+                  height = height * MAX_SIZE / width;
+                  width = MAX_SIZE;
+                } else {
+                  width = width * MAX_SIZE / height;
+                  height = MAX_SIZE;
+                }
+              }
+              
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, width, height);
+              
+              canvas.toBlob(function(blob) {
+                if (blob) {
+                  const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '') + '.jpg', {
+                    type: 'image/jpeg',
+                    lastModified: Date.now()
+                  });
+                  resolve(compressedFile);
+                } else {
+                  reject(new Error('Gagal kompresi gambar'));
+                }
+              }, 'image/jpeg', QUALITY);
+            } catch (err) {
+              reject(err);
+            }
+          };
+          img.onerror = function() {
+            reject(new Error('Gagal memuat gambar'));
+          };
+          img.src = e.target.result;
+        };
+        reader.onerror = function() {
+          reject(new Error('Gagal membaca file'));
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // =============================================================
+    // 5.13 TOAST NOTIFIKASI
+    // =============================================================
+    // 💡 Tidak perlu diubah
     let toastTimeout;
 
     function showToast(message, type = 'info') {
@@ -2016,9 +2520,10 @@
       }, 4000);
     }
 
-    // =============================================
-    // 10. FILTER TAB
-    // =============================================
+    // =============================================================
+    // 5.14 FILTER TAB EVENT
+    // =============================================================
+    // 💡 Tidak perlu diubah
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('tab-btn')) {
         const wrapper = e.target.closest('.tab-wrapper');
@@ -2031,16 +2536,23 @@
         if (!page) return;
         
         const pageId = page.id;
-        const jenis = pageId.replace('page-lihat-', '');
-        const filter = e.target.dataset.filter || 'semua';
+        let jenis = '';
+        if (pageId.includes('troble')) jenis = 'troble';
+        else if (pageId.includes('derek')) jenis = 'derek';
+        else if (pageId.includes('khusus')) jenis = 'khusus';
+        else if (pageId.includes('aset')) jenis = 'aset';
         
-        loadLaporan(jenis, filter);
+        if (jenis) {
+          const filter = e.target.dataset.filter || 'semua';
+          loadLaporan(jenis, filter);
+        }
       }
     });
 
-    // =============================================
-    // 11. AUTO GROW TEXTAREA
-    // =============================================
+    // =============================================================
+    // 5.15 AUTO GROW TEXTAREA
+    // =============================================================
+    // 💡 Tidak perlu diubah
     document.addEventListener('input', function(e) {
       if (e.target.classList.contains('auto-grow')) {
         e.target.style.height = 'auto';
@@ -2048,9 +2560,10 @@
       }
     });
 
-    // =============================================
-    // 12. ALASAN PENDEREKAN LAINNYA
-    // =============================================
+    // =============================================================
+    // 5.16 ALASAN PENDEREKAN LAINNYA
+    // =============================================================
+    // 💡 Tidak perlu diubah
     document.addEventListener('change', function(e) {
       if (e.target.id === 'derekAlasan') {
         const lainInput = document.getElementById('derekAlasanLain');
@@ -2065,9 +2578,10 @@
       }
     });
 
-    // =============================================
-    // 13. INIT
-    // =============================================
+    // =============================================================
+    // 5.17 INITIALISASI
+    // =============================================================
+    // 💡 Tidak perlu diubah
     document.addEventListener('DOMContentLoaded', async function() {
       await loadMasterData();
       loadDashboard();
@@ -2077,9 +2591,14 @@
       loadLaporan('aset', 'semua');
       
       // Hide alasan lain awal
-      document.getElementById('derekAlasanLain').style.display = 'none';
+      const alasanLain = document.getElementById('derekAlasanLain');
+      if (alasanLain) alasanLain.style.display = 'none';
     });
 
+    // =============================================================
+    // 5.18 ONLINE/OFFLINE DETECTION
+    // =============================================================
+    // 💡 Tidak perlu diubah
     window.addEventListener('online', function() {
       document.getElementById('offlineBanner').classList.remove('show');
       loadDashboard();
