@@ -5,29 +5,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
-  <!-- ============================================= -->
-  <!-- KONFIGURASI API - GANTI DENGAN URL WEB APP ANDA -->
-  <!-- ============================================= -->
   <script>
     // =============================================
     // KONFIGURASI - GANTI DENGAN URL WEB APP ANDA
     // =============================================
     const APP_CONFIG = {
-      // Ganti dengan URL Web App Anda setelah deploy
       API_URL: 'https://script.google.com/macros/s/AKfycbz4fxgTfXQvdTXqrDno8slIrVfc_VKK6RMcaPRrCy-ORuP7FgIz7XMRyQJYJE9C1rJ0/exec',
-      
-      // Logo URL
       LOGO_URL: 'https://drive.google.com/uc?export=view&id=12ZmHCesB52Wwd2Enmmii_IpYMaVb8C5b',
-      
-      // Konfigurasi lainnya
       APP_NAME: 'Laporan Pelayanan Lalu Lintas',
       APP_SUBTITLE: 'Tol Makassar'
     };
   </script>
   
-  <!-- ============================================= -->
-  <!-- STYLE CSS - DESAIN RESPONSIVE HP              -->
-  <!-- ============================================= -->
   <style>
     /* ==============================================
        ROOT VARIABLES & RESET
@@ -66,9 +55,6 @@
       overflow-x: hidden;
     }
 
-    /* ==============================================
-       BACKGROUND GRADIENT ANIMASI
-       ============================================== */
     .bg-gradient {
       position: fixed;
       top: 0;
@@ -99,7 +85,7 @@
     }
 
     /* ==============================================
-       SIDEBAR / NAVIGASI
+       SIDEBAR
        ============================================== */
     .sidebar {
       position: fixed;
@@ -121,9 +107,6 @@
       left: 0;
     }
 
-    /* ==============================================
-       OVERLAY SIDEBAR
-       ============================================== */
     .sidebar-overlay {
       position: fixed;
       top: 0;
@@ -142,9 +125,6 @@
       visibility: visible;
     }
 
-    /* ==============================================
-       BRAND / LOGO SIDEBAR
-       ============================================== */
     .sidebar-brand {
       padding: 10px 20px 20px;
       text-align: center;
@@ -175,9 +155,6 @@
       margin-top: 2px;
     }
 
-    /* ==============================================
-       MENU SIDEBAR
-       ============================================== */
     .menu-label {
       font-size: 10px;
       text-transform: uppercase;
@@ -226,9 +203,6 @@
       font-weight: 600;
     }
 
-    /* ==============================================
-       SUB MENU
-       ============================================== */
     .sub-menu {
       max-height: 0;
       overflow: hidden;
@@ -237,7 +211,7 @@
     }
 
     .sub-menu.open {
-      max-height: 500px;
+      max-height: 800px;
     }
 
     .sub-menu .menu-item {
@@ -271,9 +245,6 @@
       transition: var(--transition);
     }
 
-    /* ==============================================
-       HEADER / TOP BAR
-       ============================================== */
     .top-bar {
       position: fixed;
       top: 0;
@@ -321,9 +292,6 @@
       display: block;
     }
 
-    /* ==============================================
-       JAM DIGITAL
-       ============================================== */
     .clock-wrapper {
       text-align: center;
       padding: 20px 0 16px;
@@ -354,9 +322,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* ==============================================
-       STATISTIK CARD
-       ============================================== */
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -398,7 +363,7 @@
     }
 
     /* ==============================================
-       PAGE / SECTION
+       PAGE
        ============================================== */
     .page {
       display: none;
@@ -485,6 +450,58 @@
       min-height: 80px;
     }
 
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 480px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .form-row-3 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* ==============================================
+       SUB FORM CARD
+       ============================================== */
+    .sub-form-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: var(--transition);
+    }
+
+    .sub-form-card .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--secondary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sub-form-card .card-title .badge-sub {
+      font-size: 10px;
+      background: rgba(255, 111, 0, 0.15);
+      padding: 2px 10px;
+      border-radius: 12px;
+      color: var(--secondary);
+      font-weight: 500;
+    }
+
     /* ==============================================
        BUTTON
        ============================================== */
@@ -551,7 +568,7 @@
     }
 
     /* ==============================================
-       TABLE / LIST LAPORAN
+       LIST LAPORAN
        ============================================== */
     .laporan-list {
       margin-top: 16px;
@@ -592,7 +609,7 @@
       color: var(--text-secondary);
     }
 
-    .laporan-item .badge-status {
+    .badge-status {
       font-size: 10px;
       padding: 2px 12px;
       border-radius: 12px;
@@ -616,7 +633,7 @@
     }
 
     /* ==============================================
-       FILTER / TAB
+       TAB FILTER
        ============================================== */
     .tab-wrapper {
       display: flex;
@@ -652,7 +669,7 @@
     }
 
     /* ==============================================
-       NOTIFIKASI / TOAST
+       TOAST & NOTIFIKASI
        ============================================== */
     .toast {
       position: fixed;
@@ -688,9 +705,6 @@
       border-color: var(--danger);
     }
 
-    /* ==============================================
-       LOADING SPINNER
-       ============================================== */
     .spinner {
       display: inline-block;
       width: 20px;
@@ -705,9 +719,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* ==============================================
-       EMPTY STATE
-       ============================================== */
     .empty-state {
       text-align: center;
       padding: 40px 20px;
@@ -722,6 +733,22 @@
 
     .empty-state p {
       font-size: 14px;
+    }
+
+    .offline-banner {
+      display: none;
+      background: var(--danger);
+      color: #fff;
+      text-align: center;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+
+    .offline-banner.show {
+      display: block;
     }
 
     /* ==============================================
@@ -764,9 +791,6 @@
       }
     }
 
-    /* ==============================================
-       SCROLLBAR
-       ============================================== */
     ::-webkit-scrollbar {
       width: 4px;
       height: 4px;
@@ -781,9 +805,6 @@
       border-radius: 4px;
     }
 
-    /* ==============================================
-       ANIMASI FADE
-       ============================================== */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -794,31 +815,17 @@
     }
 
     /* ==============================================
-       OFFLINE INDICATOR
+       AUTO GROW TEXTAREA
        ============================================== */
-    .offline-banner {
-      display: none;
-      background: var(--danger);
-      color: #fff;
-      text-align: center;
-      padding: 6px 12px;
-      font-size: 12px;
-      font-weight: 500;
-      border-radius: 4px;
-      margin-bottom: 12px;
-    }
-
-    .offline-banner.show {
-      display: block;
+    .auto-grow {
+      overflow: hidden;
+      resize: none;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ============================================= -->
-  <!-- BACKGROUND                                  -->
-  <!-- ============================================= -->
   <div class="bg-gradient"></div>
 
   <!-- ============================================= -->
@@ -830,7 +837,6 @@
   <!-- SIDEBAR                                      -->
   <!-- ============================================= -->
   <nav class="sidebar" id="sidebar">
-    <!-- BRAND -->
     <div class="sidebar-brand">
       <img src="https://drive.google.com/uc?export=view&id=12ZmHCesB52Wwd2Enmmii_IpYMaVb8C5b" 
            alt="Logo MMN" 
@@ -839,10 +845,8 @@
       <small>Lalu Lintas Tol Makassar</small>
     </div>
 
-    <!-- MENU -->
     <div class="menu-label">Navigasi</div>
     
-    <!-- DASHBOARD -->
     <a class="menu-item active" data-page="dashboard" onclick="showPage('dashboard')">
       <span class="icon">📊</span> Dashboard
     </a>
@@ -855,8 +859,14 @@
       <span class="arrow">▾</span>
     </a>
     <div class="sub-menu">
-      <a class="menu-item" data-page="lihat-layanan" onclick="showPage('lihat-layanan')">
-        <span class="icon">🛠️</span> Layanan
+      <a class="menu-item" data-page="lihat-troble" onclick="showPage('lihat-troble')">
+        <span class="icon">🚗</span> Kendaraan Trouble
+      </a>
+      <a class="menu-item" data-page="lihat-derek" onclick="showPage('lihat-derek')">
+        <span class="icon">🔧</span> Penderekan
+      </a>
+      <a class="menu-item" data-page="lihat-khusus" onclick="showPage('lihat-khusus')">
+        <span class="icon">⚠️</span> Kejadian Khusus
       </a>
       <a class="menu-item" data-page="lihat-aset" onclick="showPage('lihat-aset')">
         <span class="icon">🔧</span> Pemantauan Aset
@@ -869,8 +879,14 @@
       <span class="arrow">▾</span>
     </a>
     <div class="sub-menu">
-      <a class="menu-item" data-page="form-layanan" onclick="showPage('form-layanan')">
-        <span class="icon">🛠️</span> Layanan
+      <a class="menu-item" data-page="form-troble" onclick="showPage('form-troble')">
+        <span class="icon">🚗</span> Kendaraan Trouble
+      </a>
+      <a class="menu-item" data-page="form-derek" onclick="showPage('form-derek')">
+        <span class="icon">🔧</span> Penderekan
+      </a>
+      <a class="menu-item" data-page="form-khusus" onclick="showPage('form-khusus')">
+        <span class="icon">⚠️</span> Kejadian Khusus
       </a>
       <a class="menu-item" data-page="form-aset" onclick="showPage('form-aset')">
         <span class="icon">🔧</span> Pemantauan Aset
@@ -879,7 +895,7 @@
 
     <div style="margin-top: auto; padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.06);">
       <small style="color: var(--text-muted); font-size: 10px;">
-        v1.0 &bull; © 2026 MMN
+        v2.0 &bull; © 2026 MMN
       </small>
     </div>
   </nav>
@@ -892,7 +908,7 @@
       ☰
     </button>
     <div class="title">Laporan <span>Lalu Lintas</span></div>
-    <div style="width: 28px;"></div> <!-- Spacer -->
+    <div style="width: 28px;"></div>
   </header>
 
   <!-- ============================================= -->
@@ -900,7 +916,6 @@
   <!-- ============================================= -->
   <main class="main-content" id="mainContent">
 
-    <!-- OFFLINE BANNER -->
     <div class="offline-banner" id="offlineBanner">
       ⚠️ Koneksi terputus. Data mungkin tidak sinkron.
     </div>
@@ -909,37 +924,34 @@
     <!-- DASHBOARD                                 -->
     <!-- ========================================= -->
     <section class="dashboard active" id="page-dashboard">
-      <!-- JAM DIGITAL -->
       <div class="clock-wrapper">
         <div class="clock-time" id="clockTime">00:00:00</div>
         <div class="clock-date" id="clockDate">--</div>
       </div>
 
-      <!-- STATISTIK -->
       <div class="stats-grid">
         <div class="stat-card">
-          <span class="icon-big">📋</span>
-          <div class="number" id="totalLayanan">0</div>
-          <div class="label">Total Laporan Layanan</div>
+          <span class="icon-big">🚗</span>
+          <div class="number" id="totalTroble">0</div>
+          <div class="label">Kendaraan Trouble</div>
+        </div>
+        <div class="stat-card">
+          <span class="icon-big">🔧</span>
+          <div class="number" id="totalDerek">0</div>
+          <div class="label">Penderekan</div>
+        </div>
+        <div class="stat-card">
+          <span class="icon-big">⚠️</span>
+          <div class="number" id="totalKhusus">0</div>
+          <div class="label">Kejadian Khusus</div>
         </div>
         <div class="stat-card">
           <span class="icon-big">🔧</span>
           <div class="number" id="totalAset">0</div>
-          <div class="label">Total Laporan Aset</div>
-        </div>
-        <div class="stat-card">
-          <span class="icon-big">👤</span>
-          <div class="number" id="petugasAktif">-</div>
-          <div class="label">Petugas Aktif</div>
-        </div>
-        <div class="stat-card">
-          <span class="icon-big">🕒</span>
-          <div class="number" id="lastUpdate">-</div>
-          <div class="label">Update Terakhir</div>
+          <div class="label">Pemantauan Aset</div>
         </div>
       </div>
 
-      <!-- INFORMASI TAMBAHAN -->
       <div style="margin-top: 20px; background: var(--bg-card); border-radius: var(--radius); padding: 16px; border: 1px solid rgba(255,255,255,0.06);">
         <p style="font-size: 13px; color: var(--text-secondary); text-align: center;">
           📌 <strong>Sistem Laporan Pelayanan Lalu Lintas</strong><br>
@@ -949,24 +961,439 @@
     </section>
 
     <!-- ========================================= -->
-    <!-- LIHAT LAPORAN LAYANAN                     -->
+    <!-- FORM KENDARAAN TROUBLE                    -->
     <!-- ========================================= -->
-    <section class="page" id="page-lihat-layanan">
+    <section class="page" id="page-form-troble">
       <div class="page-title">
-        📋 Laporan Layanan
+        🚗 Form Kendaraan Trouble
+        <small>Penanganan Kendaraan Bermasalah</small>
+      </div>
+
+      <form id="formTroble" onsubmit="submitLaporan(event, 'troble')">
+        <div class="sub-form-card">
+          <div class="card-title">
+            📋 Data Kejadian
+            <span class="badge-sub">Wajib diisi</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tanggal Bertugas <span class="required">*</span></label>
+              <input type="date" class="form-control" id="trobleTanggal" required>
+            </div>
+            <div class="form-group">
+              <label>Shift <span class="required">*</span></label>
+              <select class="form-control" id="trobleShift" required>
+                <option value="">-- Pilih --</option>
+                <option value="Shift 1">Shift 1 (07:00-15:00)</option>
+                <option value="Shift 2">Shift 2 (15:00-23:00)</option>
+                <option value="Shift 3">Shift 3 (23:00-07:00)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Jam Kejadian <span class="required">*</span></label>
+            <input type="time" class="form-control" id="trobleJam" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Jalur <span class="required">*</span></label>
+              <select class="form-control" id="trobleJalur" required>
+                <option value="">-- Pilih Jalur --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Lokasi/STA <span class="required">*</span></label>
+              <input type="text" class="form-control" id="trobleLokasi" 
+                     placeholder="Contoh: 0+500 atau Nama Gerbang" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Unit <span class="required">*</span></label>
+              <select class="form-control" id="trobleUnit" required>
+                <option value="">-- Pilih Unit --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Nama Petugas <span class="required">*</span></label>
+              <select class="form-control" id="troblePetugas" required>
+                <option value="">-- Pilih Petugas --</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-form-card">
+          <div class="card-title">
+            🚘 Data Kendaraan
+            <span class="badge-sub">Informasi Kendaraan</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Golongan Kendaraan <span class="required">*</span></label>
+              <select class="form-control" id="trobleGolongan" required>
+                <option value="">-- Pilih --</option>
+                <option value="Golongan 1">Golongan 1</option>
+                <option value="Golongan 2">Golongan 2</option>
+                <option value="Golongan 3">Golongan 3</option>
+                <option value="Golongan 4">Golongan 4</option>
+                <option value="Golongan 5">Golongan 5</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Jenis Kendaraan <span class="required">*</span></label>
+              <input type="text" class="form-control" id="trobleJenis" 
+                     placeholder="Contoh: Sedan, Truck, Bus" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Jenis Kerusakan <span class="required">*</span></label>
+            <select class="form-control" id="trobleKerusakan" required>
+              <option value="">-- Pilih Jenis Kerusakan --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Tindak Lanjut <span class="required">*</span></label>
+            <textarea class="form-control auto-grow" id="trobleTindak" 
+                      placeholder="Jelaskan tindakan yang dilakukan..." required></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <span id="btnTrobleText">📤 Kirim Laporan</span>
+          <span id="btnTrobleSpinner" style="display:none;" class="spinner"></span>
+        </button>
+      </form>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- FORM KEJADIAN KHUSUS                     -->
+    <!-- ========================================= -->
+    <section class="page" id="page-form-khusus">
+      <div class="page-title">
+        ⚠️ Form Kejadian Khusus
+        <small>Kejadian Luar Biasa</small>
+      </div>
+
+      <form id="formKhusus" onsubmit="submitLaporan(event, 'khusus')">
+        <div class="sub-form-card">
+          <div class="card-title">
+            📋 Data Kejadian
+            <span class="badge-sub">Wajib diisi</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tanggal Bertugas <span class="required">*</span></label>
+              <input type="date" class="form-control" id="khususTanggal" required>
+            </div>
+            <div class="form-group">
+              <label>Shift <span class="required">*</span></label>
+              <select class="form-control" id="khususShift" required>
+                <option value="">-- Pilih --</option>
+                <option value="Shift 1">Shift 1 (07:00-15:00)</option>
+                <option value="Shift 2">Shift 2 (15:00-23:00)</option>
+                <option value="Shift 3">Shift 3 (23:00-07:00)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Jam Kejadian <span class="required">*</span></label>
+            <input type="time" class="form-control" id="khususJam" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Jalur <span class="required">*</span></label>
+              <select class="form-control" id="khususJalur" required>
+                <option value="">-- Pilih Jalur --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Lokasi/STA <span class="required">*</span></label>
+              <input type="text" class="form-control" id="khususLokasi" 
+                     placeholder="Contoh: 0+500 atau Nama Gerbang" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Unit <span class="required">*</span></label>
+              <select class="form-control" id="khususUnit" required>
+                <option value="">-- Pilih Unit --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Nama Petugas <span class="required">*</span></label>
+              <select class="form-control" id="khususPetugas" required>
+                <option value="">-- Pilih Petugas --</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-form-card">
+          <div class="card-title">
+            📝 Detail Kejadian
+            <span class="badge-sub">Deskripsi</span>
+          </div>
+
+          <div class="form-group">
+            <label>Jenis Kejadian <span class="required">*</span></label>
+            <select class="form-control" id="khususJenis" required>
+              <option value="">-- Pilih Jenis Kejadian --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Uraian Kejadian <span class="required">*</span></label>
+            <textarea class="form-control auto-grow" id="khususUraian" 
+                      placeholder="Jelaskan kejadian secara detail..." required></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <span id="btnKhususText">📤 Kirim Laporan</span>
+          <span id="btnKhususSpinner" style="display:none;" class="spinner"></span>
+        </button>
+      </form>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- FORM PENDEREKAN                          -->
+    <!-- ========================================= -->
+    <section class="page" id="page-form-derek">
+      <div class="page-title">
+        🔧 Form Penderekan
+        <small>Proses Penarikan Kendaraan</small>
+      </div>
+
+      <form id="formDerek" onsubmit="submitLaporan(event, 'derek')">
+        <div class="sub-form-card">
+          <div class="card-title">
+            📋 Data Kejadian
+            <span class="badge-sub">Wajib diisi</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tanggal Bertugas <span class="required">*</span></label>
+              <input type="date" class="form-control" id="derekTanggal" required>
+            </div>
+            <div class="form-group">
+              <label>Shift <span class="required">*</span></label>
+              <select class="form-control" id="derekShift" required>
+                <option value="">-- Pilih --</option>
+                <option value="Shift 1">Shift 1 (07:00-15:00)</option>
+                <option value="Shift 2">Shift 2 (15:00-23:00)</option>
+                <option value="Shift 3">Shift 3 (23:00-07:00)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Jam Kejadian <span class="required">*</span></label>
+            <input type="time" class="form-control" id="derekJam" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Jalur <span class="required">*</span></label>
+              <select class="form-control" id="derekJalur" required>
+                <option value="">-- Pilih Jalur --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Lokasi/STA <span class="required">*</span></label>
+              <input type="text" class="form-control" id="derekLokasi" 
+                     placeholder="Contoh: 0+500 atau Nama Gerbang" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Derek yang Digunakan <span class="required">*</span></label>
+            <select class="form-control" id="derekJenis" required>
+              <option value="">-- Pilih --</option>
+              <option value="Derek Besar">Derek Besar</option>
+              <option value="Derek Kecil">Derek Kecil</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Nama Petugas Derek <span class="required">*</span></label>
+            <select class="form-control" id="derekPetugas" required>
+              <option value="">-- Pilih Petugas Derek --</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sub-form-card">
+          <div class="card-title">
+            📝 Detail Penderekan
+            <span class="badge-sub">Informasi Lengkap</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Alasan Penderekan <span class="required">*</span></label>
+              <select class="form-control" id="derekAlasan" required>
+                <option value="">-- Pilih --</option>
+                <option value="Kendaraan Mogok">Kendaraan Mogok</option>
+                <option value="Kendaraan Kecelakaan">Kendaraan Kecelakaan</option>
+                <option value="Lainnya">Lainnya (Isi manual)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Alasan Lainnya</label>
+              <input type="text" class="form-control" id="derekAlasanLain" 
+                     placeholder="Jika alasan lainnya...">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Tujuan Penderekan <span class="required">*</span></label>
+            <input type="text" class="form-control" id="derekTujuan" 
+                   placeholder="Contoh: Pool, Bengkel, Gerbang Terdekat" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Kilometer Awal <span class="required">*</span></label>
+              <input type="number" class="form-control" id="derekKmAwal" 
+                     placeholder="0" required>
+            </div>
+            <div class="form-group">
+              <label>Kilometer Akhir <span class="required">*</span></label>
+              <input type="number" class="form-control" id="derekKmAkhir" 
+                     placeholder="0" required>
+            </div>
+          </div>
+
+          <div class="form-row-3">
+            <div class="form-group">
+              <label>Waktu Keluar <span class="required">*</span></label>
+              <input type="time" class="form-control" id="derekWaktuKeluar" required>
+            </div>
+            <div class="form-group">
+              <label>Waktu Tiba <span class="required">*</span></label>
+              <input type="time" class="form-control" id="derekWaktuTiba" required>
+            </div>
+            <div class="form-group">
+              <label>Waktu Selesai <span class="required">*</span></label>
+              <input type="time" class="form-control" id="derekWaktuSelesai" required>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <span id="btnDerekText">📤 Kirim Laporan</span>
+          <span id="btnDerekSpinner" style="display:none;" class="spinner"></span>
+        </button>
+      </form>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- FORM PEMANTAUAN ASET                     -->
+    <!-- ========================================= -->
+    <section class="page" id="page-form-aset">
+      <div class="page-title">
+        🔧 Form Pemantauan Aset
+        <small>Infrastruktur Tol</small>
+      </div>
+
+      <form id="formAset" onsubmit="submitLaporan(event, 'aset')">
+        <div class="sub-form-card">
+          <div class="card-title">
+            📋 Data Pemantauan
+            <span class="badge-sub">Wajib diisi</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tanggal <span class="required">*</span></label>
+              <input type="date" class="form-control" id="asetTanggal" required>
+            </div>
+            <div class="form-group">
+              <label>Waktu <span class="required">*</span></label>
+              <input type="time" class="form-control" id="asetWaktu" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Nama Petugas <span class="required">*</span></label>
+            <input type="text" class="form-control" id="asetPetugas" 
+                   placeholder="Masukkan nama petugas" required>
+          </div>
+
+          <div class="form-group">
+            <label>Jenis Aset <span class="required">*</span></label>
+            <select class="form-control" id="asetSubKategori" required>
+              <option value="">-- Pilih --</option>
+              <option value="rambu">Rambu</option>
+              <option value="guadril">Guadril</option>
+              <option value="pagar">Pagar</option>
+              <option value="liplop">Lampu Liplop</option>
+              <option value="pju">Lampu PJU</option>
+              <option value="vms">VMS</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Lokasi <span class="required">*</span></label>
+            <input type="text" class="form-control" id="asetLokasi" 
+                   placeholder="Contoh: KM 15+200" required>
+          </div>
+
+          <div class="form-group">
+            <label>Kondisi <span class="required">*</span></label>
+            <select class="form-control" id="asetKondisi" required>
+              <option value="baik">Baik</option>
+              <option value="kurang">Kurang Baik</option>
+              <option value="rusak">Rusak</option>
+              <option value="perbaikan">Dalam Perbaikan</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Keterangan</label>
+            <textarea class="form-control auto-grow" id="asetKeterangan" 
+                      placeholder="Catatan tambahan (opsional)"></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <span id="btnAsetText">📤 Kirim Laporan</span>
+          <span id="btnAsetSpinner" style="display:none;" class="spinner"></span>
+        </button>
+      </form>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- LIHAT LAPORAN - TROUBLE                  -->
+    <!-- ========================================= -->
+    <section class="page" id="page-lihat-troble">
+      <div class="page-title">
+        🚗 Laporan Kendaraan Trouble
         <small>Penanganan Kendaraan</small>
       </div>
 
-      <!-- Filter -->
       <div class="tab-wrapper">
         <button class="tab-btn active" data-filter="semua">Semua</button>
-        <button class="tab-btn" data-filter="troble">Troble</button>
-        <button class="tab-btn" data-filter="derek">Derek</button>
-        <button class="tab-btn" data-filter="khusus">Kejadian Khusus</button>
+        <button class="tab-btn" data-filter="mesin">Mesin</button>
+        <button class="tab-btn" data-filter="ban">Ban</button>
+        <button class="tab-btn" data-filter="kelistrikan">Kelistrikan</button>
+        <button class="tab-btn" data-filter="transmisi">Transmisi</button>
       </div>
 
-      <div class="laporan-list" id="listLayanan">
-        <!-- Akan diisi oleh JavaScript -->
+      <div class="laporan-list" id="listTroble">
         <div class="empty-state">
           <span class="icon">⏳</span>
           <p>Memuat data...</p>
@@ -975,7 +1402,55 @@
     </section>
 
     <!-- ========================================= -->
-    <!-- LIHAT LAPORAN ASET                        -->
+    <!-- LIHAT LAPORAN - DEREK                    -->
+    <!-- ========================================= -->
+    <section class="page" id="page-lihat-derek">
+      <div class="page-title">
+        🔧 Laporan Penderekan
+        <small>Proses Penarikan</small>
+      </div>
+
+      <div class="tab-wrapper">
+        <button class="tab-btn active" data-filter="semua">Semua</button>
+        <button class="tab-btn" data-filter="mogok">Kendaraan Mogok</button>
+        <button class="tab-btn" data-filter="kecelakaan">Kecelakaan</button>
+      </div>
+
+      <div class="laporan-list" id="listDerek">
+        <div class="empty-state">
+          <span class="icon">⏳</span>
+          <p>Memuat data...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- LIHAT LAPORAN - KHUSUS                   -->
+    <!-- ========================================= -->
+    <section class="page" id="page-lihat-khusus">
+      <div class="page-title">
+        ⚠️ Laporan Kejadian Khusus
+        <small>Kejadian Luar Biasa</small>
+      </div>
+
+      <div class="tab-wrapper">
+        <button class="tab-btn active" data-filter="semua">Semua</button>
+        <button class="tab-btn" data-filter="kecelakaan">Kecelakaan</button>
+        <button class="tab-btn" data-filter="kebakaran">Kebakaran</button>
+        <button class="tab-btn" data-filter="banjir">Banjir</button>
+        <button class="tab-btn" data-filter="longsor">Longsor</button>
+      </div>
+
+      <div class="laporan-list" id="listKhusus">
+        <div class="empty-state">
+          <span class="icon">⏳</span>
+          <p>Memuat data...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- LIHAT LAPORAN - ASET                     -->
     <!-- ========================================= -->
     <section class="page" id="page-lihat-aset">
       <div class="page-title">
@@ -983,7 +1458,6 @@
         <small>Infrastruktur Tol</small>
       </div>
 
-      <!-- Filter -->
       <div class="tab-wrapper">
         <button class="tab-btn active" data-filter="semua">Semua</button>
         <button class="tab-btn" data-filter="rambu">Rambu</button>
@@ -1002,150 +1476,10 @@
       </div>
     </section>
 
-    <!-- ========================================= -->
-    <!-- FORM LAPORAN LAYANAN                      -->
-    <!-- ========================================= -->
-    <section class="page" id="page-form-layanan">
-      <div class="page-title">
-        ✏️ Form Laporan Layanan
-        <small>Isi data penanganan</small>
-      </div>
-
-      <form id="formLayanan" onsubmit="submitLaporan(event, 'layanan')">
-        <!-- Tanggal & Waktu -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <div class="form-group">
-            <label>Tanggal <span class="required">*</span></label>
-            <input type="date" class="form-control" id="layananTanggal" required>
-          </div>
-          <div class="form-group">
-            <label>Waktu <span class="required">*</span></label>
-            <input type="time" class="form-control" id="layananWaktu" required>
-          </div>
-        </div>
-
-        <!-- Petugas -->
-        <div class="form-group">
-          <label>Nama Petugas <span class="required">*</span></label>
-          <input type="text" class="form-control" id="layananPetugas" placeholder="Masukkan nama petugas" required>
-        </div>
-
-        <!-- Sub Kategori -->
-        <div class="form-group">
-          <label>Jenis Penanganan <span class="required">*</span></label>
-          <select class="form-control" id="layananSubKategori" required>
-            <option value="">-- Pilih --</option>
-            <option value="troble">Penanganan Kendaraan Troble</option>
-            <option value="derek">Penderekan</option>
-            <option value="khusus">Penanganan Kejadian Khusus</option>
-          </select>
-        </div>
-
-        <!-- Lokasi -->
-        <div class="form-group">
-          <label>Lokasi <span class="required">*</span></label>
-          <input type="text" class="form-control" id="layananLokasi" placeholder="Contoh: KM 10+500 Arah Makassar" required>
-        </div>
-
-        <!-- Uraian -->
-        <div class="form-group">
-          <label>Uraian Kegiatan <span class="required">*</span></label>
-          <textarea class="form-control" id="layananUraian" placeholder="Jelaskan kegiatan penanganan..." required></textarea>
-        </div>
-
-        <!-- Status -->
-        <div class="form-group">
-          <label>Status <span class="required">*</span></label>
-          <select class="form-control" id="layananStatus" required>
-            <option value="baru">Baru</option>
-            <option value="proses">Dalam Proses</option>
-            <option value="selesai">Selesai</option>
-          </select>
-        </div>
-
-        <button type="submit" class="btn btn-primary">
-          <span id="btnLayananText">📤 Kirim Laporan</span>
-          <span id="btnLayananSpinner" style="display:none;" class="spinner"></span>
-        </button>
-      </form>
-    </section>
-
-    <!-- ========================================= -->
-    <!-- FORM LAPORAN ASET                         -->
-    <!-- ========================================= -->
-    <section class="page" id="page-form-aset">
-      <div class="page-title">
-        ✏️ Form Pemantauan Aset
-        <small>Isi data kondisi aset</small>
-      </div>
-
-      <form id="formAset" onsubmit="submitLaporan(event, 'aset')">
-        <!-- Tanggal & Waktu -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <div class="form-group">
-            <label>Tanggal <span class="required">*</span></label>
-            <input type="date" class="form-control" id="asetTanggal" required>
-          </div>
-          <div class="form-group">
-            <label>Waktu <span class="required">*</span></label>
-            <input type="time" class="form-control" id="asetWaktu" required>
-          </div>
-        </div>
-
-        <!-- Petugas -->
-        <div class="form-group">
-          <label>Nama Petugas <span class="required">*</span></label>
-          <input type="text" class="form-control" id="asetPetugas" placeholder="Masukkan nama petugas" required>
-        </div>
-
-        <!-- Sub Kategori Aset -->
-        <div class="form-group">
-          <label>Jenis Aset <span class="required">*</span></label>
-          <select class="form-control" id="asetSubKategori" required>
-            <option value="">-- Pilih --</option>
-            <option value="rambu">Rambu</option>
-            <option value="guadril">Guadril</option>
-            <option value="pagar">Pagar</option>
-            <option value="liplop">Lampu Liplop</option>
-            <option value="pju">Lampu PJU</option>
-            <option value="vms">VMS</option>
-          </select>
-        </div>
-
-        <!-- Lokasi -->
-        <div class="form-group">
-          <label>Lokasi <span class="required">*</span></label>
-          <input type="text" class="form-control" id="asetLokasi" placeholder="Contoh: KM 15+200" required>
-        </div>
-
-        <!-- Kondisi -->
-        <div class="form-group">
-          <label>Kondisi <span class="required">*</span></label>
-          <select class="form-control" id="asetKondisi" required>
-            <option value="baik">Baik</option>
-            <option value="kurang">Kurang Baik</option>
-            <option value="rusak">Rusak</option>
-            <option value="perbaikan">Dalam Perbaikan</option>
-          </select>
-        </div>
-
-        <!-- Keterangan -->
-        <div class="form-group">
-          <label>Keterangan</label>
-          <textarea class="form-control" id="asetKeterangan" placeholder="Catatan tambahan (opsional)"></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary">
-          <span id="btnAsetText">📤 Kirim Laporan</span>
-          <span id="btnAsetSpinner" style="display:none;" class="spinner"></span>
-        </button>
-      </form>
-    </section>
-
   </main>
 
   <!-- ============================================= -->
-  <!-- TOAST / NOTIFIKASI                           -->
+  <!-- TOAST                                       -->
   <!-- ============================================= -->
   <div class="toast" id="toast"></div>
 
@@ -1154,14 +1488,9 @@
   <!-- ============================================= -->
   <script>
     // =============================================
-    // 1. KONFIGURASI
+    // 1. KONFIGURASI & STATE
     // =============================================
     const MAP_SUB_KATEGORI = {
-      layanan: {
-        troble: 'Penanganan Kendaraan Troble',
-        derek: 'Penderekan',
-        khusus: 'Penanganan Kejadian Khusus'
-      },
       aset: {
         rambu: 'Rambu',
         guadril: 'Guadril',
@@ -1172,13 +1501,12 @@
       }
     };
 
+    let masterData = {};
+
     // =============================================
     // 2. API HELPER
     // =============================================
     const API = {
-      /**
-       * Melakukan request GET ke API
-       */
       async get(action) {
         try {
           const url = `${APP_CONFIG.API_URL}?action=${action}`;
@@ -1192,9 +1520,6 @@
         }
       },
 
-      /**
-       * Melakukan request POST ke API
-       */
       async post(action, payload) {
         try {
           const response = await fetch(APP_CONFIG.API_URL, {
@@ -1208,9 +1533,6 @@
               ...payload
             })
           });
-          
-          // Karena no-cors, response tidak bisa dibaca
-          // Asumsikan sukses jika tidak error
           return { success: true };
         } catch (error) {
           console.error('API POST Error:', error);
@@ -1237,30 +1559,28 @@
     }
 
     function showPage(pageId) {
-      // Hide semua page
       document.querySelectorAll('.page, .dashboard').forEach(el => {
         el.classList.remove('active');
       });
       
-      // Show page yang dipilih
       const target = document.getElementById('page-' + pageId);
       if (target) target.classList.add('active');
       
-      // Update menu aktif
       document.querySelectorAll('.menu-item[data-page]').forEach(el => {
         el.classList.remove('active');
         if (el.dataset.page === pageId) el.classList.add('active');
       });
       
-      // Close sidebar di mobile
       if (window.innerWidth < 768) {
         document.getElementById('sidebar').classList.remove('active');
         document.getElementById('sidebarOverlay').classList.remove('active');
       }
       
-      // Refresh data saat halaman ditampilkan
+      // Refresh data
       if (pageId === 'dashboard') loadDashboard();
-      if (pageId === 'lihat-layanan') loadLaporan('layanan', getActiveFilter('liat-layanan'));
+      if (pageId === 'lihat-troble') loadLaporan('troble', getActiveFilter('lihat-troble'));
+      if (pageId === 'lihat-derek') loadLaporan('derek', getActiveFilter('lihat-derek'));
+      if (pageId === 'lihat-khusus') loadLaporan('khusus', getActiveFilter('lihat-khusus'));
       if (pageId === 'lihat-aset') loadLaporan('aset', getActiveFilter('lihat-aset'));
     }
 
@@ -1285,37 +1605,150 @@
       const dateStr = `${days[now.getDay()]}, ${String(now.getDate()).padStart(2,'0')} ${months[now.getMonth()]} ${now.getFullYear()}`;
       document.getElementById('clockDate').textContent = dateStr;
       
-      // Set default tanggal di form
       const today = now.toISOString().split('T')[0];
       const timeStr = now.toTimeString().split(' ')[0].slice(0, 5);
       
-      ['layananTanggal', 'asetTanggal'].forEach(id => {
+      ['trobleTanggal', 'khususTanggal', 'derekTanggal', 'asetTanggal'].forEach(id => {
         const el = document.getElementById(id);
         if (el && !el.value) el.value = today;
       });
-      ['layananWaktu', 'asetWaktu'].forEach(id => {
+      ['trobleJam', 'khususJam', 'derekJam', 'asetWaktu'].forEach(id => {
         const el = document.getElementById(id);
         if (el && !el.value) el.value = timeStr;
       });
     }
     
-    // Update jam setiap detik
     updateClock();
     setInterval(updateClock, 1000);
 
     // =============================================
-    // 5. LOAD DATA DASHBOARD
+    // 5. LOAD MASTER DATA
+    // =============================================
+    async function loadMasterData() {
+      try {
+        const data = await API.get('getMaster');
+        masterData = data;
+        populateSelects(data);
+        document.getElementById('offlineBanner').classList.remove('show');
+        return data;
+      } catch (err) {
+        console.error('Load master error:', err);
+        return {};
+      }
+    }
+
+    function populateSelects(data) {
+      // Jalur
+      ['trobleJalur', 'khususJalur', 'derekJalur'].forEach(id => {
+        const sel = document.getElementById(id);
+        if (!sel) return;
+        // Keep first option
+        const first = sel.options[0];
+        sel.innerHTML = '';
+        sel.appendChild(first);
+        if (data.jalur) {
+          data.jalur.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item;
+            opt.textContent = item;
+            sel.appendChild(opt);
+          });
+        }
+      });
+
+      // Unit
+      ['trobleUnit', 'khususUnit'].forEach(id => {
+        const sel = document.getElementById(id);
+        if (!sel) return;
+        const first = sel.options[0];
+        sel.innerHTML = '';
+        sel.appendChild(first);
+        if (data.unit) {
+          data.unit.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item;
+            opt.textContent = item;
+            sel.appendChild(opt);
+          });
+        }
+      });
+
+      // Petugas Layanan
+      ['troblePetugas', 'khususPetugas'].forEach(id => {
+        const sel = document.getElementById(id);
+        if (!sel) return;
+        const first = sel.options[0];
+        sel.innerHTML = '';
+        sel.appendChild(first);
+        if (data.petugasLayanan) {
+          data.petugasLayanan.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item;
+            opt.textContent = item;
+            sel.appendChild(opt);
+          });
+        }
+      });
+
+      // Petugas Derek
+      const derekPetugas = document.getElementById('derekPetugas');
+      if (derekPetugas) {
+        const first = derekPetugas.options[0];
+        derekPetugas.innerHTML = '';
+        derekPetugas.appendChild(first);
+        if (data.petugasDerek) {
+          data.petugasDerek.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item;
+            opt.textContent = item;
+            derekPetugas.appendChild(opt);
+          });
+        }
+      }
+
+      // Jenis Kerusakan
+      const kerusakan = document.getElementById('trobleKerusakan');
+      if (kerusakan) {
+        const first = kerusakan.options[0];
+        kerusakan.innerHTML = '';
+        kerusakan.appendChild(first);
+        if (data.jenisKerusakan) {
+          data.jenisKerusakan.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item.toLowerCase();
+            opt.textContent = item;
+            kerusakan.appendChild(opt);
+          });
+        }
+      }
+
+      // Jenis Kejadian
+      const kejadian = document.getElementById('khususJenis');
+      if (kejadian) {
+        const first = kejadian.options[0];
+        kejadian.innerHTML = '';
+        kejadian.appendChild(first);
+        if (data.jenisKejadian) {
+          data.jenisKejadian.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item.toLowerCase();
+            opt.textContent = item;
+            kejadian.appendChild(opt);
+          });
+        }
+      }
+    }
+
+    // =============================================
+    // 6. LOAD DASHBOARD
     // =============================================
     async function loadDashboard() {
       try {
         const data = await API.get('dashboard');
-        document.getElementById('totalLayanan').textContent = data.totalLayanan || 0;
+        document.getElementById('totalTroble').textContent = data.totalTroble || 0;
+        document.getElementById('totalDerek').textContent = data.totalDerek || 0;
+        document.getElementById('totalKhusus').textContent = data.totalKhusus || 0;
         document.getElementById('totalAset').textContent = data.totalAset || 0;
-        
-        const last = data.lastUpdate ? new Date(data.lastUpdate) : new Date();
-        document.getElementById('lastUpdate').textContent = 
-          last.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-          
         document.getElementById('offlineBanner').classList.remove('show');
       } catch (err) {
         console.error('Dashboard error:', err);
@@ -1323,17 +1756,24 @@
     }
 
     // =============================================
-    // 6. LOAD DATA LAPORAN
+    // 7. LOAD LAPORAN
     // =============================================
     async function loadLaporan(jenis, filter) {
-      const containerId = (jenis === 'layanan') ? 'listLayanan' : 'listAset';
-      const container = document.getElementById(containerId);
+      const mapId = {
+        troble: { list: 'listTroble', action: 'getTroble', filterField: 'jenisKerusakan' },
+        derek: { list: 'listDerek', action: 'getDerek', filterField: 'alasanPenderekan' },
+        khusus: { list: 'listKhusus', action: 'getKhusus', filterField: 'jenisKejadian' },
+        aset: { list: 'listAset', action: 'getAset', filterField: 'subKategori' }
+      };
+
+      const config = mapId[jenis];
+      if (!config) return;
+
+      const container = document.getElementById(config.list);
       
       try {
-        const action = (jenis === 'layanan') ? 'getLayanan' : 'getAset';
-        const result = await API.get(action);
+        const result = await API.get(config.action);
         const data = result.data || [];
-        
         document.getElementById('offlineBanner').classList.remove('show');
         
         if (!data || data.length < 2) {
@@ -1346,16 +1786,17 @@
           return;
         }
         
-        // Parse header dan data
         const headers = data[0];
         const rows = data.slice(1);
         
-        // Filter jika diperlukan
         let filtered = rows;
         if (filter && filter !== 'semua') {
-          const subIdx = headers.indexOf('subKategori');
-          if (subIdx > -1) {
-            filtered = rows.filter(row => row[subIdx] === filter);
+          const idx = headers.indexOf(config.filterField);
+          if (idx > -1) {
+            filtered = rows.filter(row => {
+              const val = String(row[idx] || '').toLowerCase();
+              return val === filter || val.includes(filter);
+            });
           }
         }
         
@@ -1369,52 +1810,56 @@
           return;
         }
         
-        // Render data
         let html = '';
-        const dateIdx = headers.indexOf('tanggal');
-        const timeIdx = headers.indexOf('waktu');
-        const petugasIdx = headers.indexOf('petugas');
-        const subIdx = headers.indexOf('subKategori');
-        const lokasiIdx = headers.indexOf('lokasi');
-        const uraianIdx = headers.indexOf('uraian');
-        const kondisiIdx = headers.indexOf('kondisi');
-        const ketIdx = headers.indexOf('keterangan');
-        const statusIdx = headers.indexOf('status');
-        
-        const subLabelMap = (jenis === 'layanan') ? MAP_SUB_KATEGORI.layanan : MAP_SUB_KATEGORI.aset;
+        const dateIdx = headers.indexOf('tanggalBertugas') > -1 ? headers.indexOf('tanggalBertugas') : headers.indexOf('tanggal');
+        const timeIdx = headers.indexOf('jamKejadian') > -1 ? headers.indexOf('jamKejadian') : headers.indexOf('waktu');
+        const petugasIdx = headers.indexOf('namaPetugas') > -1 ? headers.indexOf('namaPetugas') : headers.indexOf('petugas');
+        const lokasiIdx = headers.indexOf('lokasiSTA') > -1 ? headers.indexOf('lokasiSTA') : headers.indexOf('lokasi');
+        const jalurIdx = headers.indexOf('jalur');
         
         filtered.slice().reverse().forEach(row => {
-          const subKey = (subIdx > -1) ? row[subIdx] : '';
-          const subLabel = subLabelMap[subKey] || subKey || '-';
-          
           const tanggal = (dateIdx > -1) ? row[dateIdx] || '-' : '-';
           const waktu = (timeIdx > -1) ? row[timeIdx] || '-' : '-';
           const petugas = (petugasIdx > -1) ? row[petugasIdx] || '-' : '-';
           const lokasi = (lokasiIdx > -1) ? row[lokasiIdx] || '-' : '-';
+          const jalur = (jalurIdx > -1) ? row[jalurIdx] || '-' : '-';
           
           let detail = '';
-          if (jenis === 'layanan') {
-            const uraian = (uraianIdx > -1) ? row[uraianIdx] || '' : '';
-            const status = (statusIdx > -1) ? row[statusIdx] || 'baru' : 'baru';
-            const statusLabel = { baru: 'Baru', proses: 'Dalam Proses', selesai: 'Selesai' }[status] || status;
+          if (jenis === 'troble') {
+            const kerusakan = headers.indexOf('jenisKerusakan') > -1 ? row[headers.indexOf('jenisKerusakan')] || '-' : '-';
+            const tindak = headers.indexOf('tindakLanjut') > -1 ? row[headers.indexOf('tindakLanjut')] || '' : '';
             detail = `
-              <div style="font-size:13px; color:var(--text-secondary);">${uraian}</div>
-              <span class="badge-status ${status}">${statusLabel}</span>
+              <div style="font-size:13px; color:var(--text-secondary);">🔧 ${kerusakan}</div>
+              <div style="font-size:12px; color:var(--text-muted);">${tindak.substring(0, 100)}${tindak.length > 100 ? '...' : ''}</div>
             `;
-          } else {
-            const kondisi = (kondisiIdx > -1) ? row[kondisiIdx] || '-' : '-';
-            const ket = (ketIdx > -1) ? row[ketIdx] || '' : '';
+          } else if (jenis === 'derek') {
+            const alasan = headers.indexOf('alasanPenderekan') > -1 ? row[headers.indexOf('alasanPenderekan')] || '-' : '-';
+            const tujuan = headers.indexOf('tujuanPenderekan') > -1 ? row[headers.indexOf('tujuanPenderekan')] || '-' : '-';
+            detail = `
+              <div style="font-size:13px; color:var(--text-secondary);">📌 ${alasan}</div>
+              <div style="font-size:12px; color:var(--text-muted);">Tujuan: ${tujuan}</div>
+            `;
+          } else if (jenis === 'khusus') {
+            const jenisKej = headers.indexOf('jenisKejadian') > -1 ? row[headers.indexOf('jenisKejadian')] || '-' : '-';
+            const uraian = headers.indexOf('uraianKejadian') > -1 ? row[headers.indexOf('uraianKejadian')] || '' : '';
+            detail = `
+              <div style="font-size:13px; color:var(--text-secondary);">⚠️ ${jenisKej}</div>
+              <div style="font-size:12px; color:var(--text-muted);">${uraian.substring(0, 100)}${uraian.length > 100 ? '...' : ''}</div>
+            `;
+          } else if (jenis === 'aset') {
+            const sub = headers.indexOf('subKategori') > -1 ? row[headers.indexOf('subKategori')] || '-' : '-';
+            const kondisi = headers.indexOf('kondisi') > -1 ? row[headers.indexOf('kondisi')] || '-' : '-';
             const kondisiLabel = { baik: '✅ Baik', kurang: '⚠️ Kurang', rusak: '❌ Rusak', perbaikan: '🔧 Perbaikan' }[kondisi] || kondisi;
             detail = `
-              <div style="font-size:13px; color:var(--text-secondary);">Kondisi: ${kondisiLabel}</div>
-              ${ket ? `<div style="font-size:12px; color:var(--text-muted);">${ket}</div>` : ''}
+              <div style="font-size:13px; color:var(--text-secondary);">${MAP_SUB_KATEGORI.aset[sub] || sub}</div>
+              <div style="font-size:12px; color:var(--text-muted);">Kondisi: ${kondisiLabel}</div>
             `;
           }
           
           html += `
             <div class="laporan-item fade-in">
               <div class="header">
-                <span class="title">${subLabel}</span>
+                <span class="title">${jalur}</span>
                 <span class="time">${tanggal} ${waktu}</span>
               </div>
               <div style="font-size:13px; color:var(--text-muted);">📍 ${lokasi} &bull; 👤 ${petugas}</div>
@@ -1436,36 +1881,87 @@
     }
 
     // =============================================
-    // 7. SUBMIT LAPORAN
+    // 8. SUBMIT LAPORAN
     // =============================================
     async function submitLaporan(event, jenis) {
       event.preventDefault();
       
-      const prefix = (jenis === 'layanan') ? 'layanan' : 'aset';
-      const btnText = document.getElementById(`btn${capitalize(prefix)}Text`);
-      const btnSpinner = document.getElementById(`btn${capitalize(prefix)}Spinner`);
+      const mapAction = {
+        troble: { form: 'formTroble', btnText: 'btnTrobleText', btnSpinner: 'btnTrobleSpinner', action: 'saveTroble' },
+        khusus: { form: 'formKhusus', btnText: 'btnKhususText', btnSpinner: 'btnKhususSpinner', action: 'saveKhusus' },
+        derek: { form: 'formDerek', btnText: 'btnDerekText', btnSpinner: 'btnDerekSpinner', action: 'saveDerek' },
+        aset: { form: 'formAset', btnText: 'btnAsetText', btnSpinner: 'btnAsetSpinner', action: 'saveAset' }
+      };
+      
+      const config = mapAction[jenis];
+      if (!config) return;
+      
+      const btnText = document.getElementById(config.btnText);
+      const btnSpinner = document.getElementById(config.btnSpinner);
       const btn = btnText.parentElement;
       
-      // Disable button & show spinner
       btn.disabled = true;
       btnText.style.display = 'none';
       btnSpinner.style.display = 'inline-block';
       
-      // Kumpulkan data
-      const data = {
-        tanggal: document.getElementById(`${prefix}Tanggal`).value,
-        waktu: document.getElementById(`${prefix}Waktu`).value,
-        petugas: document.getElementById(`${prefix}Petugas`).value,
-        subKategori: document.getElementById(`${prefix}SubKategori`).value,
-        lokasi: document.getElementById(`${prefix}Lokasi`).value
-      };
+      // Kumpulkan data berdasarkan jenis
+      let data = {};
       
-      if (jenis === 'layanan') {
-        data.uraian = document.getElementById('layananUraian').value;
-        data.status = document.getElementById('layananStatus').value;
-      } else {
-        data.kondisi = document.getElementById('asetKondisi').value;
-        data.keterangan = document.getElementById('asetKeterangan').value;
+      if (jenis === 'troble') {
+        data = {
+          tanggalBertugas: document.getElementById('trobleTanggal').value,
+          shift: document.getElementById('trobleShift').value,
+          jamKejadian: document.getElementById('trobleJam').value,
+          jalur: document.getElementById('trobleJalur').value,
+          lokasiSTA: document.getElementById('trobleLokasi').value,
+          unit: document.getElementById('trobleUnit').value,
+          namaPetugas: document.getElementById('troblePetugas').value,
+          golonganKendaraan: document.getElementById('trobleGolongan').value,
+          jenisKendaraan: document.getElementById('trobleJenis').value,
+          jenisKerusakan: document.getElementById('trobleKerusakan').value,
+          tindakLanjut: document.getElementById('trobleTindak').value
+        };
+      } else if (jenis === 'khusus') {
+        data = {
+          tanggalBertugas: document.getElementById('khususTanggal').value,
+          shift: document.getElementById('khususShift').value,
+          jamKejadian: document.getElementById('khususJam').value,
+          jalur: document.getElementById('khususJalur').value,
+          lokasiSTA: document.getElementById('khususLokasi').value,
+          unit: document.getElementById('khususUnit').value,
+          namaPetugas: document.getElementById('khususPetugas').value,
+          jenisKejadian: document.getElementById('khususJenis').value,
+          uraianKejadian: document.getElementById('khususUraian').value
+        };
+      } else if (jenis === 'derek') {
+        const alasan = document.getElementById('derekAlasan').value;
+        const alasanLain = document.getElementById('derekAlasanLain').value;
+        data = {
+          tanggalBertugas: document.getElementById('derekTanggal').value,
+          shift: document.getElementById('derekShift').value,
+          jamKejadian: document.getElementById('derekJam').value,
+          jalur: document.getElementById('derekJalur').value,
+          lokasiSTA: document.getElementById('derekLokasi').value,
+          derekDigunakan: document.getElementById('derekJenis').value,
+          namaPetugas: document.getElementById('derekPetugas').value,
+          alasanPenderekan: alasan === 'Lainnya' ? alasanLain : alasan,
+          tujuanPenderekan: document.getElementById('derekTujuan').value,
+          kilometerAwal: document.getElementById('derekKmAwal').value,
+          kilometerAkhir: document.getElementById('derekKmAkhir').value,
+          waktuKeluar: document.getElementById('derekWaktuKeluar').value,
+          waktuTiba: document.getElementById('derekWaktuTiba').value,
+          waktuSelesai: document.getElementById('derekWaktuSelesai').value
+        };
+      } else if (jenis === 'aset') {
+        data = {
+          tanggal: document.getElementById('asetTanggal').value,
+          waktu: document.getElementById('asetWaktu').value,
+          petugas: document.getElementById('asetPetugas').value,
+          subKategori: document.getElementById('asetSubKategori').value,
+          lokasi: document.getElementById('asetLokasi').value,
+          kondisi: document.getElementById('asetKondisi').value,
+          keterangan: document.getElementById('asetKeterangan').value
+        };
       }
       
       // Validasi
@@ -1478,17 +1974,13 @@
       }
       
       try {
-        const result = await API.post('save', {
-          jenis: jenis,
-          data: data
-        });
-        
+        await API.post(config.action, { data: data });
         showToast('✅ Laporan berhasil disimpan!', 'success');
-        document.getElementById(`form${capitalize(prefix)}`).reset();
+        document.getElementById(config.form).reset();
         updateClock();
         loadDashboard();
         
-        const filter = document.querySelector(`#page-${jenis === 'layanan' ? 'lihat-layanan' : 'lihat-aset'} .tab-btn.active`);
+        const filter = document.querySelector(`#page-lihat-${jenis} .tab-btn.active`);
         const filterVal = filter ? filter.dataset.filter : 'semua';
         loadLaporan(jenis, filterVal);
         
@@ -1505,12 +1997,8 @@
       }
     }
 
-    function capitalize(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-
     // =============================================
-    // 8. TOAST NOTIFIKASI
+    // 9. TOAST
     // =============================================
     let toastTimeout;
 
@@ -1521,7 +2009,6 @@
       
       clearTimeout(toastTimeout);
       void toast.offsetWidth;
-      
       toast.classList.add('show');
       
       toastTimeout = setTimeout(() => {
@@ -1530,7 +2017,7 @@
     }
 
     // =============================================
-    // 9. FILTER TAB
+    // 10. FILTER TAB
     // =============================================
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('tab-btn')) {
@@ -1544,7 +2031,7 @@
         if (!page) return;
         
         const pageId = page.id;
-        const jenis = pageId.includes('layanan') ? 'layanan' : 'aset';
+        const jenis = pageId.replace('page-lihat-', '');
         const filter = e.target.dataset.filter || 'semua';
         
         loadLaporan(jenis, filter);
@@ -1552,17 +2039,47 @@
     });
 
     // =============================================
-    // 10. INISIALISASI
+    // 11. AUTO GROW TEXTAREA
     // =============================================
-    document.addEventListener('DOMContentLoaded', function() {
-      loadDashboard();
-      loadLaporan('layanan', 'semua');
-      loadLaporan('aset', 'semua');
+    document.addEventListener('input', function(e) {
+      if (e.target.classList.contains('auto-grow')) {
+        e.target.style.height = 'auto';
+        e.target.style.height = e.target.scrollHeight + 'px';
+      }
     });
 
     // =============================================
-    // 11. DETEKSI KONEKSI
+    // 12. ALASAN PENDEREKAN LAINNYA
     // =============================================
+    document.addEventListener('change', function(e) {
+      if (e.target.id === 'derekAlasan') {
+        const lainInput = document.getElementById('derekAlasanLain');
+        if (e.target.value === 'Lainnya') {
+          lainInput.style.display = 'block';
+          lainInput.required = true;
+        } else {
+          lainInput.style.display = 'none';
+          lainInput.required = false;
+          lainInput.value = '';
+        }
+      }
+    });
+
+    // =============================================
+    // 13. INIT
+    // =============================================
+    document.addEventListener('DOMContentLoaded', async function() {
+      await loadMasterData();
+      loadDashboard();
+      loadLaporan('troble', 'semua');
+      loadLaporan('derek', 'semua');
+      loadLaporan('khusus', 'semua');
+      loadLaporan('aset', 'semua');
+      
+      // Hide alasan lain awal
+      document.getElementById('derekAlasanLain').style.display = 'none';
+    });
+
     window.addEventListener('online', function() {
       document.getElementById('offlineBanner').classList.remove('show');
       loadDashboard();
