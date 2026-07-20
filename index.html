@@ -6,44 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
   <!-- ============================================================
-  ════════════════════════════════════════════════════════════════════
-  BAGIAN 1: KONFIGURASI APLIKASI
-  ════════════════════════════════════════════════════════════════════
-  📌 YANG PERLU DIGANTI: 
-     - API_URL: Ganti dengan URL Web App Anda setelah deploy
+  KONFIGURASI APLIKASI
   ============================================================ -->
   <script>
     const APP_CONFIG = {
-      // ═══════════════════════════════════════════════════════════
-      // 🔧 GANTI URL INI dengan URL Web App Google Apps Script Anda
-      // ═══════════════════════════════════════════════════════════
+      // 🔧 Ganti dengan URL Web App Anda
       API_URL: 'https://script.google.com/macros/s/AKfycbz4fxgTfXQvdTXqrDno8slIrVfc_VKK6RMcaPRrCy-ORuP7FgIz7XMRyQJYJE9C1rJ0/exec',
-      
-      // URL Logo (opsional, bisa diganti)
       LOGO_URL: 'https://drive.google.com/uc?export=view&id=12ZmHCesB52Wwd2Enmmii_IpYMaVb8C5b',
-      
-      // Nama Aplikasi (bisa diubah sesuai kebutuhan)
       APP_NAME: 'Laporan Pelayanan Lalu Lintas',
       APP_SUBTITLE: 'Tol Makassar'
     };
   </script>
   
-  <!-- ============================================================
-  ════════════════════════════════════════════════════════════════════
-  BAGIAN 2: STYLE CSS
-  ════════════════════════════════════════════════════════════════════
-  📌 YANG PERLU DIGANTI:
-     - Warna: Ubah nilai di :root untuk tema berbeda
-     - Radius: Ubah nilai --radius untuk bentuk card
-  ============================================================ -->
   <style>
     /* =============================================================
-       VARIABEL WARNA (THEME)
-       =============================================================
-       💡 Ganti nilai di bawah ini untuk mengubah tema warna:
-         - --secondary: warna aksen utama (oranye)
-         - --primary: warna dasar (biru tua)
-         - --bg-dark: warna latar belakang
+       VARIABEL WARNA
        ============================================================= */
     :root {
       --primary: #1a237e;
@@ -52,27 +29,19 @@
       --secondary: #ff6f00;
       --accent: #00bcd4;
       --success: #2e7d32;
-      --warning: #f9a825;
       --danger: #c62828;
       --bg-dark: #0a0e1a;
       --bg-card: rgba(255,255,255,0.08);
       --text-primary: #ffffff;
       --text-secondary: rgba(255,255,255,0.8);
       --text-muted: rgba(255,255,255,0.5);
-      --shadow: 0 8px 32px rgba(0,0,0,0.4);
       --radius: 16px;
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
-                   'Helvetica Neue', Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--bg-dark);
       color: var(--text-primary);
       min-height: 100vh;
@@ -81,10 +50,7 @@
 
     .bg-gradient {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: linear-gradient(135deg, #0a0e1a 0%, #1a1a3e 40%, #0d1b2a 100%);
       z-index: -2;
     }
@@ -92,10 +58,8 @@
     .bg-gradient::before {
       content: '';
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
       background: radial-gradient(ellipse at 30% 20%, rgba(57, 73, 171, 0.15) 0%, transparent 60%),
                   radial-gradient(ellipse at 70% 80%, rgba(0, 188, 212, 0.08) 0%, transparent 50%);
       animation: gradientShift 15s ease-in-out infinite;
@@ -122,26 +86,21 @@
       -webkit-backdrop-filter: blur(20px);
       border-right: 1px solid rgba(255,255,255,0.08);
       z-index: 1000;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: var(--transition);
       padding: 20px 0;
       overflow-y: auto;
     }
 
-    .sidebar.active {
-      left: 0;
-    }
+    .sidebar.active { left: 0; }
 
     .sidebar-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.6);
       z-index: 999;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: var(--transition);
     }
 
     .sidebar-overlay.active {
@@ -168,13 +127,13 @@
     .sidebar-brand h2 {
       font-size: 14px;
       font-weight: 600;
-      color: rgba(255,255,255,0.8);
+      color: var(--text-secondary);
       letter-spacing: 0.5px;
     }
 
     .sidebar-brand small {
       font-size: 11px;
-      color: rgba(255,255,255,0.5);
+      color: var(--text-muted);
       display: block;
       margin-top: 2px;
     }
@@ -183,7 +142,7 @@
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      color: rgba(255,255,255,0.5);
+      color: var(--text-muted);
       padding: 8px 24px 4px;
       font-weight: 600;
     }
@@ -193,21 +152,20 @@
       align-items: center;
       gap: 14px;
       padding: 12px 24px;
-      color: rgba(255,255,255,0.8);
+      color: var(--text-secondary);
       text-decoration: none;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: var(--transition);
       border-left: 3px solid transparent;
       font-size: 14px;
       font-weight: 500;
-      position: relative;
     }
 
     .menu-item:hover,
     .menu-item.active {
       background: rgba(255,255,255,0.06);
-      color: #ffffff;
-      border-left-color: #ff6f00;
+      color: var(--text-primary);
+      border-left-color: var(--secondary);
     }
 
     .menu-item .icon {
@@ -217,16 +175,6 @@
       flex-shrink: 0;
     }
 
-    .menu-item .badge {
-      margin-left: auto;
-      background: #ff6f00;
-      color: #fff;
-      font-size: 10px;
-      padding: 2px 10px;
-      border-radius: 12px;
-      font-weight: 600;
-    }
-
     .sub-menu {
       max-height: 0;
       overflow: hidden;
@@ -234,9 +182,7 @@
       background: rgba(0,0,0,0.2);
     }
 
-    .sub-menu.open {
-      max-height: 800px;
-    }
+    .sub-menu.open { max-height: 800px; }
 
     .sub-menu .menu-item {
       padding-left: 54px;
@@ -246,7 +192,7 @@
     }
 
     .sub-menu .menu-item:hover {
-      border-left-color: #00bcd4;
+      border-left-color: var(--accent);
     }
 
     .menu-item.has-sub .arrow {
@@ -266,14 +212,12 @@
       padding: 16px;
       padding-top: 70px;
       min-height: 100vh;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: var(--transition);
     }
 
     .top-bar {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       background: rgba(10, 14, 26, 0.85);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -288,7 +232,7 @@
     .top-bar .hamburger {
       background: none;
       border: none;
-      color: #ffffff;
+      color: var(--text-primary);
       font-size: 28px;
       cursor: pointer;
       padding: 4px;
@@ -301,26 +245,19 @@
       letter-spacing: 0.3px;
     }
 
-    .top-bar .title span {
-      color: #ff6f00;
-    }
+    .top-bar .title span { color: var(--secondary); }
 
     /* =============================================================
        DASHBOARD
        ============================================================= */
-    .dashboard {
-      display: none;
-    }
-
-    .dashboard.active {
-      display: block;
-    }
+    .dashboard { display: none; }
+    .dashboard.active { display: block; }
 
     .clock-wrapper {
       text-align: center;
       padding: 20px 0 16px;
-      background: rgba(255,255,255,0.08);
-      border-radius: 16px;
+      background: var(--bg-card);
+      border-radius: var(--radius);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,0.06);
       margin-bottom: 20px;
@@ -340,7 +277,7 @@
 
     .clock-date {
       font-size: clamp(14px, 3.5vw, 18px);
-      color: rgba(255,255,255,0.8);
+      color: var(--text-secondary);
       margin-top: 4px;
       font-weight: 500;
       letter-spacing: 0.5px;
@@ -354,13 +291,13 @@
     }
 
     .stat-card {
-      background: rgba(255,255,255,0.08);
-      border-radius: 16px;
+      background: var(--bg-card);
+      border-radius: var(--radius);
       padding: 16px;
       text-align: center;
       border: 1px solid rgba(255,255,255,0.06);
       backdrop-filter: blur(10px);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: var(--transition);
     }
 
     .stat-card:hover {
@@ -371,12 +308,12 @@
     .stat-card .number {
       font-size: 28px;
       font-weight: 700;
-      color: #ff6f00;
+      color: var(--secondary);
     }
 
     .stat-card .label {
       font-size: 12px;
-      color: rgba(255,255,255,0.8);
+      color: var(--text-secondary);
       margin-top: 4px;
     }
 
@@ -389,13 +326,8 @@
     /* =============================================================
        PAGE
        ============================================================= */
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
-    }
+    .page { display: none; }
+    .page.active { display: block; }
 
     .page-title {
       font-size: 18px;
@@ -409,25 +341,24 @@
     .page-title small {
       font-size: 12px;
       font-weight: 400;
-      color: rgba(255,255,255,0.5);
+      color: var(--text-muted);
     }
 
     /* =============================================================
-       SUB FORM CARD
+       FORM
        ============================================================= */
     .sub-form-card {
-      background: rgba(255,255,255,0.08);
-      border-radius: 16px;
+      background: var(--bg-card);
+      border-radius: var(--radius);
       padding: 16px;
       margin-bottom: 16px;
       border: 1px solid rgba(255,255,255,0.06);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .sub-form-card .card-title {
       font-size: 14px;
       font-weight: 600;
-      color: #ff6f00;
+      color: var(--secondary);
       margin-bottom: 12px;
       display: flex;
       align-items: center;
@@ -439,13 +370,10 @@
       background: rgba(255, 111, 0, 0.15);
       padding: 2px 10px;
       border-radius: 12px;
-      color: #ff6f00;
+      color: var(--secondary);
       font-weight: 500;
     }
 
-    /* =============================================================
-       FORM STYLE
-       ============================================================= */
     .form-group {
       margin-bottom: 16px;
     }
@@ -454,12 +382,12 @@
       display: block;
       font-size: 13px;
       font-weight: 500;
-      color: rgba(255,255,255,0.8);
+      color: var(--text-secondary);
       margin-bottom: 6px;
     }
 
     .form-group label .required {
-      color: #c62828;
+      color: var(--danger);
       margin-left: 2px;
     }
 
@@ -469,9 +397,9 @@
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 10px;
-      color: #ffffff;
+      color: var(--text-primary);
       font-size: 14px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: var(--transition);
       appearance: none;
       -webkit-appearance: none;
       font-family: inherit;
@@ -479,18 +407,18 @@
 
     .form-control:focus {
       outline: none;
-      border-color: #ff6f00;
+      border-color: var(--secondary);
       background: rgba(255,255,255,0.08);
       box-shadow: 0 0 0 3px rgba(255, 111, 0, 0.15);
     }
 
     .form-control::placeholder {
-      color: rgba(255,255,255,0.5);
+      color: var(--text-muted);
     }
 
     .form-control option {
       background: #1a1a3e;
-      color: #ffffff;
+      color: var(--text-primary);
     }
 
     select.form-control {
@@ -512,7 +440,7 @@
     }
 
     select.form-control[multiple] option:checked {
-      background: #ff6f00 linear-gradient(0deg, #ff6f00 0%, #ff6f00 100%);
+      background: var(--secondary) linear-gradient(0deg, var(--secondary) 0%, var(--secondary) 100%);
     }
 
     textarea.form-control {
@@ -533,12 +461,8 @@
     }
 
     @media (max-width: 480px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-      .form-row-3 {
-        grid-template-columns: 1fr 1fr;
-      }
+      .form-row { grid-template-columns: 1fr; }
+      .form-row-3 { grid-template-columns: 1fr 1fr; }
     }
 
     /* =============================================================
@@ -555,13 +479,13 @@
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: var(--transition);
       width: 100%;
       font-family: inherit;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #ff6f00, #e65100);
+      background: linear-gradient(135deg, var(--secondary), #e65100);
       color: #fff;
     }
 
@@ -570,36 +494,24 @@
       box-shadow: 0 8px 24px rgba(255, 111, 0, 0.3);
     }
 
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-
     .btn-primary:disabled {
       opacity: 0.6;
       cursor: not-allowed;
       transform: none !important;
     }
 
-    .btn-sm {
-      padding: 8px 16px;
-      font-size: 12px;
-      width: auto;
-    }
-
     /* =============================================================
        LAPORAN LIST
        ============================================================= */
-    .laporan-list {
-      margin-top: 16px;
-    }
+    .laporan-list { margin-top: 16px; }
 
     .laporan-item {
-      background: rgba(255,255,255,0.08);
-      border-radius: 16px;
+      background: var(--bg-card);
+      border-radius: var(--radius);
       padding: 14px 16px;
       margin-bottom: 10px;
       border: 1px solid rgba(255,255,255,0.06);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: var(--transition);
     }
 
     .laporan-item:hover {
@@ -620,35 +532,7 @@
 
     .laporan-item .time {
       font-size: 11px;
-      color: rgba(255,255,255,0.5);
-    }
-
-    .laporan-item .desc {
-      font-size: 13px;
-      color: rgba(255,255,255,0.8);
-    }
-
-    .badge-status {
-      font-size: 10px;
-      padding: 2px 12px;
-      border-radius: 12px;
-      font-weight: 600;
-      display: inline-block;
-    }
-
-    .badge-status.selesai {
-      background: rgba(46, 125, 50, 0.2);
-      color: #66bb6a;
-    }
-
-    .badge-status.proses {
-      background: rgba(249, 168, 37, 0.2);
-      color: #ffd54f;
-    }
-
-    .badge-status.baru {
-      background: rgba(198, 40, 40, 0.2);
-      color: #ef5350;
+      color: var(--text-muted);
     }
 
     /* =============================================================
@@ -667,12 +551,12 @@
       padding: 8px 18px;
       border: none;
       background: rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.8);
+      color: var(--text-secondary);
       border-radius: 20px;
       font-size: 13px;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: var(--transition);
       white-space: nowrap;
       font-family: inherit;
     }
@@ -682,7 +566,7 @@
     }
 
     .tab-btn.active {
-      background: #ff6f00;
+      background: var(--secondary);
       color: #fff;
       box-shadow: 0 4px 16px rgba(255, 111, 0, 0.3);
     }
@@ -700,13 +584,52 @@
 
     .filter-bulan-wrapper label {
       font-size: 13px;
-      color: rgba(255,255,255,0.8);
+      color: var(--text-secondary);
     }
 
     .filter-bulan-wrapper select {
       width: auto;
       min-width: 120px;
       padding: 6px 12px;
+    }
+
+    /* =============================================================
+       SUMMARY CARD
+       ============================================================= */
+    .summary-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .summary-card .summary-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .summary-card .total {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .summary-card .total span { color: var(--secondary); }
+
+    .summary-card .kategori-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .summary-card .kategori-item {
+      font-size: 12px;
+      background: rgba(255,255,255,0.06);
+      padding: 2px 12px;
+      border-radius: 12px;
     }
 
     /* =============================================================
@@ -727,7 +650,7 @@
       z-index: 2000;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: var(--transition);
       max-width: 90%;
       text-align: center;
     }
@@ -738,13 +661,8 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    .toast.success {
-      border-color: #2e7d32;
-    }
-
-    .toast.error {
-      border-color: #c62828;
-    }
+    .toast.success { border-color: var(--success); }
+    .toast.error { border-color: var(--danger); }
 
     /* =============================================================
        LOADING & EMPTY STATE
@@ -754,7 +672,7 @@
       width: 20px;
       height: 20px;
       border: 2px solid rgba(255,255,255,0.1);
-      border-top: 2px solid #ff6f00;
+      border-top: 2px solid var(--secondary);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
@@ -766,7 +684,7 @@
     .empty-state {
       text-align: center;
       padding: 40px 20px;
-      color: rgba(255,255,255,0.5);
+      color: var(--text-muted);
     }
 
     .empty-state .icon {
@@ -775,16 +693,9 @@
       display: block;
     }
 
-    .empty-state p {
-      font-size: 14px;
-    }
-
-    /* =============================================================
-       OFFLINE BANNER
-       ============================================================= */
     .offline-banner {
       display: none;
-      background: #c62828;
+      background: var(--danger);
       color: #fff;
       text-align: center;
       padding: 6px 12px;
@@ -794,9 +705,7 @@
       margin-bottom: 12px;
     }
 
-    .offline-banner.show {
-      display: block;
-    }
+    .offline-banner.show { display: block; }
 
     /* =============================================================
        RESPONSIVE
@@ -814,57 +723,27 @@
         max-width: calc(100% - 260px);
       }
       
-      .top-bar .hamburger {
-        display: none;
-      }
-      
-      .stats-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-      
-      .clock-time {
-        font-size: 72px !important;
-      }
+      .top-bar .hamburger { display: none; }
+      .stats-grid { grid-template-columns: repeat(4, 1fr); }
+      .clock-time { font-size: 72px !important; }
     }
 
     @media (max-width: 380px) {
-      .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-      }
-      
-      .stat-card .number {
-        font-size: 22px;
-      }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .stat-card .number { font-size: 22px; }
     }
 
-    ::-webkit-scrollbar {
-      width: 4px;
-      height: 4px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.2);
-      border-radius: 4px;
-    }
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .fade-in {
-      animation: fadeIn 0.4s ease forwards;
-    }
-
-    .auto-grow {
-      overflow: hidden;
-      resize: none;
-    }
+    .fade-in { animation: fadeIn 0.4s ease forwards; }
+    .auto-grow { overflow: hidden; resize: none; }
 
     /* =============================================================
        UPLOAD FOTO
@@ -883,7 +762,7 @@
 
     .upload-wrapper .file-name {
       font-size: 12px;
-      color: rgba(255,255,255,0.5);
+      color: var(--text-muted);
       max-width: 200px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -900,73 +779,16 @@
 
     .upload-status {
       font-size: 12px;
-      color: rgba(255,255,255,0.5);
+      color: var(--text-muted);
       margin-top: 4px;
     }
 
-    .upload-status.success {
-      color: #2e7d32;
-    }
-
-    .upload-status.error {
-      color: #c62828;
-    }
-
-    /* =============================================================
-       SUMMARY CARD (Total Kejadian)
-       ============================================================= */
-    .summary-card {
-      background: rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 12px 16px;
-      margin-bottom: 16px;
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .summary-card .summary-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .summary-card .total {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .summary-card .total span {
-      color: #ff6f00;
-    }
-
-    .summary-card .kategori-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .summary-card .kategori-item {
-      font-size: 12px;
-      background: rgba(255,255,255,0.06);
-      padding: 2px 12px;
-      border-radius: 12px;
-    }
+    .upload-status.success { color: var(--success); }
+    .upload-status.error { color: var(--danger); }
   </style>
 </head>
 
 <body>
-
-  <!-- ============================================================
-  ════════════════════════════════════════════════════════════════════
-  BAGIAN 3: HTML - STRUKTUR HALAMAN
-  ════════════════════════════════════════════════════════════════════
-  📌 YANG PERLU DIGANTI:
-     - Logo: ubah src pada .sidebar-brand img
-     - Menu: tambah/hapus .menu-item di sidebar
-     - Form: tambah/hapus field di setiap form
-     - Filter: tambah/hapus .tab-btn di setiap halaman lihat
-  ============================================================ -->
 
   <!-- BACKGROUND -->
   <div class="bg-gradient"></div>
@@ -975,12 +797,10 @@
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
   <!-- =============================================================
-       SIDEBAR - NAVIGASI
+       SIDEBAR
        ============================================================= -->
   <nav class="sidebar" id="sidebar">
-    <!-- BRAND / LOGO -->
     <div class="sidebar-brand">
-      <!-- 🔧 Ganti src logo jika diperlukan -->
       <img src="https://drive.google.com/uc?export=view&id=12ZmHCesB52Wwd2Enmmii_IpYMaVb8C5b" 
            alt="Logo MMN" 
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2270%22 height=%2270%22%3E%3Crect width=%2270%22 height=%2270%22 fill=%22%231a237e%22/%3E%3Ctext x=%2235%22 y=%2238%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2212%22 font-weight=%22bold%22%3EMMN%3C/text%3E%3C/svg%3E'">
@@ -988,17 +808,14 @@
       <small>Lalu Lintas Tol Makassar</small>
     </div>
 
-    <!-- MENU LABEL -->
     <div class="menu-label">Navigasi</div>
     
-    <!-- DASHBOARD -->
     <a class="menu-item active" data-page="dashboard" onclick="showPage('dashboard')">
       <span class="icon">📊</span> Dashboard
     </a>
 
     <div class="menu-label">Laporan</div>
 
-    <!-- LIHAT LAPORAN (SUB MENU) -->
     <a class="menu-item has-sub" onclick="toggleSubMenu(this)">
       <span class="icon">📋</span> Lihat Laporan
       <span class="arrow">▾</span>
@@ -1018,7 +835,6 @@
       </a>
     </div>
 
-    <!-- ISI FORM LAPORAN (SUB MENU) -->
     <a class="menu-item has-sub" onclick="toggleSubMenu(this)">
       <span class="icon">✏️</span> Isi Form Laporan
       <span class="arrow">▾</span>
@@ -1038,11 +854,8 @@
       </a>
     </div>
 
-    <!-- FOOTER SIDEBAR -->
     <div style="margin-top: auto; padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.06);">
-      <small style="color: rgba(255,255,255,0.5); font-size: 10px;">
-        v3.0 &bull; © 2026 MMN
-      </small>
+      <small style="color: var(--text-muted); font-size: 10px;">v3.0 &bull; © 2026 MMN</small>
     </div>
   </nav>
 
@@ -1050,9 +863,7 @@
        TOP BAR
        ============================================================= -->
   <header class="top-bar">
-    <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle menu">
-      ☰
-    </button>
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
     <div class="title">Laporan <span>Lalu Lintas</span></div>
     <div style="width: 28px;"></div>
   </header>
@@ -1062,22 +873,17 @@
        ============================================================= -->
   <main class="main-content" id="mainContent">
 
-    <!-- OFFLINE BANNER -->
-    <div class="offline-banner" id="offlineBanner">
-      ⚠️ Koneksi terputus. Data mungkin tidak sinkron.
-    </div>
+    <div class="offline-banner" id="offlineBanner">⚠️ Koneksi terputus. Data mungkin tidak sinkron.</div>
 
     <!-- ===========================================================
-         HALAMAN: DASHBOARD
+         DASHBOARD
          =========================================================== -->
     <section class="dashboard active" id="page-dashboard">
-      <!-- JAM DIGITAL -->
       <div class="clock-wrapper">
         <div class="clock-time" id="clockTime">00:00:00</div>
         <div class="clock-date" id="clockDate">--</div>
       </div>
 
-      <!-- STATISTIK -->
       <div class="stats-grid">
         <div class="stat-card">
           <span class="icon-big">🚗</span>
@@ -1101,9 +907,8 @@
         </div>
       </div>
 
-      <!-- INFO TAMBAHAN -->
-      <div style="margin-top: 20px; background: rgba(255,255,255,0.08); border-radius: 16px; padding: 16px; border: 1px solid rgba(255,255,255,0.06);">
-        <p style="font-size: 13px; color: rgba(255,255,255,0.8); text-align: center;">
+      <div style="margin-top: 20px; background: var(--bg-card); border-radius: var(--radius); padding: 16px; border: 1px solid rgba(255,255,255,0.06);">
+        <p style="font-size: 13px; color: var(--text-secondary); text-align: center;">
           📌 <strong>Sistem Laporan Pelayanan Lalu Lintas</strong><br>
           Tol Makassar &bull; PT. Margautama Nusantara
         </p>
@@ -1111,22 +916,14 @@
     </section>
 
     <!-- ===========================================================
-         HALAMAN: FORM KENDARAAN TROUBLE
+         FORM TROUBLE
          =========================================================== -->
     <section class="page" id="page-form-troble">
-      <div class="page-title">
-        🚗 Form Kendaraan Trouble
-        <small>Penanganan Kendaraan Bermasalah</small>
-      </div>
+      <div class="page-title">🚗 Form Kendaraan Trouble <small>Penanganan Kendaraan Bermasalah</small></div>
 
       <form id="formTroble" onsubmit="submitLaporan(event, 'troble')">
-        <!-- CARD 1: Data Kejadian -->
         <div class="sub-form-card">
-          <div class="card-title">
-            📋 Data Kejadian
-            <span class="badge-sub">Wajib diisi</span>
-          </div>
-
+          <div class="card-title">📋 Data Kejadian <span class="badge-sub">Wajib diisi</span></div>
           <div class="form-row">
             <div class="form-group">
               <label>Tanggal Bertugas <span class="required">*</span></label>
@@ -1142,52 +939,37 @@
               </select>
             </div>
           </div>
-
           <div class="form-group">
             <label>Jam Kejadian <span class="required">*</span></label>
             <input type="time" class="form-control" id="trobleJam" required>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label>Jalur <span class="required">*</span></label>
-              <select class="form-control" id="trobleJalur" required>
-                <option value="">-- Pilih Jalur --</option>
-              </select>
+              <select class="form-control" id="trobleJalur" required><option value="">-- Pilih Jalur --</option></select>
             </div>
             <div class="form-group">
               <label>Lokasi/STA <span class="required">*</span></label>
-              <input type="text" class="form-control" id="trobleLokasi" 
-                     placeholder="Contoh: 0+500 atau Nama Gerbang" required>
+              <input type="text" class="form-control" id="trobleLokasi" placeholder="Contoh: 0+500 atau Nama Gerbang" required>
             </div>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label>Unit <span class="required">*</span></label>
-              <select class="form-control" id="trobleUnit" required>
-                <option value="">-- Pilih Unit --</option>
-              </select>
+              <select class="form-control" id="trobleUnit" required><option value="">-- Pilih Unit --</option></select>
             </div>
             <div class="form-group">
               <label>Nama Petugas <span class="required">*</span></label>
               <select class="form-control" id="troblePetugas" multiple required>
                 <option value="" disabled selected>-- Pilih Petugas --</option>
               </select>
-              <small style="color: rgba(255,255,255,0.5); font-size: 11px;">
-                💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
-              </small>
+              <small style="color: var(--text-muted); font-size: 11px;">💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu</small>
             </div>
           </div>
         </div>
 
-        <!-- CARD 2: Data Kendaraan -->
         <div class="sub-form-card">
-          <div class="card-title">
-            🚘 Data Kendaraan
-            <span class="badge-sub">Informasi Kendaraan</span>
-          </div>
-
+          <div class="card-title">🚘 Data Kendaraan <span class="badge-sub">Informasi Kendaraan</span></div>
           <div class="form-row">
             <div class="form-group">
               <label>Golongan Kendaraan <span class="required">*</span></label>
@@ -1202,22 +984,16 @@
             </div>
             <div class="form-group">
               <label>Jenis Kendaraan <span class="required">*</span></label>
-              <input type="text" class="form-control" id="trobleJenis" 
-                     placeholder="Contoh: Sedan, Truck, Bus" required>
+              <input type="text" class="form-control" id="trobleJenis" placeholder="Contoh: Sedan, Truck, Bus" required>
             </div>
           </div>
-
           <div class="form-group">
             <label>Jenis Kerusakan <span class="required">*</span></label>
-            <select class="form-control" id="trobleKerusakan" required>
-              <option value="">-- Pilih Jenis Kerusakan --</option>
-            </select>
+            <select class="form-control" id="trobleKerusakan" required><option value="">-- Pilih Jenis Kerusakan --</option></select>
           </div>
-
           <div class="form-group">
             <label>Tindak Lanjut <span class="required">*</span></label>
-            <textarea class="form-control auto-grow" id="trobleTindak" 
-                      placeholder="Jelaskan tindakan yang dilakukan..." required></textarea>
+            <textarea class="form-control auto-grow" id="trobleTindak" placeholder="Jelaskan tindakan yang dilakukan..." required></textarea>
           </div>
         </div>
 
@@ -1229,21 +1005,14 @@
     </section>
 
     <!-- ===========================================================
-         HALAMAN: FORM KEJADIAN KHUSUS
+         FORM KHUSUS
          =========================================================== -->
     <section class="page" id="page-form-khusus">
-      <div class="page-title">
-        ⚠️ Form Kejadian Khusus
-        <small>Kejadian Luar Biasa</small>
-      </div>
+      <div class="page-title">⚠️ Form Kejadian Khusus <small>Kejadian Luar Biasa</small></div>
 
       <form id="formKhusus" onsubmit="submitLaporan(event, 'khusus')">
         <div class="sub-form-card">
-          <div class="card-title">
-            📋 Data Kejadian
-            <span class="badge-sub">Wajib diisi</span>
-          </div>
-
+          <div class="card-title">📋 Data Kejadian <span class="badge-sub">Wajib diisi</span></div>
           <div class="form-row">
             <div class="form-group">
               <label>Tanggal Bertugas <span class="required">*</span></label>
@@ -1259,62 +1028,44 @@
               </select>
             </div>
           </div>
-
           <div class="form-group">
             <label>Jam Kejadian <span class="required">*</span></label>
             <input type="time" class="form-control" id="khususJam" required>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label>Jalur <span class="required">*</span></label>
-              <select class="form-control" id="khususJalur" required>
-                <option value="">-- Pilih Jalur --</option>
-              </select>
+              <select class="form-control" id="khususJalur" required><option value="">-- Pilih Jalur --</option></select>
             </div>
             <div class="form-group">
               <label>Lokasi/STA <span class="required">*</span></label>
-              <input type="text" class="form-control" id="khususLokasi" 
-                     placeholder="Contoh: 0+500 atau Nama Gerbang" required>
+              <input type="text" class="form-control" id="khususLokasi" placeholder="Contoh: 0+500 atau Nama Gerbang" required>
             </div>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label>Unit <span class="required">*</span></label>
-              <select class="form-control" id="khususUnit" required>
-                <option value="">-- Pilih Unit --</option>
-              </select>
+              <select class="form-control" id="khususUnit" required><option value="">-- Pilih Unit --</option></select>
             </div>
             <div class="form-group">
               <label>Nama Petugas <span class="required">*</span></label>
               <select class="form-control" id="khususPetugas" multiple required>
                 <option value="" disabled selected>-- Pilih Petugas --</option>
               </select>
-              <small style="color: rgba(255,255,255,0.5); font-size: 11px;">
-                💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
-              </small>
+              <small style="color: var(--text-muted); font-size: 11px;">💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu</small>
             </div>
           </div>
         </div>
 
         <div class="sub-form-card">
-          <div class="card-title">
-            📝 Detail Kejadian
-            <span class="badge-sub">Deskripsi</span>
-          </div>
-
+          <div class="card-title">📝 Detail Kejadian <span class="badge-sub">Deskripsi</span></div>
           <div class="form-group">
             <label>Jenis Kejadian <span class="required">*</span></label>
-            <select class="form-control" id="khususJenis" required>
-              <option value="">-- Pilih Jenis Kejadian --</option>
-            </select>
+            <select class="form-control" id="khususJenis" required><option value="">-- Pilih Jenis Kejadian --</option></select>
           </div>
-
           <div class="form-group">
             <label>Uraian Kejadian <span class="required">*</span></label>
-            <textarea class="form-control auto-grow" id="khususUraian" 
-                      placeholder="Jelaskan kejadian secara detail..." required></textarea>
+            <textarea class="form-control auto-grow" id="khususUraian" placeholder="Jelaskan kejadian secara detail..." required></textarea>
           </div>
         </div>
 
@@ -1326,21 +1077,14 @@
     </section>
 
     <!-- ===========================================================
-         HALAMAN: FORM PENDEREKAN
+         FORM DEREK
          =========================================================== -->
     <section class="page" id="page-form-derek">
-      <div class="page-title">
-        🔧 Form Penderekan
-        <small>Proses Penarikan Kendaraan</small>
-      </div>
+      <div class="page-title">🔧 Form Penderekan <small>Proses Penarikan Kendaraan</small></div>
 
       <form id="formDerek" onsubmit="submitLaporan(event, 'derek')">
         <div class="sub-form-card">
-          <div class="card-title">
-            📋 Data Kejadian
-            <span class="badge-sub">Wajib diisi</span>
-          </div>
-
+          <div class="card-title">📋 Data Kejadian <span class="badge-sub">Wajib diisi</span></div>
           <div class="form-row">
             <div class="form-group">
               <label>Tanggal Bertugas <span class="required">*</span></label>
@@ -1356,26 +1100,20 @@
               </select>
             </div>
           </div>
-
           <div class="form-group">
             <label>Jam Kejadian <span class="required">*</span></label>
             <input type="time" class="form-control" id="derekJam" required>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label>Jalur <span class="required">*</span></label>
-              <select class="form-control" id="derekJalur" required>
-                <option value="">-- Pilih Jalur --</option>
-              </select>
+              <select class="form-control" id="derekJalur" required><option value="">-- Pilih Jalur --</option></select>
             </div>
             <div class="form-group">
               <label>Lokasi/STA <span class="required">*</span></label>
-              <input type="text" class="form-control" id="derekLokasi" 
-                     placeholder="Contoh: 0+500 atau Nama Gerbang" required>
+              <input type="text" class="form-control" id="derekLokasi" placeholder="Contoh: 0+500 atau Nama Gerbang" required>
             </div>
           </div>
-
           <div class="form-group">
             <label>Derek yang Digunakan <span class="required">*</span></label>
             <select class="form-control" id="derekJenis" required>
@@ -1384,24 +1122,17 @@
               <option value="Derek Kecil">Derek Kecil</option>
             </select>
           </div>
-
           <div class="form-group">
             <label>Nama Petugas Derek <span class="required">*</span></label>
             <select class="form-control" id="derekPetugas" multiple required>
               <option value="" disabled selected>-- Pilih Petugas Derek --</option>
             </select>
-            <small style="color: rgba(255,255,255,0.5); font-size: 11px;">
-              💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
-            </small>
+            <small style="color: var(--text-muted); font-size: 11px;">💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu</small>
           </div>
         </div>
 
         <div class="sub-form-card">
-          <div class="card-title">
-            📝 Detail Penderekan
-            <span class="badge-sub">Informasi Lengkap</span>
-          </div>
-
+          <div class="card-title">📝 Detail Penderekan <span class="badge-sub">Informasi Lengkap</span></div>
           <div class="form-row">
             <div class="form-group">
               <label>Alasan Penderekan <span class="required">*</span></label>
@@ -1414,30 +1145,23 @@
             </div>
             <div class="form-group">
               <label>Alasan Lainnya</label>
-              <input type="text" class="form-control" id="derekAlasanLain" 
-                     placeholder="Jika alasan lainnya...">
+              <input type="text" class="form-control" id="derekAlasanLain" placeholder="Jika alasan lainnya...">
             </div>
           </div>
-
           <div class="form-group">
             <label>Tujuan Penderekan <span class="required">*</span></label>
-            <input type="text" class="form-control" id="derekTujuan" 
-                   placeholder="Contoh: Pool, Bengkel, Gerbang Terdekat" required>
+            <input type="text" class="form-control" id="derekTujuan" placeholder="Contoh: Pool, Bengkel, Gerbang Terdekat" required>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label>Kilometer Awal <span class="required">*</span></label>
-              <input type="number" class="form-control" id="derekKmAwal" 
-                     placeholder="0" required>
+              <input type="number" class="form-control" id="derekKmAwal" placeholder="0" required>
             </div>
             <div class="form-group">
               <label>Kilometer Akhir <span class="required">*</span></label>
-              <input type="number" class="form-control" id="derekKmAkhir" 
-                     placeholder="0" required>
+              <input type="number" class="form-control" id="derekKmAkhir" placeholder="0" required>
             </div>
           </div>
-
           <div class="form-row-3">
             <div class="form-group">
               <label>Waktu Keluar <span class="required">*</span></label>
@@ -1462,21 +1186,14 @@
     </section>
 
     <!-- ===========================================================
-         HALAMAN: FORM PEMANTAUAN ASET
+         FORM ASET
          =========================================================== -->
     <section class="page" id="page-form-aset">
-      <div class="page-title">
-        🔧 Form Pemantauan Aset
-        <small>Infrastruktur Tol</small>
-      </div>
+      <div class="page-title">🔧 Form Pemantauan Aset <small>Infrastruktur Tol</small></div>
 
       <form id="formAset" onsubmit="submitLaporan(event, 'aset')">
         <div class="sub-form-card">
-          <div class="card-title">
-            📋 Data Pemantauan
-            <span class="badge-sub">Wajib diisi</span>
-          </div>
-
+          <div class="card-title">📋 Data Pemantauan <span class="badge-sub">Wajib diisi</span></div>
           <div class="form-row">
             <div class="form-group">
               <label>Tanggal Bertugas <span class="required">*</span></label>
@@ -1492,66 +1209,48 @@
               </select>
             </div>
           </div>
-
           <div class="form-group">
             <label>Jam Temuan <span class="required">*</span></label>
             <input type="time" class="form-control" id="asetJam" required>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label>Jalur <span class="required">*</span></label>
-              <select class="form-control" id="asetJalur" required>
-                <option value="">-- Pilih Jalur --</option>
-              </select>
+              <select class="form-control" id="asetJalur" required><option value="">-- Pilih Jalur --</option></select>
             </div>
             <div class="form-group">
               <label>Lokasi/STA <span class="required">*</span></label>
-              <input type="text" class="form-control" id="asetLokasi" 
-                     placeholder="Contoh: 0+500 atau Nama Gerbang" required>
+              <input type="text" class="form-control" id="asetLokasi" placeholder="Contoh: 0+500 atau Nama Gerbang" required>
             </div>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label>Unit <span class="required">*</span></label>
-              <select class="form-control" id="asetUnit" required>
-                <option value="">-- Pilih Unit --</option>
-              </select>
+              <select class="form-control" id="asetUnit" required><option value="">-- Pilih Unit --</option></select>
             </div>
             <div class="form-group">
               <label>Nama Petugas <span class="required">*</span></label>
               <select class="form-control" id="asetPetugas" multiple required>
                 <option value="" disabled selected>-- Pilih Petugas --</option>
               </select>
-              <small style="color: rgba(255,255,255,0.5); font-size: 11px;">
-                💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
-              </small>
+              <small style="color: var(--text-muted); font-size: 11px;">💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu</small>
             </div>
           </div>
-
           <div class="form-group">
             <label>Jenis Aset <span class="required">*</span></label>
-            <select class="form-control" id="asetJenis" required>
-              <option value="">-- Pilih Jenis Aset --</option>
-            </select>
+            <select class="form-control" id="asetJenis" required><option value="">-- Pilih Jenis Aset --</option></select>
           </div>
-
           <div class="form-group">
             <label>Jenis Kerusakan <span class="required">*</span></label>
             <select class="form-control" id="asetKerusakan" multiple required>
               <option value="" disabled selected>-- Pilih Jenis Kerusakan --</option>
             </select>
-            <small style="color: rgba(255,255,255,0.5); font-size: 11px;">
-              💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
-            </small>
+            <small style="color: var(--text-muted); font-size: 11px;">💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu</small>
           </div>
-
           <div class="form-group">
             <label>Dokumentasi (Foto)</label>
             <div class="upload-wrapper">
-              <input type="file" class="form-control file-input" id="asetFoto" 
-                     accept="image/*" onchange="handleFotoUpload(this)">
+              <input type="file" class="form-control file-input" id="asetFoto" accept="image/*" onchange="handleFotoUpload(this)">
               <span class="file-name" id="asetFotoName">Belum ada foto</span>
             </div>
             <div id="asetFotoStatus" class="upload-status"></div>
@@ -1568,55 +1267,38 @@
     </section>
 
     <!-- ===========================================================
-         HALAMAN: LIHAT KENDARAAN TROUBLE
+         LIHAT TROUBLE
          =========================================================== -->
     <section class="page" id="page-lihat-troble">
-      <div class="page-title">
-        🚗 Laporan Kendaraan Trouble
-        <small>Penanganan Kendaraan</small>
-      </div>
+      <div class="page-title">🚗 Laporan Kendaraan Trouble <small>Penanganan Kendaraan</small></div>
 
-      <!-- Filter Jenis -->
       <div class="tab-wrapper">
         <button class="tab-btn active" data-filter="semua">Semua</button>
       </div>
 
-      <!-- Filter Bulan -->
       <div class="filter-bulan-wrapper">
         <label>📅 Filter Bulan:</label>
         <select class="form-control" id="bulanFilterTroble" onchange="loadLaporan('troble', getActiveFilter('lihat-troble'), this.value)">
           <option value="semua">Semua Bulan</option>
-          <option value="01">Januari</option>
-          <option value="02">Februari</option>
-          <option value="03">Maret</option>
-          <option value="04">April</option>
-          <option value="05">Mei</option>
-          <option value="06">Juni</option>
-          <option value="07">Juli</option>
-          <option value="08">Agustus</option>
-          <option value="09">September</option>
-          <option value="10">Oktober</option>
-          <option value="11">November</option>
-          <option value="12">Desember</option>
+          <option value="01">Januari</option><option value="02">Februari</option>
+          <option value="03">Maret</option><option value="04">April</option>
+          <option value="05">Mei</option><option value="06">Juni</option>
+          <option value="07">Juli</option><option value="08">Agustus</option>
+          <option value="09">September</option><option value="10">Oktober</option>
+          <option value="11">November</option><option value="12">Desember</option>
         </select>
       </div>
 
       <div class="laporan-list" id="listTroble">
-        <div class="empty-state">
-          <span class="icon">⏳</span>
-          <p>Memuat data...</p>
-        </div>
+        <div class="empty-state"><span class="icon">⏳</span><p>Memuat data...</p></div>
       </div>
     </section>
 
     <!-- ===========================================================
-         HALAMAN: LIHAT PENDEREKAN
+         LIHAT DEREK
          =========================================================== -->
     <section class="page" id="page-lihat-derek">
-      <div class="page-title">
-        🔧 Laporan Penderekan
-        <small>Proses Penarikan</small>
-      </div>
+      <div class="page-title">🔧 Laporan Penderekan <small>Proses Penarikan</small></div>
 
       <div class="tab-wrapper">
         <button class="tab-btn active" data-filter="semua">Semua</button>
@@ -1628,37 +1310,25 @@
         <label>📅 Filter Bulan:</label>
         <select class="form-control" id="bulanFilterDerek" onchange="loadLaporan('derek', getActiveFilter('lihat-derek'), this.value)">
           <option value="semua">Semua Bulan</option>
-          <option value="01">Januari</option>
-          <option value="02">Februari</option>
-          <option value="03">Maret</option>
-          <option value="04">April</option>
-          <option value="05">Mei</option>
-          <option value="06">Juni</option>
-          <option value="07">Juli</option>
-          <option value="08">Agustus</option>
-          <option value="09">September</option>
-          <option value="10">Oktober</option>
-          <option value="11">November</option>
-          <option value="12">Desember</option>
+          <option value="01">Januari</option><option value="02">Februari</option>
+          <option value="03">Maret</option><option value="04">April</option>
+          <option value="05">Mei</option><option value="06">Juni</option>
+          <option value="07">Juli</option><option value="08">Agustus</option>
+          <option value="09">September</option><option value="10">Oktober</option>
+          <option value="11">November</option><option value="12">Desember</option>
         </select>
       </div>
 
       <div class="laporan-list" id="listDerek">
-        <div class="empty-state">
-          <span class="icon">⏳</span>
-          <p>Memuat data...</p>
-        </div>
+        <div class="empty-state"><span class="icon">⏳</span><p>Memuat data...</p></div>
       </div>
     </section>
 
     <!-- ===========================================================
-         HALAMAN: LIHAT KEJADIAN KHUSUS
+         LIHAT KHUSUS
          =========================================================== -->
     <section class="page" id="page-lihat-khusus">
-      <div class="page-title">
-        ⚠️ Laporan Kejadian Khusus
-        <small>Kejadian Luar Biasa</small>
-      </div>
+      <div class="page-title">⚠️ Laporan Kejadian Khusus <small>Kejadian Luar Biasa</small></div>
 
       <div class="tab-wrapper">
         <button class="tab-btn active" data-filter="semua">Semua</button>
@@ -1668,37 +1338,25 @@
         <label>📅 Filter Bulan:</label>
         <select class="form-control" id="bulanFilterKhusus" onchange="loadLaporan('khusus', getActiveFilter('lihat-khusus'), this.value)">
           <option value="semua">Semua Bulan</option>
-          <option value="01">Januari</option>
-          <option value="02">Februari</option>
-          <option value="03">Maret</option>
-          <option value="04">April</option>
-          <option value="05">Mei</option>
-          <option value="06">Juni</option>
-          <option value="07">Juli</option>
-          <option value="08">Agustus</option>
-          <option value="09">September</option>
-          <option value="10">Oktober</option>
-          <option value="11">November</option>
-          <option value="12">Desember</option>
+          <option value="01">Januari</option><option value="02">Februari</option>
+          <option value="03">Maret</option><option value="04">April</option>
+          <option value="05">Mei</option><option value="06">Juni</option>
+          <option value="07">Juli</option><option value="08">Agustus</option>
+          <option value="09">September</option><option value="10">Oktober</option>
+          <option value="11">November</option><option value="12">Desember</option>
         </select>
       </div>
 
       <div class="laporan-list" id="listKhusus">
-        <div class="empty-state">
-          <span class="icon">⏳</span>
-          <p>Memuat data...</p>
-        </div>
+        <div class="empty-state"><span class="icon">⏳</span><p>Memuat data...</p></div>
       </div>
     </section>
 
     <!-- ===========================================================
-         HALAMAN: LIHAT PEMANTAUAN ASET
+         LIHAT ASET
          =========================================================== -->
     <section class="page" id="page-lihat-aset">
-      <div class="page-title">
-        🔧 Laporan Pemantauan Aset
-        <small>Infrastruktur Tol</small>
-      </div>
+      <div class="page-title">🔧 Laporan Pemantauan Aset <small>Infrastruktur Tol</small></div>
 
       <div class="tab-wrapper">
         <button class="tab-btn active" data-filter="semua">Semua</button>
@@ -1714,124 +1372,80 @@
         <label>📅 Filter Bulan:</label>
         <select class="form-control" id="bulanFilterAset" onchange="loadLaporan('aset', getActiveFilter('lihat-aset'), this.value)">
           <option value="semua">Semua Bulan</option>
-          <option value="01">Januari</option>
-          <option value="02">Februari</option>
-          <option value="03">Maret</option>
-          <option value="04">April</option>
-          <option value="05">Mei</option>
-          <option value="06">Juni</option>
-          <option value="07">Juli</option>
-          <option value="08">Agustus</option>
-          <option value="09">September</option>
-          <option value="10">Oktober</option>
-          <option value="11">November</option>
-          <option value="12">Desember</option>
+          <option value="01">Januari</option><option value="02">Februari</option>
+          <option value="03">Maret</option><option value="04">April</option>
+          <option value="05">Mei</option><option value="06">Juni</option>
+          <option value="07">Juli</option><option value="08">Agustus</option>
+          <option value="09">September</option><option value="10">Oktober</option>
+          <option value="11">November</option><option value="12">Desember</option>
         </select>
       </div>
 
       <div class="laporan-list" id="listAset">
-        <div class="empty-state">
-          <span class="icon">⏳</span>
-          <p>Memuat data...</p>
-        </div>
+        <div class="empty-state"><span class="icon">⏳</span><p>Memuat data...</p></div>
       </div>
     </section>
 
   </main>
 
-  <!-- ============================================================
-  ════════════════════════════════════════════════════════════════════
-  BAGIAN 4: TOAST NOTIFIKASI
-  ════════════════════════════════════════════════════════════════════ -->
+  <!-- =============================================================
+       TOAST
+       ============================================================= -->
   <div class="toast" id="toast"></div>
 
-  <!-- ============================================================
-  ════════════════════════════════════════════════════════════════════
-  BAGIAN 5: JAVASCRIPT
-  ════════════════════════════════════════════════════════════════════ -->
+  <!-- =============================================================
+       JAVASCRIPT
+       ============================================================= -->
   <script>
     // =============================================================
-    // 5.1 KONFIGURASI & HELPER
+    // KONFIGURASI & HELPER
     // =============================================================
-    
-    // Map untuk label sub kategori aset
-    const MAP_SUB_KATEGORI = {
-      aset: {
-        rambu: 'Rambu',
-        guadril: 'Guadril',
-        pagar: 'Pagar',
-        'lampu liplop': 'Lampu Liplop',
-        'lampu pju': 'Lampu PJU',
-        vms: 'VMS'
-      }
-    };
-
     let masterData = {};
     let uploadedFotoUrl = '';
 
-    // =============================================================
-    // 5.2 FUNGSI FORMAT TANGGAL (untuk display)
-    // =============================================================
     function formatDateDisplay(dateString) {
       if (!dateString) return '-';
       try {
         const date = new Date(dateString);
         if (isNaN(date.getTime())) return dateString;
-        
         const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
         const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
                         'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-        
         return `${days[date.getDay()]}, ${String(date.getDate()).padStart(2, '0')}-${months[date.getMonth()]}-${date.getFullYear()}`;
-      } catch (e) {
-        return dateString;
-      }
+      } catch (e) { return dateString; }
     }
 
     function formatTimeDisplay(timeString) {
       if (!timeString) return '-';
       if (timeString.includes('T')) {
-        try {
-          const date = new Date(timeString);
-          return date.toTimeString().split(' ')[0];
-        } catch (e) {
-          return timeString;
-        }
+        try { return new Date(timeString).toTimeString().split(' ')[0]; } catch (e) { return timeString; }
       }
       return timeString;
     }
 
     // =============================================================
-    // 5.3 API HELPER
+    // API HELPER
     // =============================================================
     const API = {
       async get(action) {
         try {
           const url = `${APP_CONFIG.API_URL}?action=${action}`;
           const response = await fetch(url);
-          const data = await response.json();
-          return data;
+          return await response.json();
         } catch (error) {
           console.error('API GET Error:', error);
           document.getElementById('offlineBanner').classList.add('show');
           throw error;
         }
       },
-
       async post(action, payload) {
         try {
           const response = await fetch(APP_CONFIG.API_URL, {
             method: 'POST',
-            mode: 'no-cors',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              action: action,
-              ...payload
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action, ...payload })
           });
-          return { success: true };
+          return await response.json();
         } catch (error) {
           console.error('API POST Error:', error);
           document.getElementById('offlineBanner').classList.add('show');
@@ -1841,13 +1455,11 @@
     };
 
     // =============================================================
-    // 5.4 SIDEBAR & NAVIGASI
+    // SIDEBAR & NAVIGASI
     // =============================================================
     function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('sidebarOverlay');
-      sidebar.classList.toggle('active');
-      overlay.classList.toggle('active');
+      document.getElementById('sidebar').classList.toggle('active');
+      document.getElementById('sidebarOverlay').classList.toggle('active');
     }
 
     function toggleSubMenu(el) {
@@ -1864,10 +1476,7 @@
     }
 
     function showPage(pageId) {
-      document.querySelectorAll('.page, .dashboard').forEach(el => {
-        el.classList.remove('active');
-      });
-      
+      document.querySelectorAll('.page, .dashboard').forEach(el => el.classList.remove('active'));
       const target = document.getElementById('page-' + pageId);
       if (target) target.classList.add('active');
       
@@ -1881,7 +1490,6 @@
         document.getElementById('sidebarOverlay').classList.remove('active');
       }
       
-      // Refresh data dengan filter bulan
       if (pageId === 'dashboard') loadDashboard();
       if (pageId === 'lihat-troble') {
         const bulan = document.getElementById('bulanFilterTroble')?.value || 'semua';
@@ -1902,18 +1510,17 @@
     }
 
     // =============================================================
-    // 5.5 JAM DIGITAL
+    // JAM DIGITAL
     // =============================================================
     function updateClock() {
       const now = new Date();
-      const time = now.toTimeString().split(' ')[0];
-      document.getElementById('clockTime').textContent = time;
+      document.getElementById('clockTime').textContent = now.toTimeString().split(' ')[0];
       
       const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
       const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
                       'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-      const dateStr = `${days[now.getDay()]}, ${String(now.getDate()).padStart(2,'0')} ${months[now.getMonth()]} ${now.getFullYear()}`;
-      document.getElementById('clockDate').textContent = dateStr;
+      document.getElementById('clockDate').textContent = 
+        `${days[now.getDay()]}, ${String(now.getDate()).padStart(2,'0')} ${months[now.getMonth()]} ${now.getFullYear()}`;
       
       const today = now.toISOString().split('T')[0];
       const timeStr = now.toTimeString().split(' ')[0].slice(0, 5);
@@ -1927,12 +1534,11 @@
         if (el && !el.value) el.value = timeStr;
       });
     }
-    
     updateClock();
     setInterval(updateClock, 1000);
 
     // =============================================================
-    // 5.6 LOAD MASTER DATA
+    // LOAD MASTER DATA
     // =============================================================
     async function loadMasterData() {
       try {
@@ -1948,68 +1554,43 @@
       }
     }
 
-    // =============================================================
-    // 5.7 POPULATE SELECT (FORM)
-    // =============================================================
     function populateSelects(data) {
-      // Jalur
       ['trobleJalur', 'khususJalur', 'derekJalur', 'asetJalur'].forEach(id => {
         populateSelect(id, data.jalur, '-- Pilih Jalur --');
       });
-
-      // Unit
       ['trobleUnit', 'khususUnit', 'asetUnit'].forEach(id => {
         populateSelect(id, data.unit, '-- Pilih Unit --');
       });
-
-      // Petugas Layanan - Multi Select
       ['troblePetugas', 'khususPetugas', 'asetPetugas'].forEach(id => {
         populateSelectMulti(id, data.petugasLayanan);
       });
-
-      // Petugas Derek - Multi Select
       populateSelectMulti('derekPetugas', data.petugasDerek);
-
-      // Jenis Kerusakan
       populateSelect('trobleKerusakan', data.jenisKerusakan, '-- Pilih Jenis Kerusakan --');
-
-      // Jenis Kejadian
       populateSelect('khususJenis', data.jenisKejadian, '-- Pilih Jenis Kejadian --');
-
-      // Jenis Aset
+      
       const asetSelect = document.getElementById('asetJenis');
       if (asetSelect) {
         asetSelect.innerHTML = '';
         const opt = document.createElement('option');
-        opt.value = '';
-        opt.textContent = '-- Pilih Jenis Aset --';
-        opt.disabled = true;
-        opt.selected = true;
+        opt.value = ''; opt.textContent = '-- Pilih Jenis Aset --';
+        opt.disabled = true; opt.selected = true;
         asetSelect.appendChild(opt);
-        
         if (data.jenisAset) {
           data.jenisAset.forEach(item => {
             const option = document.createElement('option');
-            option.value = item;
-            option.textContent = item;
+            option.value = item; option.textContent = item;
             asetSelect.appendChild(option);
           });
         }
-        
-        asetSelect.addEventListener('change', function() {
-          updateAsetKerusakan(this.value);
-        });
+        asetSelect.addEventListener('change', function() { updateAsetKerusakan(this.value); });
       }
-
-      // Jenis Kerusakan Aset - akan diisi dinamis
+      
       const kerusakanSelect = document.getElementById('asetKerusakan');
       if (kerusakanSelect) {
         kerusakanSelect.innerHTML = '';
         const opt = document.createElement('option');
-        opt.value = '';
-        opt.textContent = '-- Pilih Jenis Kerusakan --';
-        opt.disabled = true;
-        opt.selected = true;
+        opt.value = ''; opt.textContent = '-- Pilih Jenis Kerusakan --';
+        opt.disabled = true; opt.selected = true;
         kerusakanSelect.appendChild(opt);
       }
     }
@@ -2019,17 +1600,13 @@
       if (!sel) return;
       sel.innerHTML = '';
       const opt = document.createElement('option');
-      opt.value = '';
-      opt.textContent = placeholder || '-- Pilih --';
-      opt.disabled = true;
-      opt.selected = true;
+      opt.value = ''; opt.textContent = placeholder || '-- Pilih --';
+      opt.disabled = true; opt.selected = true;
       sel.appendChild(opt);
-      
       if (data) {
         data.forEach(item => {
           const option = document.createElement('option');
-          option.value = item;
-          option.textContent = item;
+          option.value = item; option.textContent = item;
           sel.appendChild(option);
         });
       }
@@ -2039,59 +1616,40 @@
       const sel = document.getElementById(id);
       if (!sel) return;
       sel.innerHTML = '';
-      
       if (data) {
         data.forEach(item => {
           const option = document.createElement('option');
-          option.value = item;
-          option.textContent = item;
+          option.value = item; option.textContent = item;
           sel.appendChild(option);
         });
       }
     }
 
-    // =============================================================
-    // 5.8 UPDATE KERUSAKAN ASET (Dinamis)
-    // =============================================================
     function updateAsetKerusakan(jenisAset) {
       const kerusakanSelect = document.getElementById('asetKerusakan');
       if (!kerusakanSelect) return;
-      
       kerusakanSelect.innerHTML = '';
-      
-      const kerusakanList = masterData.asetKerusakanMap && masterData.asetKerusakanMap[jenisAset] 
-        ? masterData.asetKerusakanMap[jenisAset] 
-        : [];
-      
+      const kerusakanList = masterData.asetKerusakanMap && masterData.asetKerusakanMap[jenisAset] || [];
       if (kerusakanList.length === 0) {
         const opt = document.createElement('option');
-        opt.value = '';
-        opt.textContent = '-- Tidak ada data kerusakan --';
-        opt.disabled = true;
-        opt.selected = true;
+        opt.value = ''; opt.textContent = '-- Tidak ada data kerusakan --';
+        opt.disabled = true; opt.selected = true;
         kerusakanSelect.appendChild(opt);
         return;
       }
-      
       kerusakanList.forEach(item => {
         const option = document.createElement('option');
-        option.value = item;
-        option.textContent = item;
+        option.value = item; option.textContent = item;
         kerusakanSelect.appendChild(option);
       });
     }
 
-    // =============================================================
-    // 5.9 POPULATE FILTER TAB
-    // =============================================================
     function populateFilterTabs(data) {
-      // Filter Trouble (D2:D)
       const trobleWrapper = document.querySelector('#page-lihat-troble .tab-wrapper');
       if (trobleWrapper && data.jenisKerusakan) {
         const semuaBtn = trobleWrapper.querySelector('.tab-btn');
         trobleWrapper.innerHTML = '';
         trobleWrapper.appendChild(semuaBtn);
-        
         data.jenisKerusakan.forEach(item => {
           const btn = document.createElement('button');
           btn.className = 'tab-btn';
@@ -2100,14 +1658,11 @@
           trobleWrapper.appendChild(btn);
         });
       }
-
-      // Filter Khusus (E2:E)
       const khususWrapper = document.querySelector('#page-lihat-khusus .tab-wrapper');
       if (khususWrapper && data.jenisKejadian) {
         const semuaBtn = khususWrapper.querySelector('.tab-btn');
         khususWrapper.innerHTML = '';
         khususWrapper.appendChild(semuaBtn);
-        
         data.jenisKejadian.forEach(item => {
           const btn = document.createElement('button');
           btn.className = 'tab-btn';
@@ -2119,7 +1674,7 @@
     }
 
     // =============================================================
-    // 5.10 LOAD DASHBOARD
+    // LOAD DASHBOARD
     // =============================================================
     async function loadDashboard() {
       try {
@@ -2135,40 +1690,18 @@
     }
 
     // =============================================================
-    // 5.11 LOAD LAPORAN (DENGAN FILTER BULAN & TOTAL KEJADIAN)
+    // LOAD LAPORAN
     // =============================================================
     async function loadLaporan(jenis, filter, bulanFilter) {
       const mapConfig = {
-        troble: { 
-          list: 'listTroble', 
-          action: 'getTroble', 
-          filterField: 'jenisKerusakan',
-          golonganField: 'golonganKendaraan',
-          title: '🚗 Kendaraan Trouble'
-        },
-        derek: { 
-          list: 'listDerek', 
-          action: 'getDerek', 
-          filterField: 'alasanPenderekan',
-          title: '🔧 Penderekan'
-        },
-        khusus: { 
-          list: 'listKhusus', 
-          action: 'getKhusus', 
-          filterField: 'jenisKejadian',
-          title: '⚠️ Kejadian Khusus'
-        },
-        aset: { 
-          list: 'listAset', 
-          action: 'getAset', 
-          filterField: 'jenisAset',
-          title: '🔧 Pemantauan Aset'
-        }
+        troble: { list: 'listTroble', action: 'getTroble', filterField: 'jenisKerusakan', golonganField: 'golonganKendaraan' },
+        derek: { list: 'listDerek', action: 'getDerek', filterField: 'alasanPenderekan' },
+        khusus: { list: 'listKhusus', action: 'getKhusus', filterField: 'jenisKejadian' },
+        aset: { list: 'listAset', action: 'getAset', filterField: 'jenisAset' }
       };
 
       const config = mapConfig[jenis];
       if (!config) return;
-
       const container = document.getElementById(config.list);
       
       try {
@@ -2177,92 +1710,64 @@
         document.getElementById('offlineBanner').classList.remove('show');
         
         if (!data || data.length < 2) {
-          container.innerHTML = `
-            <div class="empty-state">
-              <span class="icon">📭</span>
-              <p>Belum ada data laporan ${config.title}</p>
-            </div>
-          `;
+          container.innerHTML = `<div class="empty-state"><span class="icon">📭</span><p>Belum ada data laporan</p></div>`;
           return;
         }
         
         const headers = data[0];
-        const rows = data.slice(1);
+        let rows = data.slice(1);
         
-        // Filter berdasarkan jenis
-        let filtered = rows;
+        // Filter jenis
         if (filter && filter !== 'semua') {
           const fieldIdx = headers.indexOf(config.filterField);
           const golonganIdx = headers.indexOf('golonganKendaraan');
-          
-          filtered = rows.filter(row => {
+          rows = rows.filter(row => {
             const fieldVal = String(row[fieldIdx] || '').toLowerCase();
             if (fieldVal.includes(filter)) return true;
-            
             if (jenis === 'troble' && golonganIdx > -1) {
-              const golongan = String(row[golonganIdx] || '').toLowerCase();
-              if (golongan.includes(filter)) return true;
+              return String(row[golonganIdx] || '').toLowerCase().includes(filter);
             }
-            
             return false;
           });
         }
         
-        // Filter berdasarkan bulan
+        // Filter bulan
         if (bulanFilter && bulanFilter !== 'semua') {
           const dateIdx = headers.indexOf('tanggalBertugas') > -1 ? headers.indexOf('tanggalBertugas') : headers.indexOf('tanggal');
           if (dateIdx > -1) {
-            filtered = filtered.filter(row => {
+            rows = rows.filter(row => {
               const dateStr = row[dateIdx] || '';
               if (!dateStr) return false;
               try {
                 const date = new Date(dateStr);
-                if (isNaN(date.getTime())) return false;
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                return month === bulanFilter;
-              } catch (e) {
-                return false;
-              }
+                return !isNaN(date.getTime()) && String(date.getMonth() + 1).padStart(2, '0') === bulanFilter;
+              } catch (e) { return false; }
             });
           }
         }
         
-        // Hitung total dan kategori
-        const totalData = filtered.length;
+        // Hitung total & kategori
+        const totalData = rows.length;
         let kategoriCount = {};
-        
         if (jenis === 'troble') {
           const golIdx = headers.indexOf('golonganKendaraan');
           if (golIdx > -1) {
-            filtered.forEach(row => {
+            rows.forEach(row => {
               const gol = row[golIdx] || 'Tidak Diketahui';
               kategoriCount[gol] = (kategoriCount[gol] || 0) + 1;
             });
           }
         }
         
-        if (filtered.length === 0) {
-          container.innerHTML = `
-            <div class="empty-state">
-              <span class="icon">🔍</span>
-              <p>Tidak ada data untuk filter ini</p>
-            </div>
-          `;
+        if (rows.length === 0) {
+          container.innerHTML = `<div class="empty-state"><span class="icon">🔍</span><p>Tidak ada data untuk filter ini</p></div>`;
           return;
         }
         
-        // =============================================================
-        // RENDER LAPORAN
-        // =============================================================
-        let html = '';
-        
-        // Summary Card - Total dan Kategori
-        html += `
+        let html = `
           <div class="summary-card">
             <div class="summary-content">
-              <div class="total">
-                📊 Total: <span>${totalData}</span> Kejadian
-              </div>
+              <div class="total">📊 Total: <span>${totalData}</span> Kejadian</div>
               ${Object.keys(kategoriCount).length > 0 ? `
                 <div class="kategori-list">
                   ${Object.entries(kategoriCount).map(([key, count]) => `
@@ -2281,54 +1786,42 @@
         const jalurIdx = headers.indexOf('jalur');
         const shiftIdx = headers.indexOf('shift');
         
-        filtered.slice().reverse().forEach(row => {
-          const rawTanggal = (dateIdx > -1) ? row[dateIdx] || '-' : '-';
-          const tanggal = formatDateDisplay(rawTanggal);
-          
-          const waktu = (timeIdx > -1) ? formatTimeDisplay(row[timeIdx]) || '-' : '-';
+        rows.slice().reverse().forEach(row => {
+          const tanggal = formatDateDisplay((dateIdx > -1) ? row[dateIdx] || '-' : '-');
+          const waktu = formatTimeDisplay((timeIdx > -1) ? row[timeIdx] || '-' : '-');
           const petugas = (petugasIdx > -1) ? row[petugasIdx] || '-' : '-';
           const lokasi = (lokasiIdx > -1) ? row[lokasiIdx] || '-' : '-';
           const jalur = (jalurIdx > -1) ? row[jalurIdx] || '-' : '-';
           const shift = (shiftIdx > -1) ? row[shiftIdx] || '-' : '-';
           
-          let detail = '';
-          let subTitle = '';
-          
+          let detail = '', subTitle = '';
           if (jenis === 'troble') {
             const kerusakan = headers.indexOf('jenisKerusakan') > -1 ? row[headers.indexOf('jenisKerusakan')] || '-' : '-';
             const golongan = headers.indexOf('golonganKendaraan') > -1 ? row[headers.indexOf('golonganKendaraan')] || '-' : '-';
             const jenisKendaraan = headers.indexOf('jenisKendaraan') > -1 ? row[headers.indexOf('jenisKendaraan')] || '-' : '-';
             const tindak = headers.indexOf('tindakLanjut') > -1 ? row[headers.indexOf('tindakLanjut')] || '' : '';
             subTitle = `${golongan} - ${jenisKendaraan}`;
-            detail = `
-              <div style="font-size:13px; color:rgba(255,255,255,0.8);">🔧 ${kerusakan}</div>
-              <div style="font-size:12px; color:rgba(255,255,255,0.5);">${tindak.substring(0, 100)}${tindak.length > 100 ? '...' : ''}</div>
-            `;
+            detail = `<div style="font-size:13px;color:var(--text-secondary);">🔧 ${kerusakan}</div>
+                      <div style="font-size:12px;color:var(--text-muted);">${tindak.substring(0,100)}${tindak.length>100?'...':''}</div>`;
           } else if (jenis === 'derek') {
             const alasan = headers.indexOf('alasanPenderekan') > -1 ? row[headers.indexOf('alasanPenderekan')] || '-' : '-';
             const tujuan = headers.indexOf('tujuanPenderekan') > -1 ? row[headers.indexOf('tujuanPenderekan')] || '-' : '-';
             const derek = headers.indexOf('derekDigunakan') > -1 ? row[headers.indexOf('derekDigunakan')] || '-' : '-';
             subTitle = `${derek}`;
-            detail = `
-              <div style="font-size:13px; color:rgba(255,255,255,0.8);">📌 ${alasan}</div>
-              <div style="font-size:12px; color:rgba(255,255,255,0.5);">Tujuan: ${tujuan}</div>
-            `;
+            detail = `<div style="font-size:13px;color:var(--text-secondary);">📌 ${alasan}</div>
+                      <div style="font-size:12px;color:var(--text-muted);">Tujuan: ${tujuan}</div>`;
           } else if (jenis === 'khusus') {
             const jenisKej = headers.indexOf('jenisKejadian') > -1 ? row[headers.indexOf('jenisKejadian')] || '-' : '-';
             const uraian = headers.indexOf('uraianKejadian') > -1 ? row[headers.indexOf('uraianKejadian')] || '' : '';
             subTitle = `${jenisKej}`;
-            detail = `
-              <div style="font-size:12px; color:rgba(255,255,255,0.5);">${uraian.substring(0, 100)}${uraian.length > 100 ? '...' : ''}</div>
-            `;
+            detail = `<div style="font-size:12px;color:var(--text-muted);">${uraian.substring(0,100)}${uraian.length>100?'...':''}</div>`;
           } else if (jenis === 'aset') {
             const aset = headers.indexOf('jenisAset') > -1 ? row[headers.indexOf('jenisAset')] || '-' : '-';
             const kerusakan = headers.indexOf('jenisKerusakan') > -1 ? row[headers.indexOf('jenisKerusakan')] || '-' : '-';
             const foto = headers.indexOf('fotoUrl') > -1 ? row[headers.indexOf('fotoUrl')] || '' : '';
             subTitle = `${aset}`;
-            detail = `
-              <div style="font-size:13px; color:rgba(255,255,255,0.8);">🔧 ${kerusakan}</div>
-              ${foto ? `<div style="margin-top:4px;"><img src="${foto}" style="max-width:60px; max-height:60px; border-radius:6px; object-fit:cover; border:1px solid rgba(255,255,255,0.1);"></div>` : ''}
-            `;
+            detail = `<div style="font-size:13px;color:var(--text-secondary);">🔧 ${kerusakan}</div>
+                      ${foto ? `<div style="margin-top:4px;"><img src="${foto}" style="max-width:60px;max-height:60px;border-radius:6px;object-fit:cover;border:1px solid rgba(255,255,255,0.1);"></div>` : ''}`;
           }
           
           html += `
@@ -2337,9 +1830,7 @@
                 <span class="title">${subTitle || jalur}</span>
                 <span class="time">${tanggal} ${waktu}</span>
               </div>
-              <div style="font-size:13px; color:rgba(255,255,255,0.5);">
-                📍 ${lokasi} &bull; 👤 ${petugas} &bull; 🕐 ${shift}
-              </div>
+              <div style="font-size:13px;color:var(--text-muted);">📍 ${lokasi} &bull; 👤 ${petugas} &bull; 🕐 ${shift}</div>
               <div style="margin-top:6px;">${detail}</div>
             </div>
           `;
@@ -2348,46 +1839,21 @@
         container.innerHTML = html;
         
       } catch (err) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <span class="icon">⚠️</span>
-            <p>Gagal memuat data: ${err.message || 'Error'}</p>
-          </div>
-        `;
+        container.innerHTML = `<div class="empty-state"><span class="icon">⚠️</span><p>Gagal memuat data: ${err.message || 'Error'}</p></div>`;
       }
     }
 
     // =============================================================
-    // 5.12 SUBMIT LAPORAN
+    // SUBMIT LAPORAN
     // =============================================================
     async function submitLaporan(event, jenis) {
       event.preventDefault();
       
       const mapConfig = {
-        troble: { 
-          form: 'formTroble', 
-          btnText: 'btnTrobleText', 
-          btnSpinner: 'btnTrobleSpinner', 
-          action: 'saveTroble' 
-        },
-        khusus: { 
-          form: 'formKhusus', 
-          btnText: 'btnKhususText', 
-          btnSpinner: 'btnKhususSpinner', 
-          action: 'saveKhusus' 
-        },
-        derek: { 
-          form: 'formDerek', 
-          btnText: 'btnDerekText', 
-          btnSpinner: 'btnDerekSpinner', 
-          action: 'saveDerek' 
-        },
-        aset: { 
-          form: 'formAset', 
-          btnText: 'btnAsetText', 
-          btnSpinner: 'btnAsetSpinner', 
-          action: 'saveAset' 
-        }
+        troble: { form: 'formTroble', btnText: 'btnTrobleText', btnSpinner: 'btnTrobleSpinner', action: 'saveTroble' },
+        khusus: { form: 'formKhusus', btnText: 'btnKhususText', btnSpinner: 'btnKhususSpinner', action: 'saveKhusus' },
+        derek: { form: 'formDerek', btnText: 'btnDerekText', btnSpinner: 'btnDerekSpinner', action: 'saveDerek' },
+        aset: { form: 'formAset', btnText: 'btnAsetText', btnSpinner: 'btnAsetSpinner', action: 'saveAset' }
       };
       
       const config = mapConfig[jenis];
@@ -2401,7 +1867,6 @@
       btnText.style.display = 'none';
       btnSpinner.style.display = 'inline-block';
       
-      // Kumpulkan data
       let data = {};
       
       if (jenis === 'troble') {
@@ -2450,21 +1915,37 @@
           waktuSelesai: document.getElementById('derekWaktuSelesai').value
         };
       } else if (jenis === 'aset') {
+        const tanggal = document.getElementById('asetTanggal').value;
+        const shift = document.getElementById('asetShift').value;
+        const jam = document.getElementById('asetJam').value;
+        const jalur = document.getElementById('asetJalur').value;
+        const lokasi = document.getElementById('asetLokasi').value;
+        const unit = document.getElementById('asetUnit').value;
+        const petugas = getMultiSelectValues('asetPetugas');
+        const jenisAset = document.getElementById('asetJenis').value;
+        const kerusakan = getMultiSelectValues('asetKerusakan');
+        const foto = document.getElementById('asetFotoUrl').value || '';
+        
+        if (!tanggal || !shift || !jam || !jalur || !lokasi || !unit || petugas.length === 0 || !jenisAset || kerusakan.length === 0) {
+          showToast('⚠️ Harap lengkapi semua field yang wajib diisi', 'error');
+          resetButton();
+          return;
+        }
+        
         data = {
-          tanggalBertugas: document.getElementById('asetTanggal').value,
-          shift: document.getElementById('asetShift').value,
-          jamTemuan: document.getElementById('asetJam').value,
-          jalur: document.getElementById('asetJalur').value,
-          lokasiSTA: document.getElementById('asetLokasi').value,
-          unit: document.getElementById('asetUnit').value,
-          namaPetugas: getMultiSelectValues('asetPetugas'),
-          jenisAset: document.getElementById('asetJenis').value,
-          jenisKerusakan: getMultiSelectValues('asetKerusakan'),
-          fotoUrl: document.getElementById('asetFotoUrl').value || ''
+          tanggalBertugas: tanggal,
+          shift: shift,
+          jamTemuan: jam,
+          jalur: jalur,
+          lokasiSTA: lokasi,
+          unit: unit,
+          namaPetugas: petugas,
+          jenisAset: jenisAset,
+          jenisKerusakan: kerusakan,
+          fotoUrl: foto
         };
       }
       
-      // Validasi
       for (const key in data) {
         if (data[key] === '' || data[key] === null || data[key] === undefined) {
           showToast('⚠️ Harap lengkapi semua field yang wajib diisi', 'error');
@@ -2479,22 +1960,24 @@
       }
       
       try {
-        await API.post(config.action, { data: data });
-        showToast('✅ Laporan berhasil disimpan!', 'success');
-        document.getElementById(config.form).reset();
-        uploadedFotoUrl = '';
-        document.getElementById('asetFotoUrl').value = '';
-        document.getElementById('asetFotoName').textContent = 'Belum ada foto';
-        document.getElementById('asetFotoStatus').textContent = '';
-        document.getElementById('asetFotoPreview').innerHTML = '';
-        updateClock();
-        loadDashboard();
-        
-        const filter = document.querySelector(`#page-lihat-${jenis} .tab-btn.active`);
-        const filterVal = filter ? filter.dataset.filter : 'semua';
-        const bulanFilter = document.getElementById(`bulanFilter${jenis.charAt(0).toUpperCase() + jenis.slice(1)}`)?.value || 'semua';
-        loadLaporan(jenis, filterVal, bulanFilter);
-        
+        const result = await API.post(config.action, { data: data });
+        if (result.success) {
+          showToast('✅ Laporan berhasil disimpan!', 'success');
+          document.getElementById(config.form).reset();
+          uploadedFotoUrl = '';
+          document.getElementById('asetFotoUrl').value = '';
+          document.getElementById('asetFotoName').textContent = 'Belum ada foto';
+          document.getElementById('asetFotoStatus').textContent = '';
+          document.getElementById('asetFotoPreview').innerHTML = '';
+          updateClock();
+          loadDashboard();
+          const filter = document.querySelector(`#page-lihat-${jenis} .tab-btn.active`);
+          const filterVal = filter ? filter.dataset.filter : 'semua';
+          const bulanFilter = document.getElementById(`bulanFilter${jenis.charAt(0).toUpperCase() + jenis.slice(1)}`)?.value || 'semua';
+          loadLaporan(jenis, filterVal, bulanFilter);
+        } else {
+          showToast('❌ ' + (result.message || 'Gagal menyimpan'), 'error');
+        }
         resetButton();
       } catch (err) {
         showToast('❌ Gagal menyimpan: ' + err.message, 'error');
@@ -2521,7 +2004,7 @@
     }
 
     // =============================================================
-    // 5.13 UPLOAD FOTO (Dengan Kompresi)
+    // UPLOAD FOTO
     // =============================================================
     async function handleFotoUpload(input) {
       const file = input.files[0];
@@ -2537,7 +2020,6 @@
       
       try {
         const compressed = await compressImageClient(file);
-        
         const reader = new FileReader();
         reader.onload = async function(e) {
           try {
@@ -2563,7 +2045,6 @@
           }
         };
         reader.readAsDataURL(compressed);
-        
       } catch (err) {
         statusEl.textContent = '❌ Gagal kompresi: ' + err.message;
         statusEl.className = 'upload-status error';
@@ -2573,99 +2054,68 @@
     function compressImageClient(file) {
       return new Promise((resolve, reject) => {
         const MAX_SIZE = 1200;
-        const QUALITY = 0.7;
-        
         const reader = new FileReader();
         reader.onload = function(e) {
           const img = new Image();
           img.onload = function() {
             try {
               const canvas = document.createElement('canvas');
-              let width = img.width;
-              let height = img.height;
-              
+              let width = img.width, height = img.height;
               if (width > MAX_SIZE || height > MAX_SIZE) {
-                if (width > height) {
-                  height = height * MAX_SIZE / width;
-                  width = MAX_SIZE;
-                } else {
-                  width = width * MAX_SIZE / height;
-                  height = MAX_SIZE;
-                }
+                if (width > height) { height = height * MAX_SIZE / width; width = MAX_SIZE; }
+                else { width = width * MAX_SIZE / height; height = MAX_SIZE; }
               }
-              
-              canvas.width = width;
-              canvas.height = height;
+              canvas.width = width; canvas.height = height;
               const ctx = canvas.getContext('2d');
               ctx.drawImage(img, 0, 0, width, height);
-              
               canvas.toBlob(function(blob) {
                 if (blob) {
-                  const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '') + '.jpg', {
-                    type: 'image/jpeg',
-                    lastModified: Date.now()
-                  });
-                  resolve(compressedFile);
-                } else {
-                  reject(new Error('Gagal kompresi gambar'));
-                }
-              }, 'image/jpeg', QUALITY);
-            } catch (err) {
-              reject(err);
-            }
+                  resolve(new File([blob], file.name.replace(/\.[^/.]+$/, '') + '.jpg', {
+                    type: 'image/jpeg', lastModified: Date.now()
+                  }));
+                } else { reject(new Error('Gagal kompresi')); }
+              }, 'image/jpeg', 0.7);
+            } catch (err) { reject(err); }
           };
-          img.onerror = function() {
-            reject(new Error('Gagal memuat gambar'));
-          };
+          img.onerror = function() { reject(new Error('Gagal memuat gambar')); };
           img.src = e.target.result;
         };
-        reader.onerror = function() {
-          reject(new Error('Gagal membaca file'));
-        };
+        reader.onerror = function() { reject(new Error('Gagal membaca file')); };
         reader.readAsDataURL(file);
       });
     }
 
     // =============================================================
-    // 5.14 TOAST NOTIFIKASI
+    // TOAST
     // =============================================================
     let toastTimeout;
-
     function showToast(message, type = 'info') {
       const toast = document.getElementById('toast');
       toast.textContent = message;
       toast.className = 'toast ' + type;
-      
       clearTimeout(toastTimeout);
       void toast.offsetWidth;
       toast.classList.add('show');
-      
-      toastTimeout = setTimeout(() => {
-        toast.classList.remove('show');
-      }, 4000);
+      toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
     }
 
     // =============================================================
-    // 5.15 FILTER TAB EVENT
+    // EVENT LISTENERS
     // =============================================================
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('tab-btn')) {
         const wrapper = e.target.closest('.tab-wrapper');
         if (!wrapper) return;
-        
         wrapper.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         e.target.classList.add('active');
-        
         const page = e.target.closest('.page');
         if (!page) return;
-        
         const pageId = page.id;
         let jenis = '';
         if (pageId.includes('troble')) jenis = 'troble';
         else if (pageId.includes('derek')) jenis = 'derek';
         else if (pageId.includes('khusus')) jenis = 'khusus';
         else if (pageId.includes('aset')) jenis = 'aset';
-        
         if (jenis) {
           const filter = e.target.dataset.filter || 'semua';
           const bulanFilter = document.getElementById(`bulanFilter${jenis.charAt(0).toUpperCase() + jenis.slice(1)}`)?.value || 'semua';
@@ -2674,9 +2124,6 @@
       }
     });
 
-    // =============================================================
-    // 5.16 AUTO GROW TEXTAREA
-    // =============================================================
     document.addEventListener('input', function(e) {
       if (e.target.classList.contains('auto-grow')) {
         e.target.style.height = 'auto';
@@ -2684,9 +2131,6 @@
       }
     });
 
-    // =============================================================
-    // 5.17 ALASAN PENDEREKAN LAINNYA
-    // =============================================================
     document.addEventListener('change', function(e) {
       if (e.target.id === 'derekAlasan') {
         const lainInput = document.getElementById('derekAlasanLain');
@@ -2702,7 +2146,7 @@
     });
 
     // =============================================================
-    // 5.18 INITIALISASI
+    // INIT
     // =============================================================
     document.addEventListener('DOMContentLoaded', async function() {
       await loadMasterData();
@@ -2711,14 +2155,10 @@
       loadLaporan('derek', 'semua', 'semua');
       loadLaporan('khusus', 'semua', 'semua');
       loadLaporan('aset', 'semua', 'semua');
-      
       const alasanLain = document.getElementById('derekAlasanLain');
       if (alasanLain) alasanLain.style.display = 'none';
     });
 
-    // =============================================================
-    // 5.19 ONLINE/OFFLINE DETECTION
-    // =============================================================
     window.addEventListener('online', function() {
       document.getElementById('offlineBanner').classList.remove('show');
       loadDashboard();
@@ -2728,6 +2168,5 @@
       document.getElementById('offlineBanner').classList.add('show');
     });
   </script>
-
 </body>
 </html>
