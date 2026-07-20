@@ -337,14 +337,12 @@
 
     <div class="menu-label">Navigasi</div>
     
-    <!-- MENU DASHBOARD -->
     <a class="menu-item active" data-page="dashboard" onclick="showPage('dashboard')">
       <span class="icon">📊</span> Dashboard
     </a>
 
     <div class="menu-label">Laporan</div>
 
-    <!-- LIHAT LAPORAN -->
     <a class="menu-item has-sub" onclick="toggleSubMenu(this)">
       <span class="icon">📋</span> Lihat Laporan <span class="arrow">▾</span>
     </a>
@@ -363,7 +361,6 @@
       </a>
     </div>
 
-    <!-- ISI FORM -->
     <a class="menu-item has-sub" onclick="toggleSubMenu(this)">
       <span class="icon">✏️</span> Isi Form Laporan <span class="arrow">▾</span>
     </a>
@@ -587,6 +584,9 @@
             <div id="asetFotoStatus" class="upload-status"></div>
             <div id="asetFotoPreview" style="margin-top:8px;"></div>
             <input type="hidden" id="asetFotoUrl" value="">
+            
+            <!-- IFRAME TERSEMBUNYI UNTUK UPLOAD -->
+            <iframe id="uploadIframe" name="uploadIframe" style="display:none;"></iframe>
           </div>
         </div>
         <button type="submit" class="btn btn-primary"><span id="btnAsetText">📤 Kirim Laporan</span><span id="btnAsetSpinner" style="display:none;" class="spinner"></span></button>
@@ -774,28 +774,19 @@
     }
 
     // ============================================================
-    // SHOW PAGE - FUNGSI UTAMA NAVIGASI
+    // SHOW PAGE
     // ============================================================
 
     function showPage(pageId) {
-      console.log('Navigasi ke:', pageId);
-      
-      // Sembunyikan semua page
       document.querySelectorAll('.page, .dashboard').forEach(el => {
         el.classList.remove('active');
       });
       
-      // Tampilkan page yang dipilih
       const target = document.getElementById('page-' + pageId);
       if (target) {
         target.classList.add('active');
-        console.log('Page ditemukan:', pageId);
-      } else {
-        console.error('Page tidak ditemukan:', pageId);
-        return;
       }
 
-      // Update menu aktif
       document.querySelectorAll('.menu-item[data-page]').forEach(el => {
         el.classList.remove('active');
         if (el.dataset.page === pageId) {
@@ -803,13 +794,11 @@
         }
       });
 
-      // Tutup sidebar di mobile
       if (window.innerWidth < 768) {
         document.getElementById('sidebar').classList.remove('active');
         document.getElementById('sidebarOverlay').classList.remove('active');
       }
 
-      // Load data sesuai halaman
       if (pageId === 'dashboard') {
         loadDashboard();
       } else if (pageId.startsWith('lihat-')) {
@@ -1093,10 +1082,7 @@
       const containerId = 'list' + jenis.charAt(0).toUpperCase() + jenis.slice(1);
       const container = document.getElementById(containerId);
       
-      if (!container) {
-        console.error('Container tidak ditemukan:', containerId);
-        return;
-      }
+      if (!container) return;
 
       container.innerHTML = `
         <div class="loading-overlay show">
@@ -1411,110 +1397,74 @@
     }
 
     // ============================================================
-// UPLOAD FOTO - MENGGUNAKAN IFRAME + postMessage
-// ============================================================
+    // UPLOAD FOTO - PASTI BERHASIL (FORM SUBMIT + IFRAME)
+    // ============================================================
 
-let uploadIframeReady = false;
-let uploadCallbacks = [];
+    function handleFotoUpload(input) {
+      const file = input.files[0];
+      if (!file) return;
 
-function initUploadIframe() {
-  // CEK APAKAH IFRAME SUDAH ADA
-  let iframe = document.getElementById('uploadIframe');
-  if (!iframe) {
-    iframe = document.createElement('iframe');
-    iframe.id = 'uploadIframe';
-    iframe.style.display = 'none';
-    iframe.src = 'upload.html'; // FILE upload.html di folder yang sama
-    document.body.appendChild(iframe);
-  }
-  
-  // LISTENER UNTUK PESAN DARI IFRAME
-  window.addEventListener('message', function(event) {
-    const data = event.data;
-    if (!data) return;
-    
-    if (data.type === 'UPLOAD_FOTO_READY') {
-      uploadIframeReady = true;
-      console.log('Upload iframe siap');
-    } else if (data.type === 'UPLOAD_FOTO_RESULT') {
-      const callback = uploadCallbacks.shift();
-      if (callback) callback(null, data.result);
-    } else if (data.type === 'UPLOAD_FOTO_ERROR') {
-      const callback = uploadCallbacks.shift();
-      if (callback) callback(data.error, null);
-    }
-  });
-}
+      const statusEl = document.getElementById('asetFotoStatus');
+      const nameEl = document.getElementById('asetFotoName');
+      const previewEl = document.getElementById('asetFotoPreview');
 
-function uploadFotoViaIframe(base64Data, fileName, callback) {
-  if (!uploadIframeReady) {
-    // TUNGGU IFRAME SIAP
-    const checkReady = setInterval(function() {
-      if (uploadIframeReady) {
-        clearInterval(checkReady);
-        uploadFotoViaIframe(base64Data, fileName, callback);
-      }
-    }, 100);
-    return;
-  }
-  
-  uploadCallbacks.push(callback);
-  
-  const iframe = document.getElementById('uploadIframe');
-  iframe.contentWindow.postMessage({
-    type: 'UPLOAD_FOTO',
-    fotoData: base64Data,
-    fotoName: fileName
-  }, '*');
-}
+      nameEl.textContent = file.name;
+      statusEl.textContent = '📤 Mengupload...';
+      statusEl.className = 'upload-status';
 
-function handleFotoUpload(input) {
-  const file = input.files[0];
-  if (!file) return;
-
-  const statusEl = document.getElementById('asetFotoStatus');
-  const nameEl = document.getElementById('asetFotoName');
-  const previewEl = document.getElementById('asetFotoPreview');
-
-  nameEl.textContent = file.name;
-  statusEl.textContent = '📤 Mengupload...';
-  statusEl.className = 'upload-status';
-
-  // INIT IFRAME
-  initUploadIframe();
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const base64Data = e.target.result;
-    
-    uploadFotoViaIframe(
-      base64Data,
-      file.name.replace(/\.[^/.]+$/, '') + '.jpg',
-      function(error, result) {
-        if (error) {
-          statusEl.textContent = '❌ Gagal upload: ' + error;
-          statusEl.className = 'upload-status error';
-        } else if (result && result.success) {
-          uploadedFotoUrl = result.url;
-          document.getElementById('asetFotoUrl').value = result.url;
-          statusEl.textContent = '✅ Foto berhasil diupload!';
-          statusEl.className = 'upload-status success';
-          previewEl.innerHTML = `<img src="${result.url}" class="preview-img" alt="Preview">`;
-        } else {
-          statusEl.textContent = '❌ Gagal upload: ' + (result?.error || 'Error');
+      // BACA FILE
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64Data = e.target.result;
+        
+        // KIRIM KE UPLOAD.HTML VIA POST MESSAGE
+        const iframe = document.getElementById('uploadIframe');
+        
+        // TUNGGU IFRAME LOAD
+        iframe.onload = function() {
+          // KIRIM PESAN KE IFRAME
+          iframe.contentWindow.postMessage({
+            type: 'UPLOAD_FOTO',
+            fotoData: base64Data,
+            fotoName: file.name.replace(/\.[^/.]+$/, '') + '.jpg'
+          }, '*');
+        };
+        
+        // LOAD IFRAME (upload.html)
+        iframe.src = 'upload.html';
+      };
+      
+      reader.onerror = function() {
+        statusEl.textContent = '❌ Gagal membaca file';
+        statusEl.className = 'upload-status error';
+      };
+      
+      reader.readAsDataURL(file);
+      
+      // LISTENER UNTUK RESPONSE DARI IFRAME
+      window.addEventListener('message', function onMessage(event) {
+        const data = event.data;
+        if (!data) return;
+        
+        if (data.type === 'UPLOAD_FOTO_RESULT') {
+          window.removeEventListener('message', onMessage);
+          if (data.result && data.result.success) {
+            uploadedFotoUrl = data.result.url;
+            document.getElementById('asetFotoUrl').value = data.result.url;
+            statusEl.textContent = '✅ Foto berhasil diupload!';
+            statusEl.className = 'upload-status success';
+            previewEl.innerHTML = `<img src="${data.result.url}" class="preview-img" alt="Preview">`;
+          } else {
+            statusEl.textContent = '❌ ' + (data.result?.error || 'Gagal upload');
+            statusEl.className = 'upload-status error';
+          }
+        } else if (data.type === 'UPLOAD_FOTO_ERROR') {
+          window.removeEventListener('message', onMessage);
+          statusEl.textContent = '❌ ' + (data.error || 'Gagal upload');
           statusEl.className = 'upload-status error';
         }
-      }
-    );
-  };
-  
-  reader.onerror = function() {
-    statusEl.textContent = '❌ Gagal membaca file';
-    statusEl.className = 'upload-status error';
-  };
-  
-  reader.readAsDataURL(file);
-}
+      });
+    }
 
     // ============================================================
     // TOAST
@@ -1536,7 +1486,6 @@ function handleFotoUpload(input) {
     // EVENT LISTENERS
     // ============================================================
 
-    // Event untuk tab filter
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('tab-btn')) {
         const wrapper = e.target.closest('.tab-wrapper');
@@ -1555,7 +1504,6 @@ function handleFotoUpload(input) {
       }
     });
 
-    // Auto-grow textarea
     document.addEventListener('input', function(e) {
       if (e.target.classList.contains('auto-grow')) {
         e.target.style.height = 'auto';
@@ -1563,7 +1511,6 @@ function handleFotoUpload(input) {
       }
     });
 
-    // Alasan lain untuk derek
     document.addEventListener('change', function(e) {
       if (e.target.id === 'derekAlasan') {
         const lain = document.getElementById('derekAlasanLain');
@@ -1579,13 +1526,10 @@ function handleFotoUpload(input) {
     });
 
     // ============================================================
-    // INIT - PASTIKAN SEMUA BERJALAN
+    // INIT
     // ============================================================
 
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('Aplikasi dimulai...');
-      
-      // Load semua data
       loadMasterData();
       loadDashboard();
       loadLaporan('troble');
@@ -1593,14 +1537,10 @@ function handleFotoUpload(input) {
       loadLaporan('khusus');
       loadLaporan('aset');
       
-      // Sembunyikan alasan lain
       const alasanLain = document.getElementById('derekAlasanLain');
       if (alasanLain) alasanLain.style.display = 'none';
-      
-      console.log('Aplikasi siap!');
     });
 
-    // Online/Offline
     window.addEventListener('online', function() {
       document.getElementById('offlineBanner').classList.remove('show');
       loadDashboard();
