@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <base target="_top">
+</head>
+<body>
+  <script>
+    // ============================================================
+    // UPLOAD FOTO - MENGGUNAKAN google.script.run (PASTI BERHASIL)
+    // ============================================================
+    
+    function uploadFotoViaGoogleScript(base64Data, fileName, callback) {
+      // CEK APAKAH google.script.run TERSEDIA
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function(result) {
+            callback(null, result);
+          })
+          .withFailureHandler(function(error) {
+            callback(error, null);
+          })
+          .uploadFoto({
+            fotoData: base64Data,
+            fotoType: 'image/jpeg',
+            fotoName: fileName
+          });
+      } else {
+        // JIKA TIDAK TERSEDIA (di luar Apps Script), kirim ke parent
+        window.parent.postMessage({
+          type: 'UPLOAD_FOTO_ERROR',
+          error: 'google.script.run tidak tersedia'
+        }, '*');
+      }
+    }
+    
+    // TERIMA PESAN DARI PARENT
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'UPLOAD_FOTO') {
+        uploadFotoViaGoogleScript(
+          event.data.fotoData,
+          event.data.fotoName,
+          function(error, result) {
+            if (error) {
+              window.parent.postMessage({
+                type: 'UPLOAD_FOTO_ERROR',
+                error: error.message || 'Gagal upload'
+              }, '*');
+            } else {
+              window.parent.postMessage({
+                type: 'UPLOAD_FOTO_RESULT',
+                result: result
+              }, '*');
+            }
+          }
+        );
+      }
+    });
+    
+    // KIRIM KE PARENT BAHWA IFRAME SIAP
+    window.parent.postMessage({
+      type: 'UPLOAD_FOTO_READY'
+    }, '*');
+  </script>
+</body>
+</html>
