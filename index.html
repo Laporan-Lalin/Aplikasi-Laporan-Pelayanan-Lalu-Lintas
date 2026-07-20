@@ -64,9 +64,6 @@
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* =============================================================
-       RESET & DASAR
-       ============================================================= */
     * {
       margin: 0;
       padding: 0;
@@ -82,9 +79,6 @@
       overflow-x: hidden;
     }
 
-    /* =============================================================
-       BACKGROUND GRADIENT (animasi)
-       ============================================================= */
     .bg-gradient {
       position: fixed;
       top: 0;
@@ -115,9 +109,7 @@
     }
 
     /* =============================================================
-       SIDEBAR / NAVIGASI
-       =============================================================
-       💡 Ubah lebar sidebar: width: 280px → sesuaikan
+       SIDEBAR
        ============================================================= */
     .sidebar {
       position: fixed;
@@ -130,7 +122,7 @@
       -webkit-backdrop-filter: blur(20px);
       border-right: 1px solid rgba(255,255,255,0.08);
       z-index: 1000;
-      transition: var(--transition);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       padding: 20px 0;
       overflow-y: auto;
     }
@@ -149,7 +141,7 @@
       z-index: 999;
       opacity: 0;
       visibility: hidden;
-      transition: var(--transition);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .sidebar-overlay.active {
@@ -176,27 +168,22 @@
     .sidebar-brand h2 {
       font-size: 14px;
       font-weight: 600;
-      color: var(--text-secondary);
+      color: rgba(255,255,255,0.8);
       letter-spacing: 0.5px;
     }
 
     .sidebar-brand small {
       font-size: 11px;
-      color: var(--text-muted);
+      color: rgba(255,255,255,0.5);
       display: block;
       margin-top: 2px;
     }
 
-    /* =============================================================
-       MENU SIDEBAR
-       =============================================================
-       💡 Tambah menu: copy .menu-item dan .sub-menu
-       ============================================================= */
     .menu-label {
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      color: var(--text-muted);
+      color: rgba(255,255,255,0.5);
       padding: 8px 24px 4px;
       font-weight: 600;
     }
@@ -206,10 +193,10 @@
       align-items: center;
       gap: 14px;
       padding: 12px 24px;
-      color: var(--text-secondary);
+      color: rgba(255,255,255,0.8);
       text-decoration: none;
       cursor: pointer;
-      transition: var(--transition);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       border-left: 3px solid transparent;
       font-size: 14px;
       font-weight: 500;
@@ -219,8 +206,8 @@
     .menu-item:hover,
     .menu-item.active {
       background: rgba(255,255,255,0.06);
-      color: var(--text-primary);
-      border-left-color: var(--secondary);
+      color: #ffffff;
+      border-left-color: #ff6f00;
     }
 
     .menu-item .icon {
@@ -232,7 +219,7 @@
 
     .menu-item .badge {
       margin-left: auto;
-      background: var(--secondary);
+      background: #ff6f00;
       color: #fff;
       font-size: 10px;
       padding: 2px 10px;
@@ -259,7 +246,7 @@
     }
 
     .sub-menu .menu-item:hover {
-      border-left-color: var(--accent);
+      border-left-color: #00bcd4;
     }
 
     .menu-item.has-sub .arrow {
@@ -273,13 +260,13 @@
     }
 
     /* =============================================================
-       MAIN CONTENT & TOP BAR
+       MAIN CONTENT
        ============================================================= */
     .main-content {
       padding: 16px;
       padding-top: 70px;
       min-height: 100vh;
-      transition: var(--transition);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .top-bar {
@@ -301,7 +288,7 @@
     .top-bar .hamburger {
       background: none;
       border: none;
-      color: var(--text-primary);
+      color: #ffffff;
       font-size: 28px;
       cursor: pointer;
       padding: 4px;
@@ -315,7 +302,7 @@
     }
 
     .top-bar .title span {
-      color: var(--secondary);
+      color: #ff6f00;
     }
 
     /* =============================================================
@@ -332,8 +319,8 @@
     .clock-wrapper {
       text-align: center;
       padding: 20px 0 16px;
-      background: var(--bg-card);
-      border-radius: var(--radius);
+      background: rgba(255,255,255,0.08);
+      border-radius: 16px;
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,0.06);
       margin-bottom: 20px;
@@ -353,17 +340,12 @@
 
     .clock-date {
       font-size: clamp(14px, 3.5vw, 18px);
-      color: var(--text-secondary);
+      color: rgba(255,255,255,0.8);
       margin-top: 4px;
       font-weight: 500;
       letter-spacing: 0.5px;
     }
 
-    /* =============================================================
-       STATISTIK CARD
-       =============================================================
-       💡 Tambah card: copy .stat-card
-       ============================================================= */
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -372,13 +354,13 @@
     }
 
     .stat-card {
-      background: var(--bg-card);
-      border-radius: var(--radius);
+      background: rgba(255,255,255,0.08);
+      border-radius: 16px;
       padding: 16px;
       text-align: center;
       border: 1px solid rgba(255,255,255,0.06);
       backdrop-filter: blur(10px);
-      transition: var(--transition);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .stat-card:hover {
@@ -389,12 +371,12 @@
     .stat-card .number {
       font-size: 28px;
       font-weight: 700;
-      color: var(--secondary);
+      color: #ff6f00;
     }
 
     .stat-card .label {
       font-size: 12px;
-      color: var(--text-secondary);
+      color: rgba(255,255,255,0.8);
       margin-top: 4px;
     }
 
@@ -405,7 +387,7 @@
     }
 
     /* =============================================================
-       PAGE / SECTION
+       PAGE
        ============================================================= */
     .page {
       display: none;
@@ -427,25 +409,25 @@
     .page-title small {
       font-size: 12px;
       font-weight: 400;
-      color: var(--text-muted);
+      color: rgba(255,255,255,0.5);
     }
 
     /* =============================================================
        SUB FORM CARD
        ============================================================= */
     .sub-form-card {
-      background: var(--bg-card);
-      border-radius: var(--radius);
+      background: rgba(255,255,255,0.08);
+      border-radius: 16px;
       padding: 16px;
       margin-bottom: 16px;
       border: 1px solid rgba(255,255,255,0.06);
-      transition: var(--transition);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .sub-form-card .card-title {
       font-size: 14px;
       font-weight: 600;
-      color: var(--secondary);
+      color: #ff6f00;
       margin-bottom: 12px;
       display: flex;
       align-items: center;
@@ -457,15 +439,12 @@
       background: rgba(255, 111, 0, 0.15);
       padding: 2px 10px;
       border-radius: 12px;
-      color: var(--secondary);
+      color: #ff6f00;
       font-weight: 500;
     }
 
     /* =============================================================
        FORM STYLE
-       =============================================================
-       💡 Tambah field: copy .form-group
-       💡 Ubah layout: .form-row (2 kolom), .form-row-3 (3 kolom)
        ============================================================= */
     .form-group {
       margin-bottom: 16px;
@@ -475,12 +454,12 @@
       display: block;
       font-size: 13px;
       font-weight: 500;
-      color: var(--text-secondary);
+      color: rgba(255,255,255,0.8);
       margin-bottom: 6px;
     }
 
     .form-group label .required {
-      color: var(--danger);
+      color: #c62828;
       margin-left: 2px;
     }
 
@@ -490,9 +469,9 @@
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 10px;
-      color: var(--text-primary);
+      color: #ffffff;
       font-size: 14px;
-      transition: var(--transition);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       appearance: none;
       -webkit-appearance: none;
       font-family: inherit;
@@ -500,18 +479,18 @@
 
     .form-control:focus {
       outline: none;
-      border-color: var(--secondary);
+      border-color: #ff6f00;
       background: rgba(255,255,255,0.08);
       box-shadow: 0 0 0 3px rgba(255, 111, 0, 0.15);
     }
 
     .form-control::placeholder {
-      color: var(--text-muted);
+      color: rgba(255,255,255,0.5);
     }
 
     .form-control option {
       background: #1a1a3e;
-      color: var(--text-primary);
+      color: #ffffff;
     }
 
     select.form-control {
@@ -521,7 +500,6 @@
       padding-right: 40px;
     }
 
-    /* Multi-select khusus */
     select.form-control[multiple] {
       background-image: none;
       padding-right: 14px;
@@ -534,7 +512,7 @@
     }
 
     select.form-control[multiple] option:checked {
-      background: var(--secondary) linear-gradient(0deg, var(--secondary) 0%, var(--secondary) 100%);
+      background: #ff6f00 linear-gradient(0deg, #ff6f00 0%, #ff6f00 100%);
     }
 
     textarea.form-control {
@@ -577,13 +555,13 @@
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      transition: var(--transition);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       width: 100%;
       font-family: inherit;
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--secondary), #e65100);
+      background: linear-gradient(135deg, #ff6f00, #e65100);
       color: #fff;
     }
 
@@ -616,12 +594,12 @@
     }
 
     .laporan-item {
-      background: var(--bg-card);
-      border-radius: var(--radius);
+      background: rgba(255,255,255,0.08);
+      border-radius: 16px;
       padding: 14px 16px;
       margin-bottom: 10px;
       border: 1px solid rgba(255,255,255,0.06);
-      transition: var(--transition);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .laporan-item:hover {
@@ -642,12 +620,12 @@
 
     .laporan-item .time {
       font-size: 11px;
-      color: var(--text-muted);
+      color: rgba(255,255,255,0.5);
     }
 
     .laporan-item .desc {
       font-size: 13px;
-      color: var(--text-secondary);
+      color: rgba(255,255,255,0.8);
     }
 
     .badge-status {
@@ -675,13 +653,11 @@
 
     /* =============================================================
        TAB FILTER
-       =============================================================
-       💡 Tambah filter: copy .tab-btn dan tambahkan data-filter
        ============================================================= */
     .tab-wrapper {
       display: flex;
       gap: 8px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
       overflow-x: auto;
       padding-bottom: 4px;
       -webkit-overflow-scrolling: touch;
@@ -691,12 +667,12 @@
       padding: 8px 18px;
       border: none;
       background: rgba(255,255,255,0.06);
-      color: var(--text-secondary);
+      color: rgba(255,255,255,0.8);
       border-radius: 20px;
       font-size: 13px;
       font-weight: 500;
       cursor: pointer;
-      transition: var(--transition);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       white-space: nowrap;
       font-family: inherit;
     }
@@ -706,13 +682,35 @@
     }
 
     .tab-btn.active {
-      background: var(--secondary);
+      background: #ff6f00;
       color: #fff;
       box-shadow: 0 4px 16px rgba(255, 111, 0, 0.3);
     }
 
     /* =============================================================
-       TOAST / NOTIFIKASI
+       FILTER BULAN
+       ============================================================= */
+    .filter-bulan-wrapper {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-bulan-wrapper label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .filter-bulan-wrapper select {
+      width: auto;
+      min-width: 120px;
+      padding: 6px 12px;
+    }
+
+    /* =============================================================
+       TOAST
        ============================================================= */
     .toast {
       position: fixed;
@@ -729,7 +727,7 @@
       z-index: 2000;
       opacity: 0;
       visibility: hidden;
-      transition: var(--transition);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       max-width: 90%;
       text-align: center;
     }
@@ -741,11 +739,11 @@
     }
 
     .toast.success {
-      border-color: var(--success);
+      border-color: #2e7d32;
     }
 
     .toast.error {
-      border-color: var(--danger);
+      border-color: #c62828;
     }
 
     /* =============================================================
@@ -756,7 +754,7 @@
       width: 20px;
       height: 20px;
       border: 2px solid rgba(255,255,255,0.1);
-      border-top: 2px solid var(--secondary);
+      border-top: 2px solid #ff6f00;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
@@ -768,7 +766,7 @@
     .empty-state {
       text-align: center;
       padding: 40px 20px;
-      color: var(--text-muted);
+      color: rgba(255,255,255,0.5);
     }
 
     .empty-state .icon {
@@ -786,7 +784,7 @@
        ============================================================= */
     .offline-banner {
       display: none;
-      background: var(--danger);
+      background: #c62828;
       color: #fff;
       text-align: center;
       padding: 6px 12px;
@@ -802,8 +800,6 @@
 
     /* =============================================================
        RESPONSIVE
-       =============================================================
-       💡 Ubah breakpoint: 768px → sesuaikan
        ============================================================= */
     @media (min-width: 768px) {
       .sidebar {
@@ -842,9 +838,6 @@
       }
     }
 
-    /* =============================================================
-       SCROLLBAR
-       ============================================================= */
     ::-webkit-scrollbar {
       width: 4px;
       height: 4px;
@@ -859,9 +852,6 @@
       border-radius: 4px;
     }
 
-    /* =============================================================
-       ANIMASI
-       ============================================================= */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -871,9 +861,6 @@
       animation: fadeIn 0.4s ease forwards;
     }
 
-    /* =============================================================
-       AUTO GROW TEXTAREA
-       ============================================================= */
     .auto-grow {
       overflow: hidden;
       resize: none;
@@ -896,7 +883,7 @@
 
     .upload-wrapper .file-name {
       font-size: 12px;
-      color: var(--text-muted);
+      color: rgba(255,255,255,0.5);
       max-width: 200px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -913,16 +900,57 @@
 
     .upload-status {
       font-size: 12px;
-      color: var(--text-muted);
+      color: rgba(255,255,255,0.5);
       margin-top: 4px;
     }
 
     .upload-status.success {
-      color: var(--success);
+      color: #2e7d32;
     }
 
     .upload-status.error {
-      color: var(--danger);
+      color: #c62828;
+    }
+
+    /* =============================================================
+       SUMMARY CARD (Total Kejadian)
+       ============================================================= */
+    .summary-card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .summary-card .summary-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .summary-card .total {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .summary-card .total span {
+      color: #ff6f00;
+    }
+
+    .summary-card .kategori-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .summary-card .kategori-item {
+      font-size: 12px;
+      background: rgba(255,255,255,0.06);
+      padding: 2px 12px;
+      border-radius: 12px;
     }
   </style>
 </head>
@@ -948,13 +976,6 @@
 
   <!-- =============================================================
        SIDEBAR - NAVIGASI
-       =============================================================
-       💡 Untuk menambah menu:
-       1. Copy <a class="menu-item" data-page="nama-page">
-       2. Tambahkan page di bagian MAIN CONTENT
-       💡 Untuk menambah sub-menu:
-       1. Copy <a class="menu-item has-sub">
-       2. Tambahkan .sub-menu dengan child menu-item
        ============================================================= -->
   <nav class="sidebar" id="sidebar">
     <!-- BRAND / LOGO -->
@@ -963,7 +984,7 @@
       <img src="https://drive.google.com/uc?export=view&id=12ZmHCesB52Wwd2Enmmii_IpYMaVb8C5b" 
            alt="Logo MMN" 
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2270%22 height=%2270%22%3E%3Crect width=%2270%22 height=%2270%22 fill=%22%231a237e%22/%3E%3Ctext x=%2235%22 y=%2238%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2212%22 font-weight=%22bold%22%3EMMN%3C/text%3E%3C/svg%3E'">
-      <h2>Laporan Layanan & Pemantauan Asset</h2>
+      <h2>Laporan Pelayanan</h2>
       <small>Lalu Lintas Tol Makassar</small>
     </div>
 
@@ -1019,7 +1040,7 @@
 
     <!-- FOOTER SIDEBAR -->
     <div style="margin-top: auto; padding: 16px 24px; border-top: 1px solid rgba(255,255,255,0.06);">
-      <small style="color: var(--text-muted); font-size: 10px;">
+      <small style="color: rgba(255,255,255,0.5); font-size: 10px;">
         v3.0 &bull; © 2026 MMN
       </small>
     </div>
@@ -1048,8 +1069,6 @@
 
     <!-- ===========================================================
          HALAMAN: DASHBOARD
-         ===========================================================
-         💡 Tambah statistik: copy .stat-card di .stats-grid
          =========================================================== -->
     <section class="dashboard active" id="page-dashboard">
       <!-- JAM DIGITAL -->
@@ -1083,8 +1102,8 @@
       </div>
 
       <!-- INFO TAMBAHAN -->
-      <div style="margin-top: 20px; background: var(--bg-card); border-radius: var(--radius); padding: 16px; border: 1px solid rgba(255,255,255,0.06);">
-        <p style="font-size: 13px; color: var(--text-secondary); text-align: center;">
+      <div style="margin-top: 20px; background: rgba(255,255,255,0.08); border-radius: 16px; padding: 16px; border: 1px solid rgba(255,255,255,0.06);">
+        <p style="font-size: 13px; color: rgba(255,255,255,0.8); text-align: center;">
           📌 <strong>Sistem Laporan Pelayanan Lalu Lintas</strong><br>
           Tol Makassar &bull; PT. Margautama Nusantara
         </p>
@@ -1093,11 +1112,6 @@
 
     <!-- ===========================================================
          HALAMAN: FORM KENDARAAN TROUBLE
-         ===========================================================
-         💡 Untuk menambah field:
-         1. Copy .form-group di dalam .sub-form-card
-         2. Beri id dengan format: troble[namaField]
-         3. Tambahkan di fungsi submitLaporan bagian troble
          =========================================================== -->
     <section class="page" id="page-form-troble">
       <div class="page-title">
@@ -1157,11 +1171,10 @@
             </div>
             <div class="form-group">
               <label>Nama Petugas <span class="required">*</span></label>
-              <!-- 🔧 Multi-select: tambahkan attribute multiple -->
               <select class="form-control" id="troblePetugas" multiple required>
                 <option value="" disabled selected>-- Pilih Petugas --</option>
               </select>
-              <small style="color: var(--text-muted); font-size: 11px;">
+              <small style="color: rgba(255,255,255,0.5); font-size: 11px;">
                 💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
               </small>
             </div>
@@ -1196,7 +1209,6 @@
 
           <div class="form-group">
             <label>Jenis Kerusakan <span class="required">*</span></label>
-            <!-- 🔧 Data dari master sheet kolom D2:D -->
             <select class="form-control" id="trobleKerusakan" required>
               <option value="">-- Pilih Jenis Kerusakan --</option>
             </select>
@@ -1218,11 +1230,6 @@
 
     <!-- ===========================================================
          HALAMAN: FORM KEJADIAN KHUSUS
-         ===========================================================
-         💡 Untuk menambah field:
-         1. Copy .form-group di dalam .sub-form-card
-         2. Beri id dengan format: khusus[namaField]
-         3. Tambahkan di fungsi submitLaporan bagian khusus
          =========================================================== -->
     <section class="page" id="page-form-khusus">
       <div class="page-title">
@@ -1284,7 +1291,7 @@
               <select class="form-control" id="khususPetugas" multiple required>
                 <option value="" disabled selected>-- Pilih Petugas --</option>
               </select>
-              <small style="color: var(--text-muted); font-size: 11px;">
+              <small style="color: rgba(255,255,255,0.5); font-size: 11px;">
                 💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
               </small>
             </div>
@@ -1299,7 +1306,6 @@
 
           <div class="form-group">
             <label>Jenis Kejadian <span class="required">*</span></label>
-            <!-- 🔧 Data dari master sheet kolom E2:E -->
             <select class="form-control" id="khususJenis" required>
               <option value="">-- Pilih Jenis Kejadian --</option>
             </select>
@@ -1321,11 +1327,6 @@
 
     <!-- ===========================================================
          HALAMAN: FORM PENDEREKAN
-         ===========================================================
-         💡 Untuk menambah field:
-         1. Copy .form-group di dalam .sub-form-card
-         2. Beri id dengan format: derek[namaField]
-         3. Tambahkan di fungsi submitLaporan bagian derek
          =========================================================== -->
     <section class="page" id="page-form-derek">
       <div class="page-title">
@@ -1386,11 +1387,10 @@
 
           <div class="form-group">
             <label>Nama Petugas Derek <span class="required">*</span></label>
-            <!-- 🔧 Data dari master sheet kolom F2:F -->
             <select class="form-control" id="derekPetugas" multiple required>
               <option value="" disabled selected>-- Pilih Petugas Derek --</option>
             </select>
-            <small style="color: var(--text-muted); font-size: 11px;">
+            <small style="color: rgba(255,255,255,0.5); font-size: 11px;">
               💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
             </small>
           </div>
@@ -1463,11 +1463,6 @@
 
     <!-- ===========================================================
          HALAMAN: FORM PEMANTAUAN ASET
-         ===========================================================
-         💡 Untuk menambah field:
-         1. Copy .form-group di dalam .sub-form-card
-         2. Beri id dengan format: aset[namaField]
-         3. Tambahkan di fungsi submitLaporan bagian aset
          =========================================================== -->
     <section class="page" id="page-form-aset">
       <div class="page-title">
@@ -1529,7 +1524,7 @@
               <select class="form-control" id="asetPetugas" multiple required>
                 <option value="" disabled selected>-- Pilih Petugas --</option>
               </select>
-              <small style="color: var(--text-muted); font-size: 11px;">
+              <small style="color: rgba(255,255,255,0.5); font-size: 11px;">
                 💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
               </small>
             </div>
@@ -1537,7 +1532,6 @@
 
           <div class="form-group">
             <label>Jenis Aset <span class="required">*</span></label>
-            <!-- 🔧 Data dari master sheet kolom G2:G -->
             <select class="form-control" id="asetJenis" required>
               <option value="">-- Pilih Jenis Aset --</option>
             </select>
@@ -1545,11 +1539,10 @@
 
           <div class="form-group">
             <label>Jenis Kerusakan <span class="required">*</span></label>
-            <!-- 🔧 Data dari master sheet kolom H2:H (dinamis berdasarkan jenis aset) -->
             <select class="form-control" id="asetKerusakan" multiple required>
               <option value="" disabled selected>-- Pilih Jenis Kerusakan --</option>
             </select>
-            <small style="color: var(--text-muted); font-size: 11px;">
+            <small style="color: rgba(255,255,255,0.5); font-size: 11px;">
               💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu
             </small>
           </div>
@@ -1562,7 +1555,6 @@
               <span class="file-name" id="asetFotoName">Belum ada foto</span>
             </div>
             <div id="asetFotoStatus" class="upload-status"></div>
-            <!-- Preview foto yang sudah diupload -->
             <div id="asetFotoPreview" style="margin-top: 8px;"></div>
             <input type="hidden" id="asetFotoUrl" value="">
           </div>
@@ -1577,10 +1569,6 @@
 
     <!-- ===========================================================
          HALAMAN: LIHAT KENDARAAN TROUBLE
-         ===========================================================
-         💡 Untuk menambah filter:
-         1. Copy .tab-btn di .tab-wrapper
-         2. Tambahkan data-filter sesuai nilai di master
          =========================================================== -->
     <section class="page" id="page-lihat-troble">
       <div class="page-title">
@@ -1588,10 +1576,29 @@
         <small>Penanganan Kendaraan</small>
       </div>
 
-      <!-- 🔧 Filter diisi dari master sheet kolom D2:D -->
+      <!-- Filter Jenis -->
       <div class="tab-wrapper">
         <button class="tab-btn active" data-filter="semua">Semua</button>
-        <!-- Akan diisi dinamis dari JavaScript -->
+      </div>
+
+      <!-- Filter Bulan -->
+      <div class="filter-bulan-wrapper">
+        <label>📅 Filter Bulan:</label>
+        <select class="form-control" id="bulanFilterTroble" onchange="loadLaporan('troble', getActiveFilter('lihat-troble'), this.value)">
+          <option value="semua">Semua Bulan</option>
+          <option value="01">Januari</option>
+          <option value="02">Februari</option>
+          <option value="03">Maret</option>
+          <option value="04">April</option>
+          <option value="05">Mei</option>
+          <option value="06">Juni</option>
+          <option value="07">Juli</option>
+          <option value="08">Agustus</option>
+          <option value="09">September</option>
+          <option value="10">Oktober</option>
+          <option value="11">November</option>
+          <option value="12">Desember</option>
+        </select>
       </div>
 
       <div class="laporan-list" id="listTroble">
@@ -1617,6 +1624,25 @@
         <button class="tab-btn" data-filter="kecelakaan">Kecelakaan</button>
       </div>
 
+      <div class="filter-bulan-wrapper">
+        <label>📅 Filter Bulan:</label>
+        <select class="form-control" id="bulanFilterDerek" onchange="loadLaporan('derek', getActiveFilter('lihat-derek'), this.value)">
+          <option value="semua">Semua Bulan</option>
+          <option value="01">Januari</option>
+          <option value="02">Februari</option>
+          <option value="03">Maret</option>
+          <option value="04">April</option>
+          <option value="05">Mei</option>
+          <option value="06">Juni</option>
+          <option value="07">Juli</option>
+          <option value="08">Agustus</option>
+          <option value="09">September</option>
+          <option value="10">Oktober</option>
+          <option value="11">November</option>
+          <option value="12">Desember</option>
+        </select>
+      </div>
+
       <div class="laporan-list" id="listDerek">
         <div class="empty-state">
           <span class="icon">⏳</span>
@@ -1627,8 +1653,6 @@
 
     <!-- ===========================================================
          HALAMAN: LIHAT KEJADIAN KHUSUS
-         ===========================================================
-         💡 Filter diisi dari master sheet kolom E2:E
          =========================================================== -->
     <section class="page" id="page-lihat-khusus">
       <div class="page-title">
@@ -1638,7 +1662,25 @@
 
       <div class="tab-wrapper">
         <button class="tab-btn active" data-filter="semua">Semua</button>
-        <!-- Akan diisi dinamis dari JavaScript -->
+      </div>
+
+      <div class="filter-bulan-wrapper">
+        <label>📅 Filter Bulan:</label>
+        <select class="form-control" id="bulanFilterKhusus" onchange="loadLaporan('khusus', getActiveFilter('lihat-khusus'), this.value)">
+          <option value="semua">Semua Bulan</option>
+          <option value="01">Januari</option>
+          <option value="02">Februari</option>
+          <option value="03">Maret</option>
+          <option value="04">April</option>
+          <option value="05">Mei</option>
+          <option value="06">Juni</option>
+          <option value="07">Juli</option>
+          <option value="08">Agustus</option>
+          <option value="09">September</option>
+          <option value="10">Oktober</option>
+          <option value="11">November</option>
+          <option value="12">Desember</option>
+        </select>
       </div>
 
       <div class="laporan-list" id="listKhusus">
@@ -1668,6 +1710,25 @@
         <button class="tab-btn" data-filter="VMS">VMS</button>
       </div>
 
+      <div class="filter-bulan-wrapper">
+        <label>📅 Filter Bulan:</label>
+        <select class="form-control" id="bulanFilterAset" onchange="loadLaporan('aset', getActiveFilter('lihat-aset'), this.value)">
+          <option value="semua">Semua Bulan</option>
+          <option value="01">Januari</option>
+          <option value="02">Februari</option>
+          <option value="03">Maret</option>
+          <option value="04">April</option>
+          <option value="05">Mei</option>
+          <option value="06">Juni</option>
+          <option value="07">Juli</option>
+          <option value="08">Agustus</option>
+          <option value="09">September</option>
+          <option value="10">Oktober</option>
+          <option value="11">November</option>
+          <option value="12">Desember</option>
+        </select>
+      </div>
+
       <div class="laporan-list" id="listAset">
         <div class="empty-state">
           <span class="icon">⏳</span>
@@ -1686,19 +1747,14 @@
 
   <!-- ============================================================
   ════════════════════════════════════════════════════════════════════
-  BAGIAN 5: JAVASCRIPT - LOGIKA APLIKASI
-  ════════════════════════════════════════════════════════════════════
-  📌 YANG PERLU DIGANTI:
-     - API_URL: sudah di BAGIAN 1
-     - Fungsi renderLaporan: jika ingin ubah tampilan item
-     - Fungsi submitLaporan: jika ada field baru
-     - Fungsi populateSelects: jika ada master data baru
-  ============================================================ -->
+  BAGIAN 5: JAVASCRIPT
+  ════════════════════════════════════════════════════════════════════ -->
   <script>
     // =============================================================
-    // 5.1 KONFIGURASI
+    // 5.1 KONFIGURASI & HELPER
     // =============================================================
-    // 💡 MAP untuk label sub kategori aset
+    
+    // Map untuk label sub kategori aset
     const MAP_SUB_KATEGORI = {
       aset: {
         rambu: 'Rambu',
@@ -1710,14 +1766,44 @@
       }
     };
 
-    // State global
     let masterData = {};
     let uploadedFotoUrl = '';
 
     // =============================================================
-    // 5.2 API HELPER
+    // 5.2 FUNGSI FORMAT TANGGAL (untuk display)
     // =============================================================
-    // 💡 Tidak perlu diubah kecuali ada perubahan endpoint
+    function formatDateDisplay(dateString) {
+      if (!dateString) return '-';
+      try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return dateString;
+        
+        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        
+        return `${days[date.getDay()]}, ${String(date.getDate()).padStart(2, '0')}-${months[date.getMonth()]}-${date.getFullYear()}`;
+      } catch (e) {
+        return dateString;
+      }
+    }
+
+    function formatTimeDisplay(timeString) {
+      if (!timeString) return '-';
+      if (timeString.includes('T')) {
+        try {
+          const date = new Date(timeString);
+          return date.toTimeString().split(' ')[0];
+        } catch (e) {
+          return timeString;
+        }
+      }
+      return timeString;
+    }
+
+    // =============================================================
+    // 5.3 API HELPER
+    // =============================================================
     const API = {
       async get(action) {
         try {
@@ -1755,9 +1841,8 @@
     };
 
     // =============================================================
-    // 5.3 SIDEBAR & NAVIGASI
+    // 5.4 SIDEBAR & NAVIGASI
     // =============================================================
-    // 💡 Tidak perlu diubah
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
       const overlay = document.getElementById('sidebarOverlay');
@@ -1769,6 +1854,13 @@
       el.classList.toggle('open');
       const sub = el.nextElementSibling;
       if (sub) sub.classList.toggle('open');
+    }
+
+    function getActiveFilter(pageId) {
+      const page = document.getElementById('page-' + pageId);
+      if (!page) return 'semua';
+      const active = page.querySelector('.tab-btn.active');
+      return active ? active.dataset.filter : 'semua';
     }
 
     function showPage(pageId) {
@@ -1789,25 +1881,29 @@
         document.getElementById('sidebarOverlay').classList.remove('active');
       }
       
-      // Refresh data
+      // Refresh data dengan filter bulan
       if (pageId === 'dashboard') loadDashboard();
-      if (pageId === 'lihat-troble') loadLaporan('troble', getActiveFilter('lihat-troble'));
-      if (pageId === 'lihat-derek') loadLaporan('derek', getActiveFilter('lihat-derek'));
-      if (pageId === 'lihat-khusus') loadLaporan('khusus', getActiveFilter('lihat-khusus'));
-      if (pageId === 'lihat-aset') loadLaporan('aset', getActiveFilter('lihat-aset'));
-    }
-
-    function getActiveFilter(pageId) {
-      const page = document.getElementById('page-' + pageId);
-      if (!page) return 'semua';
-      const active = page.querySelector('.tab-btn.active');
-      return active ? active.dataset.filter : 'semua';
+      if (pageId === 'lihat-troble') {
+        const bulan = document.getElementById('bulanFilterTroble')?.value || 'semua';
+        loadLaporan('troble', getActiveFilter('lihat-troble'), bulan);
+      }
+      if (pageId === 'lihat-derek') {
+        const bulan = document.getElementById('bulanFilterDerek')?.value || 'semua';
+        loadLaporan('derek', getActiveFilter('lihat-derek'), bulan);
+      }
+      if (pageId === 'lihat-khusus') {
+        const bulan = document.getElementById('bulanFilterKhusus')?.value || 'semua';
+        loadLaporan('khusus', getActiveFilter('lihat-khusus'), bulan);
+      }
+      if (pageId === 'lihat-aset') {
+        const bulan = document.getElementById('bulanFilterAset')?.value || 'semua';
+        loadLaporan('aset', getActiveFilter('lihat-aset'), bulan);
+      }
     }
 
     // =============================================================
-    // 5.4 JAM DIGITAL
+    // 5.5 JAM DIGITAL
     // =============================================================
-    // 💡 Tidak perlu diubah
     function updateClock() {
       const now = new Date();
       const time = now.toTimeString().split(' ')[0];
@@ -1836,9 +1932,8 @@
     setInterval(updateClock, 1000);
 
     // =============================================================
-    // 5.5 LOAD MASTER DATA
+    // 5.6 LOAD MASTER DATA
     // =============================================================
-    // 💡 Jika ada kolom master baru, tambahkan di sini
     async function loadMasterData() {
       try {
         const data = await API.get('getMaster');
@@ -1854,35 +1949,34 @@
     }
 
     // =============================================================
-    // 5.6 POPULATE SELECT (FORM)
+    // 5.7 POPULATE SELECT (FORM)
     // =============================================================
-    // 💡 Jika ada select baru, tambahkan di sini
     function populateSelects(data) {
-      // === JALUR (A2:A) ===
+      // Jalur
       ['trobleJalur', 'khususJalur', 'derekJalur', 'asetJalur'].forEach(id => {
         populateSelect(id, data.jalur, '-- Pilih Jalur --');
       });
 
-      // === UNIT (B2:B) ===
+      // Unit
       ['trobleUnit', 'khususUnit', 'asetUnit'].forEach(id => {
         populateSelect(id, data.unit, '-- Pilih Unit --');
       });
 
-      // === PETUGAS LAYANAN (C2:C) - MULTI SELECT ===
+      // Petugas Layanan - Multi Select
       ['troblePetugas', 'khususPetugas', 'asetPetugas'].forEach(id => {
-        populateSelectMulti(id, data.petugasLayanan, '-- Pilih Petugas --');
+        populateSelectMulti(id, data.petugasLayanan);
       });
 
-      // === PETUGAS DEREK (F2:F) - MULTI SELECT ===
-      populateSelectMulti('derekPetugas', data.petugasDerek, '-- Pilih Petugas Derek --');
+      // Petugas Derek - Multi Select
+      populateSelectMulti('derekPetugas', data.petugasDerek);
 
-      // === JENIS KERUSAKAN (D2:D) ===
+      // Jenis Kerusakan
       populateSelect('trobleKerusakan', data.jenisKerusakan, '-- Pilih Jenis Kerusakan --');
 
-      // === JENIS KEJADIAN (E2:E) ===
+      // Jenis Kejadian
       populateSelect('khususJenis', data.jenisKejadian, '-- Pilih Jenis Kejadian --');
 
-      // === JENIS ASET (G2:G) ===
+      // Jenis Aset
       const asetSelect = document.getElementById('asetJenis');
       if (asetSelect) {
         asetSelect.innerHTML = '';
@@ -1902,14 +1996,12 @@
           });
         }
         
-        // Event untuk update kerusakan aset
         asetSelect.addEventListener('change', function() {
           updateAsetKerusakan(this.value);
         });
       }
 
-      // === JENIS KERUSAKAN ASET (H2:H) - MULTI SELECT ===
-      // Akan diisi dinamis saat jenis aset dipilih
+      // Jenis Kerusakan Aset - akan diisi dinamis
       const kerusakanSelect = document.getElementById('asetKerusakan');
       if (kerusakanSelect) {
         kerusakanSelect.innerHTML = '';
@@ -1922,7 +2014,6 @@
       }
     }
 
-    // Helper: Single select
     function populateSelect(id, data, placeholder) {
       const sel = document.getElementById(id);
       if (!sel) return;
@@ -1944,8 +2035,7 @@
       }
     }
 
-    // Helper: Multi select
-    function populateSelectMulti(id, data, placeholder) {
+    function populateSelectMulti(id, data) {
       const sel = document.getElementById(id);
       if (!sel) return;
       sel.innerHTML = '';
@@ -1961,9 +2051,8 @@
     }
 
     // =============================================================
-    // 5.7 UPDATE KERUSAKAN ASET (Dinamis)
+    // 5.8 UPDATE KERUSAKAN ASET (Dinamis)
     // =============================================================
-    // 💡 Jika struktur master berubah, update di sini
     function updateAsetKerusakan(jenisAset) {
       const kerusakanSelect = document.getElementById('asetKerusakan');
       if (!kerusakanSelect) return;
@@ -1993,14 +2082,12 @@
     }
 
     // =============================================================
-    // 5.8 POPULATE FILTER TAB
+    // 5.9 POPULATE FILTER TAB
     // =============================================================
-    // 💡 Filter diisi dari master data
     function populateFilterTabs(data) {
       // Filter Trouble (D2:D)
       const trobleWrapper = document.querySelector('#page-lihat-troble .tab-wrapper');
       if (trobleWrapper && data.jenisKerusakan) {
-        // Keep "Semua" button
         const semuaBtn = trobleWrapper.querySelector('.tab-btn');
         trobleWrapper.innerHTML = '';
         trobleWrapper.appendChild(semuaBtn);
@@ -2032,9 +2119,8 @@
     }
 
     // =============================================================
-    // 5.9 LOAD DASHBOARD
+    // 5.10 LOAD DASHBOARD
     // =============================================================
-    // 💡 Tidak perlu diubah
     async function loadDashboard() {
       try {
         const data = await API.get('dashboard');
@@ -2049,10 +2135,9 @@
     }
 
     // =============================================================
-    // 5.10 LOAD LAPORAN
+    // 5.11 LOAD LAPORAN (DENGAN FILTER BULAN & TOTAL KEJADIAN)
     // =============================================================
-    // 💡 Untuk mengubah tampilan item, edit bagian render
-    async function loadLaporan(jenis, filter) {
+    async function loadLaporan(jenis, filter, bulanFilter) {
       const mapConfig = {
         troble: { 
           list: 'listTroble', 
@@ -2104,18 +2189,16 @@
         const headers = data[0];
         const rows = data.slice(1);
         
-        // Filter
+        // Filter berdasarkan jenis
         let filtered = rows;
         if (filter && filter !== 'semua') {
           const fieldIdx = headers.indexOf(config.filterField);
           const golonganIdx = headers.indexOf('golonganKendaraan');
           
           filtered = rows.filter(row => {
-            // Cek filter field
             const fieldVal = String(row[fieldIdx] || '').toLowerCase();
             if (fieldVal.includes(filter)) return true;
             
-            // Untuk trouble, cek juga golongan
             if (jenis === 'troble' && golonganIdx > -1) {
               const golongan = String(row[golonganIdx] || '').toLowerCase();
               if (golongan.includes(filter)) return true;
@@ -2123,6 +2206,39 @@
             
             return false;
           });
+        }
+        
+        // Filter berdasarkan bulan
+        if (bulanFilter && bulanFilter !== 'semua') {
+          const dateIdx = headers.indexOf('tanggalBertugas') > -1 ? headers.indexOf('tanggalBertugas') : headers.indexOf('tanggal');
+          if (dateIdx > -1) {
+            filtered = filtered.filter(row => {
+              const dateStr = row[dateIdx] || '';
+              if (!dateStr) return false;
+              try {
+                const date = new Date(dateStr);
+                if (isNaN(date.getTime())) return false;
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                return month === bulanFilter;
+              } catch (e) {
+                return false;
+              }
+            });
+          }
+        }
+        
+        // Hitung total dan kategori
+        const totalData = filtered.length;
+        let kategoriCount = {};
+        
+        if (jenis === 'troble') {
+          const golIdx = headers.indexOf('golonganKendaraan');
+          if (golIdx > -1) {
+            filtered.forEach(row => {
+              const gol = row[golIdx] || 'Tidak Diketahui';
+              kategoriCount[gol] = (kategoriCount[gol] || 0) + 1;
+            });
+          }
         }
         
         if (filtered.length === 0) {
@@ -2136,9 +2252,28 @@
         }
         
         // =============================================================
-        // RENDER LAPORAN - Edit di sini untuk ubah tampilan
+        // RENDER LAPORAN
         // =============================================================
         let html = '';
+        
+        // Summary Card - Total dan Kategori
+        html += `
+          <div class="summary-card">
+            <div class="summary-content">
+              <div class="total">
+                📊 Total: <span>${totalData}</span> Kejadian
+              </div>
+              ${Object.keys(kategoriCount).length > 0 ? `
+                <div class="kategori-list">
+                  ${Object.entries(kategoriCount).map(([key, count]) => `
+                    <span class="kategori-item">${key}: ${count}</span>
+                  `).join('')}
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+        
         const dateIdx = headers.indexOf('tanggalBertugas') > -1 ? headers.indexOf('tanggalBertugas') : headers.indexOf('tanggal');
         const timeIdx = headers.indexOf('jamKejadian') > -1 ? headers.indexOf('jamKejadian') : headers.indexOf('waktu');
         const petugasIdx = headers.indexOf('namaPetugas');
@@ -2147,8 +2282,10 @@
         const shiftIdx = headers.indexOf('shift');
         
         filtered.slice().reverse().forEach(row => {
-          const tanggal = (dateIdx > -1) ? row[dateIdx] || '-' : '-';
-          const waktu = (timeIdx > -1) ? row[timeIdx] || '-' : '-';
+          const rawTanggal = (dateIdx > -1) ? row[dateIdx] || '-' : '-';
+          const tanggal = formatDateDisplay(rawTanggal);
+          
+          const waktu = (timeIdx > -1) ? formatTimeDisplay(row[timeIdx]) || '-' : '-';
           const petugas = (petugasIdx > -1) ? row[petugasIdx] || '-' : '-';
           const lokasi = (lokasiIdx > -1) ? row[lokasiIdx] || '-' : '-';
           const jalur = (jalurIdx > -1) ? row[jalurIdx] || '-' : '-';
@@ -2164,8 +2301,8 @@
             const tindak = headers.indexOf('tindakLanjut') > -1 ? row[headers.indexOf('tindakLanjut')] || '' : '';
             subTitle = `${golongan} - ${jenisKendaraan}`;
             detail = `
-              <div style="font-size:13px; color:var(--text-secondary);">🔧 ${kerusakan}</div>
-              <div style="font-size:12px; color:var(--text-muted);">${tindak.substring(0, 100)}${tindak.length > 100 ? '...' : ''}</div>
+              <div style="font-size:13px; color:rgba(255,255,255,0.8);">🔧 ${kerusakan}</div>
+              <div style="font-size:12px; color:rgba(255,255,255,0.5);">${tindak.substring(0, 100)}${tindak.length > 100 ? '...' : ''}</div>
             `;
           } else if (jenis === 'derek') {
             const alasan = headers.indexOf('alasanPenderekan') > -1 ? row[headers.indexOf('alasanPenderekan')] || '-' : '-';
@@ -2173,15 +2310,15 @@
             const derek = headers.indexOf('derekDigunakan') > -1 ? row[headers.indexOf('derekDigunakan')] || '-' : '-';
             subTitle = `${derek}`;
             detail = `
-              <div style="font-size:13px; color:var(--text-secondary);">📌 ${alasan}</div>
-              <div style="font-size:12px; color:var(--text-muted);">Tujuan: ${tujuan}</div>
+              <div style="font-size:13px; color:rgba(255,255,255,0.8);">📌 ${alasan}</div>
+              <div style="font-size:12px; color:rgba(255,255,255,0.5);">Tujuan: ${tujuan}</div>
             `;
           } else if (jenis === 'khusus') {
             const jenisKej = headers.indexOf('jenisKejadian') > -1 ? row[headers.indexOf('jenisKejadian')] || '-' : '-';
             const uraian = headers.indexOf('uraianKejadian') > -1 ? row[headers.indexOf('uraianKejadian')] || '' : '';
             subTitle = `${jenisKej}`;
             detail = `
-              <div style="font-size:12px; color:var(--text-muted);">${uraian.substring(0, 100)}${uraian.length > 100 ? '...' : ''}</div>
+              <div style="font-size:12px; color:rgba(255,255,255,0.5);">${uraian.substring(0, 100)}${uraian.length > 100 ? '...' : ''}</div>
             `;
           } else if (jenis === 'aset') {
             const aset = headers.indexOf('jenisAset') > -1 ? row[headers.indexOf('jenisAset')] || '-' : '-';
@@ -2189,8 +2326,8 @@
             const foto = headers.indexOf('fotoUrl') > -1 ? row[headers.indexOf('fotoUrl')] || '' : '';
             subTitle = `${aset}`;
             detail = `
-              <div style="font-size:13px; color:var(--text-secondary);">🔧 ${kerusakan}</div>
-              ${foto ? `<div style="margin-top:4px;"><img src="${foto}" style="max-width:60px; max-height:60px; border-radius:6px; object-fit:cover;"></div>` : ''}
+              <div style="font-size:13px; color:rgba(255,255,255,0.8);">🔧 ${kerusakan}</div>
+              ${foto ? `<div style="margin-top:4px;"><img src="${foto}" style="max-width:60px; max-height:60px; border-radius:6px; object-fit:cover; border:1px solid rgba(255,255,255,0.1);"></div>` : ''}
             `;
           }
           
@@ -2200,7 +2337,7 @@
                 <span class="title">${subTitle || jalur}</span>
                 <span class="time">${tanggal} ${waktu}</span>
               </div>
-              <div style="font-size:13px; color:var(--text-muted);">
+              <div style="font-size:13px; color:rgba(255,255,255,0.5);">
                 📍 ${lokasi} &bull; 👤 ${petugas} &bull; 🕐 ${shift}
               </div>
               <div style="margin-top:6px;">${detail}</div>
@@ -2221,9 +2358,8 @@
     }
 
     // =============================================================
-    // 5.11 SUBMIT LAPORAN
+    // 5.12 SUBMIT LAPORAN
     // =============================================================
-    // 💡 Jika ada field baru, tambahkan di sini
     async function submitLaporan(event, jenis) {
       event.preventDefault();
       
@@ -2265,9 +2401,7 @@
       btnText.style.display = 'none';
       btnSpinner.style.display = 'inline-block';
       
-      // =============================================================
-      // KUMPULKAN DATA - Tambah field baru di sini
-      // =============================================================
+      // Kumpulkan data
       let data = {};
       
       if (jenis === 'troble') {
@@ -2337,7 +2471,6 @@
           resetButton();
           return;
         }
-        // Untuk array, cek apakah kosong
         if (Array.isArray(data[key]) && data[key].length === 0) {
           showToast('⚠️ Harap pilih minimal satu ' + key.replace('namaPetugas', 'petugas').replace('jenisKerusakan', 'kerusakan'), 'error');
           resetButton();
@@ -2359,7 +2492,8 @@
         
         const filter = document.querySelector(`#page-lihat-${jenis} .tab-btn.active`);
         const filterVal = filter ? filter.dataset.filter : 'semua';
-        loadLaporan(jenis, filterVal);
+        const bulanFilter = document.getElementById(`bulanFilter${jenis.charAt(0).toUpperCase() + jenis.slice(1)}`)?.value || 'semua';
+        loadLaporan(jenis, filterVal, bulanFilter);
         
         resetButton();
       } catch (err) {
@@ -2374,7 +2508,6 @@
       }
     }
 
-    // Helper: Get values from multi-select
     function getMultiSelectValues(id) {
       const sel = document.getElementById(id);
       if (!sel) return [];
@@ -2388,9 +2521,8 @@
     }
 
     // =============================================================
-    // 5.12 UPLOAD FOTO (Dengan Kompresi)
+    // 5.13 UPLOAD FOTO (Dengan Kompresi)
     // =============================================================
-    // 💡 Ubah MAX_SIZE untuk mengubah ukuran maksimal foto
     async function handleFotoUpload(input) {
       const file = input.files[0];
       if (!file) return;
@@ -2404,10 +2536,8 @@
       statusEl.className = 'upload-status';
       
       try {
-        // Kompresi foto
         const compressed = await compressImageClient(file);
         
-        // Convert ke base64
         const reader = new FileReader();
         reader.onload = async function(e) {
           try {
@@ -2422,8 +2552,6 @@
               document.getElementById('asetFotoUrl').value = result.url;
               statusEl.textContent = '✅ Foto berhasil diupload!';
               statusEl.className = 'upload-status success';
-              
-              // Preview
               previewEl.innerHTML = `<img src="${result.url}" class="preview-img" alt="Preview">`;
             } else {
               statusEl.textContent = '❌ Gagal upload: ' + (result.error || 'Error');
@@ -2442,8 +2570,6 @@
       }
     }
 
-    // Client-side image compression
-    // 💡 Ubah MAX_SIZE untuk mengubah ukuran maksimal gambar
     function compressImageClient(file) {
       return new Promise((resolve, reject) => {
         const MAX_SIZE = 1200;
@@ -2501,9 +2627,8 @@
     }
 
     // =============================================================
-    // 5.13 TOAST NOTIFIKASI
+    // 5.14 TOAST NOTIFIKASI
     // =============================================================
-    // 💡 Tidak perlu diubah
     let toastTimeout;
 
     function showToast(message, type = 'info') {
@@ -2521,9 +2646,8 @@
     }
 
     // =============================================================
-    // 5.14 FILTER TAB EVENT
+    // 5.15 FILTER TAB EVENT
     // =============================================================
-    // 💡 Tidak perlu diubah
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('tab-btn')) {
         const wrapper = e.target.closest('.tab-wrapper');
@@ -2544,15 +2668,15 @@
         
         if (jenis) {
           const filter = e.target.dataset.filter || 'semua';
-          loadLaporan(jenis, filter);
+          const bulanFilter = document.getElementById(`bulanFilter${jenis.charAt(0).toUpperCase() + jenis.slice(1)}`)?.value || 'semua';
+          loadLaporan(jenis, filter, bulanFilter);
         }
       }
     });
 
     // =============================================================
-    // 5.15 AUTO GROW TEXTAREA
+    // 5.16 AUTO GROW TEXTAREA
     // =============================================================
-    // 💡 Tidak perlu diubah
     document.addEventListener('input', function(e) {
       if (e.target.classList.contains('auto-grow')) {
         e.target.style.height = 'auto';
@@ -2561,9 +2685,8 @@
     });
 
     // =============================================================
-    // 5.16 ALASAN PENDEREKAN LAINNYA
+    // 5.17 ALASAN PENDEREKAN LAINNYA
     // =============================================================
-    // 💡 Tidak perlu diubah
     document.addEventListener('change', function(e) {
       if (e.target.id === 'derekAlasan') {
         const lainInput = document.getElementById('derekAlasanLain');
@@ -2579,26 +2702,23 @@
     });
 
     // =============================================================
-    // 5.17 INITIALISASI
+    // 5.18 INITIALISASI
     // =============================================================
-    // 💡 Tidak perlu diubah
     document.addEventListener('DOMContentLoaded', async function() {
       await loadMasterData();
       loadDashboard();
-      loadLaporan('troble', 'semua');
-      loadLaporan('derek', 'semua');
-      loadLaporan('khusus', 'semua');
-      loadLaporan('aset', 'semua');
+      loadLaporan('troble', 'semua', 'semua');
+      loadLaporan('derek', 'semua', 'semua');
+      loadLaporan('khusus', 'semua', 'semua');
+      loadLaporan('aset', 'semua', 'semua');
       
-      // Hide alasan lain awal
       const alasanLain = document.getElementById('derekAlasanLain');
       if (alasanLain) alasanLain.style.display = 'none';
     });
 
     // =============================================================
-    // 5.18 ONLINE/OFFLINE DETECTION
+    // 5.19 ONLINE/OFFLINE DETECTION
     // =============================================================
-    // 💡 Tidak perlu diubah
     window.addEventListener('online', function() {
       document.getElementById('offlineBanner').classList.remove('show');
       loadDashboard();
