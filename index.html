@@ -16,9 +16,6 @@
   </script>
   
   <style>
-    /* ============================================================
-       CSS - TEMA GELAP RESPONSIVE
-       ============================================================ */
     :root {
       --primary: #1a237e;
       --secondary: #ff6f00;
@@ -57,7 +54,6 @@
       66% { transform: translate(-5%,5%) rotate(-5deg); }
     }
 
-    /* SIDEBAR */
     .sidebar {
       position: fixed; top: 0; left: -280px; width: 280px; height: 100%;
       background: rgba(10,14,26,0.95); backdrop-filter: blur(20px);
@@ -106,7 +102,6 @@
     .menu-item.has-sub .arrow { margin-left: auto; transition: transform 0.3s ease; font-size: 12px; }
     .menu-item.has-sub.open .arrow { transform: rotate(180deg); }
 
-    /* MAIN CONTENT */
     .main-content { padding: 16px; padding-top: 70px; min-height: 100vh; transition: var(--transition); }
     .top-bar {
       position: fixed; top: 0; left: 0; right: 0;
@@ -118,7 +113,6 @@
     .top-bar .title { font-size: 14px; font-weight: 600; letter-spacing: 0.3px; }
     .top-bar .title span { color: var(--secondary); }
 
-    /* DASHBOARD */
     .dashboard { display: none; }
     .dashboard.active { display: block; }
     .clock-wrapper {
@@ -151,7 +145,6 @@
     .stat-card .label { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
     .stat-card .icon-big { font-size: 32px; margin-bottom: 4px; display: block; }
 
-    /* PAGE */
     .page { display: none; }
     .page.active { display: block; }
     .page-title {
@@ -160,7 +153,6 @@
     }
     .page-title small { font-size: 12px; font-weight: 400; color: var(--text-muted); }
 
-    /* FORM */
     .sub-form-card {
       background: var(--bg-card); border-radius: var(--radius); padding: 16px;
       margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.06);
@@ -201,7 +193,6 @@
     .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
     @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } .form-row-3 { grid-template-columns: 1fr 1fr; } }
 
-    /* BUTTON */
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       padding: 12px 24px; border: none; border-radius: 10px;
@@ -214,7 +205,6 @@
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,111,0,0.3); }
     .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
-    /* LAPORAN LIST */
     .laporan-list { margin-top: 16px; }
     .laporan-item {
       background: var(--bg-card); border-radius: var(--radius); padding: 14px 16px;
@@ -228,7 +218,6 @@
     .laporan-item .title { font-weight: 600; font-size: 14px; }
     .laporan-item .time { font-size: 11px; color: var(--text-muted); }
 
-    /* TAB FILTER */
     .tab-wrapper {
       display: flex; gap: 8px; margin-bottom: 12px;
       overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch;
@@ -242,16 +231,12 @@
     .tab-btn:hover { background: rgba(255,255,255,0.1); }
     .tab-btn.active { background: var(--secondary); color: #fff; box-shadow: 0 4px 16px rgba(255,111,0,0.3); }
 
-    /* FILTER BULAN & TAHUN */
     .filter-wrapper {
       display: flex; gap: 8px; margin-bottom: 16px; align-items: center; flex-wrap: wrap;
     }
     .filter-wrapper label { font-size: 13px; color: var(--text-secondary); }
-    .filter-wrapper select {
-      width: auto; min-width: 100px; padding: 6px 12px;
-    }
+    .filter-wrapper select { width: auto; min-width: 100px; padding: 6px 12px; }
 
-    /* SUMMARY CARD */
     .summary-card {
       background: var(--bg-card); border-radius: var(--radius); padding: 12px 16px;
       margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.06);
@@ -267,10 +252,7 @@
       padding: 2px 12px; border-radius: 12px;
     }
 
-    /* LOADING */
-    .loading-overlay {
-      display: none; text-align: center; padding: 40px 20px;
-    }
+    .loading-overlay { display: none; text-align: center; padding: 40px 20px; }
     .loading-overlay.show { display: block; }
     .loading-spinner {
       display: inline-block; width: 40px; height: 40px;
@@ -280,7 +262,6 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading-text { margin-top: 12px; color: var(--text-muted); font-size: 14px; }
 
-    /* TOAST */
     .toast {
       position: fixed; bottom: 20px; left: 50%;
       transform: translateX(-50%) translateY(80px);
@@ -449,13 +430,13 @@
           </div>
           <div class="form-group"><label>Jam Kejadian <span class="required">*</span></label><input type="time" class="form-control" id="trobleJam" required></div>
           <div class="form-row">
-            <div class="form-group"><label>Jalur <span class="required">*</span></label><select class="form-control" id="trobleJalur" required><option value="">-- Pilih Jalur --</option></select></div>
+            <div class="form-group"><label>Jalur <span class="required">*</span></label><select class="form-control" id="trobleJalur" required></select></div>
             <div class="form-group"><label>Lokasi/STA <span class="required">*</span></label><input type="text" class="form-control" id="trobleLokasi" placeholder="Contoh: 0+500 atau Nama Gerbang" required></div>
           </div>
           <div class="form-row">
-            <div class="form-group"><label>Unit <span class="required">*</span></label><select class="form-control" id="trobleUnit" required><option value="">-- Pilih Unit --</option></select></div>
+            <div class="form-group"><label>Unit <span class="required">*</span></label><select class="form-control" id="trobleUnit" required></select></div>
             <div class="form-group"><label>Nama Petugas <span class="required">*</span></label>
-              <select class="form-control" id="troblePetugas" multiple required><option value="" disabled selected>-- Pilih Petugas --</option></select>
+              <select class="form-control" id="troblePetugas" multiple required></select>
               <small style="color:var(--text-muted);font-size:11px;">💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu</small>
             </div>
           </div>
@@ -468,7 +449,7 @@
             </div>
             <div class="form-group"><label>Jenis Kendaraan <span class="required">*</span></label><input type="text" class="form-control" id="trobleJenis" placeholder="Contoh: Sedan, Truck, Bus" required></div>
           </div>
-          <div class="form-group"><label>Jenis Kerusakan <span class="required">*</span></label><select class="form-control" id="trobleKerusakan" required><option value="">-- Pilih Jenis Kerusakan --</option></select></div>
+          <div class="form-group"><label>Jenis Kerusakan <span class="required">*</span></label><select class="form-control" id="trobleKerusakan" required></select></div>
           <div class="form-group"><label>Tindak Lanjut <span class="required">*</span></label><textarea class="form-control auto-grow" id="trobleTindak" placeholder="Jelaskan tindakan yang dilakukan..." required></textarea></div>
         </div>
         <button type="submit" class="btn btn-primary"><span id="btnTrobleText">📤 Kirim Laporan</span><span id="btnTrobleSpinner" style="display:none;" class="spinner"></span></button>
@@ -491,20 +472,20 @@
           </div>
           <div class="form-group"><label>Jam Kejadian <span class="required">*</span></label><input type="time" class="form-control" id="khususJam" required></div>
           <div class="form-row">
-            <div class="form-group"><label>Jalur <span class="required">*</span></label><select class="form-control" id="khususJalur" required><option value="">-- Pilih Jalur --</option></select></div>
+            <div class="form-group"><label>Jalur <span class="required">*</span></label><select class="form-control" id="khususJalur" required></select></div>
             <div class="form-group"><label>Lokasi/STA <span class="required">*</span></label><input type="text" class="form-control" id="khususLokasi" placeholder="Contoh: 0+500 atau Nama Gerbang" required></div>
           </div>
           <div class="form-row">
-            <div class="form-group"><label>Unit <span class="required">*</span></label><select class="form-control" id="khususUnit" required><option value="">-- Pilih Unit --</option></select></div>
+            <div class="form-group"><label>Unit <span class="required">*</span></label><select class="form-control" id="khususUnit" required></select></div>
             <div class="form-group"><label>Nama Petugas <span class="required">*</span></label>
-              <select class="form-control" id="khususPetugas" multiple required><option value="" disabled selected>-- Pilih Petugas --</option></select>
+              <select class="form-control" id="khususPetugas" multiple required></select>
               <small style="color:var(--text-muted);font-size:11px;">💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu</small>
             </div>
           </div>
         </div>
         <div class="sub-form-card">
           <div class="card-title">📝 Detail Kejadian <span class="badge-sub">Deskripsi</span></div>
-          <div class="form-group"><label>Jenis Kejadian <span class="required">*</span></label><select class="form-control" id="khususJenis" required><option value="">-- Pilih Jenis Kejadian --</option></select></div>
+          <div class="form-group"><label>Jenis Kejadian <span class="required">*</span></label><select class="form-control" id="khususJenis" required></select></div>
           <div class="form-group"><label>Uraian Kejadian <span class="required">*</span></label><textarea class="form-control auto-grow" id="khususUraian" placeholder="Jelaskan kejadian secara detail..." required></textarea></div>
         </div>
         <button type="submit" class="btn btn-primary"><span id="btnKhususText">📤 Kirim Laporan</span><span id="btnKhususSpinner" style="display:none;" class="spinner"></span></button>
@@ -527,14 +508,14 @@
           </div>
           <div class="form-group"><label>Jam Kejadian <span class="required">*</span></label><input type="time" class="form-control" id="derekJam" required></div>
           <div class="form-row">
-            <div class="form-group"><label>Jalur <span class="required">*</span></label><select class="form-control" id="derekJalur" required><option value="">-- Pilih Jalur --</option></select></div>
+            <div class="form-group"><label>Jalur <span class="required">*</span></label><select class="form-control" id="derekJalur" required></select></div>
             <div class="form-group"><label>Lokasi/STA <span class="required">*</span></label><input type="text" class="form-control" id="derekLokasi" placeholder="Contoh: 0+500 atau Nama Gerbang" required></div>
           </div>
           <div class="form-group"><label>Derek yang Digunakan <span class="required">*</span></label>
             <select class="form-control" id="derekJenis" required><option value="">-- Pilih --</option><option value="Derek Besar">Derek Besar</option><option value="Derek Kecil">Derek Kecil</option></select>
           </div>
           <div class="form-group"><label>Nama Petugas Derek <span class="required">*</span></label>
-            <select class="form-control" id="derekPetugas" multiple required><option value="" disabled selected>-- Pilih Petugas Derek --</option></select>
+            <select class="form-control" id="derekPetugas" multiple required></select>
             <small style="color:var(--text-muted);font-size:11px;">💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu</small>
           </div>
         </div>
@@ -577,19 +558,19 @@
           </div>
           <div class="form-group"><label>Jam Temuan <span class="required">*</span></label><input type="time" class="form-control" id="asetJam" required></div>
           <div class="form-row">
-            <div class="form-group"><label>Jalur <span class="required">*</span></label><select class="form-control" id="asetJalur" required><option value="">-- Pilih Jalur --</option></select></div>
+            <div class="form-group"><label>Jalur <span class="required">*</span></label><select class="form-control" id="asetJalur" required></select></div>
             <div class="form-group"><label>Lokasi/STA <span class="required">*</span></label><input type="text" class="form-control" id="asetLokasi" placeholder="Contoh: 0+500 atau Nama Gerbang" required></div>
           </div>
           <div class="form-row">
-            <div class="form-group"><label>Unit <span class="required">*</span></label><select class="form-control" id="asetUnit" required><option value="">-- Pilih Unit --</option></select></div>
+            <div class="form-group"><label>Unit <span class="required">*</span></label><select class="form-control" id="asetUnit" required></select></div>
             <div class="form-group"><label>Nama Petugas <span class="required">*</span></label>
-              <select class="form-control" id="asetPetugas" multiple required><option value="" disabled selected>-- Pilih Petugas --</option></select>
+              <select class="form-control" id="asetPetugas" multiple required></select>
               <small style="color:var(--text-muted);font-size:11px;">💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu</small>
             </div>
           </div>
-          <div class="form-group"><label>Jenis Aset <span class="required">*</span></label><select class="form-control" id="asetJenis" required><option value="">-- Pilih Jenis Aset --</option></select></div>
+          <div class="form-group"><label>Jenis Aset <span class="required">*</span></label><select class="form-control" id="asetJenis" required></select></div>
           <div class="form-group"><label>Jenis Kerusakan <span class="required">*</span></label>
-            <select class="form-control" id="asetKerusakan" multiple required><option value="" disabled selected>-- Pilih Jenis Kerusakan --</option></select>
+            <select class="form-control" id="asetKerusakan" multiple required></select>
             <small style="color:var(--text-muted);font-size:11px;">💡 Tekan Ctrl/Cmd untuk memilih lebih dari satu</small>
           </div>
           <div class="form-group">
@@ -737,31 +718,16 @@
        ============================================================ -->
   <script>
     // ============================================================
-    // DATA MASTER (didefinisikan langsung di sini)
+    // KONFIGURASI
     // ============================================================
-    const MASTER_DATA = {
-      jalur: ['Seksi I - Lajur A', 'Seksi I - Lajur B', 'Seksi II - Lajur A', 'Seksi II - Lajur B', 'Seksi III - Lajur A', 'Seksi III - Lajur B'],
-      unit: ['Unit 1', 'Unit 2', 'Unit 3', 'Unit 4', 'Unit 5', 'Unit 6'],
-      petugasLayanan: ['Andi', 'Budi', 'Caca', 'Dodi', 'Eko', 'Fajar', 'Gilang', 'Hendra'],
-      jenisKerusakan: ['Mesin', 'Ban', 'Kelistrikan', 'Transmisi', 'Kecelakaan', 'Overheat', 'Rem', 'Stir'],
-      jenisKejadian: ['Kecelakaan', 'Kebakaran', 'Banjir', 'Longsor', 'Angin Kencang', 'Gangguan Lalu Lintas', 'Pohon Tumbang'],
-      petugasDerek: ['Budi', 'Samsul', 'Dodi', 'Eko', 'Fajar', 'Gilang'],
-      jenisAset: ['Rambu', 'Guadril', 'Pagar', 'Lampu Liplop', 'Lampu PJU', 'VMS'],
-      asetKerusakanMap: {
-        'Rambu': ['Patah', 'Miring', 'Pudar', 'Hilang', 'Tertutup'],
-        'Guadril': ['Bengkok', 'Patah', 'Longgar', 'Berkarat', 'Hilang'],
-        'Pagar': ['Rusak', 'Jebol', 'Miring', 'Berkarat', 'Patah'],
-        'Lampu Liplop': ['Padam', 'Patah', 'Berkedip', 'Rusak', 'Miring'],
-        'Lampu PJU': ['Mati', 'Berkedip', 'Patah', 'Rusak', 'Miring'],
-        'VMS': ['Rusak', 'Tidak Menyala', 'Tampilan Error', 'Patah', 'Berkedip']
-      }
-    };
 
+    let masterData = {};
     let uploadedFotoUrl = '';
 
     // ============================================================
     // API HELPER
     // ============================================================
+
     const API = {
       async get(action) {
         const url = APP_CONFIG.API_URL + '?action=' + action;
@@ -781,6 +747,7 @@
     // ============================================================
     // SIDEBAR
     // ============================================================
+
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('active');
       document.getElementById('sidebarOverlay').classList.toggle('active');
@@ -824,6 +791,7 @@
     // ============================================================
     // JAM DIGITAL
     // ============================================================
+
     function updateClock() {
       const now = new Date();
       document.getElementById('clockTime').textContent = now.toTimeString().split(' ')[0];
@@ -849,23 +817,58 @@
     setInterval(updateClock, 1000);
 
     // ============================================================
-    // POPULATE SELECT (dari MASTER_DATA)
+    // LOAD MASTER DATA - HANYA DARI SHEET
     // ============================================================
-    function populateSelects() {
-      const data = MASTER_DATA;
 
+    async function loadMasterData() {
+      try {
+        const result = await API.get('getMaster');
+        masterData = result;
+
+        const isEmpty = !result.jalur || result.jalur.length === 0;
+
+        if (isEmpty) {
+          showToast('⚠️ Sheet Data kosong atau tidak ditemukan!', 'error');
+          document.querySelectorAll('select:not([id*="Filter"])').forEach(sel => {
+            sel.innerHTML = '';
+            const opt = document.createElement('option');
+            opt.value = '';
+            opt.textContent = '-- Data Kosong --';
+            opt.disabled = true;
+            opt.selected = true;
+            sel.appendChild(opt);
+          });
+          return;
+        }
+
+        populateSelects(result);
+        populateFilterTabs(result);
+        populateTahunFilters();
+      } catch (err) {
+        showToast('⚠️ Gagal memuat data master: ' + err.message, 'error');
+      }
+    }
+
+    // ============================================================
+    // POPULATE SELECT
+    // ============================================================
+
+    function populateSelects(data) {
       ['trobleJalur', 'khususJalur', 'derekJalur', 'asetJalur'].forEach(id => {
-        populateSelect(id, data.jalur, '-- Pilih Jalur --');
+        populateSelect(id, data.jalur || [], '-- Pilih Jalur --');
       });
+
       ['trobleUnit', 'khususUnit', 'asetUnit'].forEach(id => {
-        populateSelect(id, data.unit, '-- Pilih Unit --');
+        populateSelect(id, data.unit || [], '-- Pilih Unit --');
       });
+
       ['troblePetugas', 'khususPetugas', 'asetPetugas'].forEach(id => {
-        populateMulti(id, data.petugasLayanan);
+        populateMulti(id, data.petugasLayanan || []);
       });
-      populateMulti('derekPetugas', data.petugasDerek);
-      populateSelect('trobleKerusakan', data.jenisKerusakan, '-- Pilih Jenis Kerusakan --');
-      populateSelect('khususJenis', data.jenisKejadian, '-- Pilih Jenis Kejadian --');
+
+      populateMulti('derekPetugas', data.petugasDerek || []);
+      populateSelect('trobleKerusakan', data.jenisKerusakan || [], '-- Pilih Jenis Kerusakan --');
+      populateSelect('khususJenis', data.jenisKejadian || [], '-- Pilih Jenis Kejadian --');
 
       const asetSelect = document.getElementById('asetJenis');
       if (asetSelect) {
@@ -876,12 +879,14 @@
         opt.disabled = true;
         opt.selected = true;
         asetSelect.appendChild(opt);
-        data.jenisAset.forEach(item => {
+
+        (data.jenisAset || []).forEach(item => {
           const option = document.createElement('option');
           option.value = item;
           option.textContent = item;
           asetSelect.appendChild(option);
         });
+
         asetSelect.addEventListener('change', function() {
           updateAsetKerusakan(this.value);
         });
@@ -897,35 +902,6 @@
         opt.selected = true;
         kerusakanSelect.appendChild(opt);
       }
-
-      // Populate filter tabs
-      const trobleWrapper = document.querySelector('#page-lihat-troble .tab-wrapper');
-      if (trobleWrapper) {
-        const semuaBtn = trobleWrapper.querySelector('.tab-btn');
-        trobleWrapper.innerHTML = '';
-        trobleWrapper.appendChild(semuaBtn);
-        data.jenisKerusakan.forEach(item => {
-          const btn = document.createElement('button');
-          btn.className = 'tab-btn';
-          btn.dataset.filter = item.toLowerCase();
-          btn.textContent = item;
-          trobleWrapper.appendChild(btn);
-        });
-      }
-
-      const khususWrapper = document.querySelector('#page-lihat-khusus .tab-wrapper');
-      if (khususWrapper) {
-        const semuaBtn = khususWrapper.querySelector('.tab-btn');
-        khususWrapper.innerHTML = '';
-        khususWrapper.appendChild(semuaBtn);
-        data.jenisKejadian.forEach(item => {
-          const btn = document.createElement('button');
-          btn.className = 'tab-btn';
-          btn.dataset.filter = item.toLowerCase();
-          btn.textContent = item;
-          khususWrapper.appendChild(btn);
-        });
-      }
     }
 
     function populateSelect(id, data, placeholder) {
@@ -938,7 +914,8 @@
       opt.disabled = true;
       opt.selected = true;
       sel.appendChild(opt);
-      data.forEach(item => {
+
+      (data || []).forEach(item => {
         const option = document.createElement('option');
         option.value = item;
         option.textContent = item;
@@ -950,7 +927,7 @@
       const sel = document.getElementById(id);
       if (!sel) return;
       sel.innerHTML = '';
-      data.forEach(item => {
+      (data || []).forEach(item => {
         const option = document.createElement('option');
         option.value = item;
         option.textContent = item;
@@ -962,11 +939,12 @@
       const kerusakanSelect = document.getElementById('asetKerusakan');
       if (!kerusakanSelect) return;
       kerusakanSelect.innerHTML = '';
-      const list = MASTER_DATA.asetKerusakanMap[jenisAset] || [];
+
+      const list = (masterData.asetKerusakanMap && masterData.asetKerusakanMap[jenisAset]) || [];
       if (list.length === 0) {
         const opt = document.createElement('option');
         opt.value = '';
-        opt.textContent = '-- Tidak ada data --';
+        opt.textContent = '-- Tidak ada data kerusakan --';
         opt.disabled = true;
         opt.selected = true;
         kerusakanSelect.appendChild(opt);
@@ -981,45 +959,43 @@
     }
 
     // ============================================================
-    // LOAD DASHBOARD
+    // POPULATE FILTER TABS
     // ============================================================
-    async function loadDashboard() {
-      try {
-        const data = await API.get('dashboard');
-        document.getElementById('totalTroble').textContent = data.totalTroble || 0;
-        document.getElementById('totalDerek').textContent = data.totalDerek || 0;
-        document.getElementById('totalKhusus').textContent = data.totalKhusus || 0;
-        document.getElementById('totalAset').textContent = data.totalAset || 0;
-      } catch (err) {
-        console.error('Dashboard error:', err);
+
+    function populateFilterTabs(data) {
+      const trobleWrapper = document.querySelector('#page-lihat-troble .tab-wrapper');
+      if (trobleWrapper) {
+        const semuaBtn = trobleWrapper.querySelector('.tab-btn');
+        trobleWrapper.innerHTML = '';
+        trobleWrapper.appendChild(semuaBtn);
+        (data.jenisKerusakan || []).forEach(item => {
+          const btn = document.createElement('button');
+          btn.className = 'tab-btn';
+          btn.dataset.filter = item.toLowerCase();
+          btn.textContent = item;
+          trobleWrapper.appendChild(btn);
+        });
       }
-    }
 
-    // ============================================================
-    // FORMAT TANGGAL
-    // ============================================================
-    function formatDateDisplay(dateStr) {
-      if (!dateStr) return '-';
-      try {
-        const d = new Date(dateStr);
-        if (isNaN(d.getTime())) return dateStr;
-        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-          'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-        ];
-        return days[d.getDay()] + ', ' + String(d.getDate()).padStart(2, '0') + '-' + months[d.getMonth()] + '-' + d.getFullYear();
-      } catch (e) { return dateStr; }
-    }
-
-    function formatTimeDisplay(t) {
-      if (!t) return '-';
-      if (t.includes('T')) { try { return new Date(t).toTimeString().split(' ')[0]; } catch (e) {} }
-      return t;
+      const khususWrapper = document.querySelector('#page-lihat-khusus .tab-wrapper');
+      if (khususWrapper) {
+        const semuaBtn = khususWrapper.querySelector('.tab-btn');
+        khususWrapper.innerHTML = '';
+        khususWrapper.appendChild(semuaBtn);
+        (data.jenisKejadian || []).forEach(item => {
+          const btn = document.createElement('button');
+          btn.className = 'tab-btn';
+          btn.dataset.filter = item.toLowerCase();
+          btn.textContent = item;
+          khususWrapper.appendChild(btn);
+        });
+      }
     }
 
     // ============================================================
     // POPULATE TAHUN FILTER
     // ============================================================
+
     function populateTahunFilters() {
       const tahunSekarang = new Date().getFullYear();
       const tahunMulai = tahunSekarang - 5;
@@ -1041,13 +1017,52 @@
     }
 
     // ============================================================
-    // LOAD LAPORAN (dengan Loading Effect)
+    // LOAD DASHBOARD
     // ============================================================
+
+    async function loadDashboard() {
+      try {
+        const data = await API.get('dashboard');
+        document.getElementById('totalTroble').textContent = data.totalTroble || 0;
+        document.getElementById('totalDerek').textContent = data.totalDerek || 0;
+        document.getElementById('totalKhusus').textContent = data.totalKhusus || 0;
+        document.getElementById('totalAset').textContent = data.totalAset || 0;
+      } catch (err) {
+        console.error('Dashboard error:', err);
+      }
+    }
+
+    // ============================================================
+    // FORMAT TANGGAL
+    // ============================================================
+
+    function formatDateDisplay(dateStr) {
+      if (!dateStr) return '-';
+      try {
+        const d = new Date(dateStr);
+        if (isNaN(d.getTime())) return dateStr;
+        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+          'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+        return days[d.getDay()] + ', ' + String(d.getDate()).padStart(2, '0') + '-' + months[d.getMonth()] + '-' + d.getFullYear();
+      } catch (e) { return dateStr; }
+    }
+
+    function formatTimeDisplay(t) {
+      if (!t) return '-';
+      if (t.includes('T')) { try { return new Date(t).toTimeString().split(' ')[0]; } catch (e) {} }
+      return t;
+    }
+
+    // ============================================================
+    // LOAD LAPORAN
+    // ============================================================
+
     async function loadLaporan(jenis) {
       const containerId = 'list' + jenis.charAt(0).toUpperCase() + jenis.slice(1);
       const container = document.getElementById(containerId);
 
-      // Tampilkan loading
       container.innerHTML = `
         <div class="loading-overlay show">
           <div class="loading-spinner"></div>
@@ -1066,7 +1081,6 @@
         const result = await API.get(mapAction[jenis]);
         const data = result.data || [];
 
-        // Ambil filter
         const filter = getActiveFilter('lihat-' + jenis);
         const bulan = document.getElementById('bulanFilter' + jenis.charAt(0).toUpperCase() + jenis.slice(1))?.value || 'semua';
         const tahun = document.getElementById('tahunFilter' + jenis.charAt(0).toUpperCase() + jenis.slice(1))?.value || 'semua';
@@ -1079,7 +1093,6 @@
         const headers = data[0];
         let rows = data.slice(1);
 
-        // Filter jenis
         if (filter && filter !== 'semua') {
           const idx = headers.indexOf(jenis === 'troble' ? 'jenisKerusakan' :
             jenis === 'derek' ? 'alasanPenderekan' :
@@ -1087,19 +1100,8 @@
           if (idx > -1) {
             rows = rows.filter(row => String(row[idx] || '').toLowerCase().includes(filter));
           }
-          // Filter golongan untuk trouble
-          if (jenis === 'troble') {
-            const golIdx = headers.indexOf('golonganKendaraan');
-            if (golIdx > -1) {
-              rows = rows.filter(row => {
-                const val = String(row[golIdx] || '').toLowerCase();
-                return val.includes(filter) || rows.some(r => String(r[headers.indexOf('jenisKerusakan')] || '').toLowerCase().includes(filter));
-              });
-            }
-          }
         }
 
-        // Filter bulan & tahun
         const dateIdx = headers.indexOf('tanggalBertugas') > -1 ? headers.indexOf('tanggalBertugas') : headers.indexOf('tanggal');
         if (dateIdx > -1 && (bulan !== 'semua' || tahun !== 'semua')) {
           rows = rows.filter(row => {
@@ -1118,7 +1120,6 @@
           });
         }
 
-        // Hitung total & kategori
         const totalData = rows.length;
         let kategoriCount = {};
         if (jenis === 'troble') {
@@ -1136,7 +1137,6 @@
           return;
         }
 
-        // Build HTML
         let html = `
           <div class="summary-card">
             <div class="summary-content">
@@ -1218,6 +1218,7 @@
     // ============================================================
     // SUBMIT LAPORAN
     // ============================================================
+
     async function submitLaporan(event, jenis) {
       event.preventDefault();
 
@@ -1298,8 +1299,8 @@
         const kerusakan = getMultiValues('asetKerusakan');
         const foto = document.getElementById('asetFotoUrl').value || '';
 
-        if (!tanggal || !shift || !jam || !jalur || !lokasi || !unit || petugas.length === 0 || !jenisAset || kerusakan.length ===
-          0) {
+        if (!tanggal || !shift || !jam || !jalur || !lokasi || !unit || petugas.length === 0 || !jenisAset || kerusakan
+          .length === 0) {
           showToast('⚠️ Harap lengkapi semua field yang wajib diisi', 'error');
           resetButton();
           return;
@@ -1319,7 +1320,6 @@
         };
       }
 
-      // Validasi
       for (const key in data) {
         if (data[key] === '' || data[key] === null || data[key] === undefined) {
           showToast('⚠️ Harap lengkapi semua field yang wajib diisi', 'error');
@@ -1327,8 +1327,8 @@
           return;
         }
         if (Array.isArray(data[key]) && data[key].length === 0) {
-          showToast('⚠️ Harap pilih minimal satu ' + key.replace('namaPetugas', 'petugas').replace('jenisKerusakan', 'kerusakan'),
-            'error');
+          showToast('⚠️ Harap pilih minimal satu ' + key.replace('namaPetugas', 'petugas').replace('jenisKerusakan',
+            'kerusakan'), 'error');
           resetButton();
           return;
         }
@@ -1376,130 +1376,58 @@
     }
 
     // ============================================================
-// UPLOAD FOTO - Menggunakan fetch dengan CORS
-// ============================================================
+    // UPLOAD FOTO - HANYA google.script.run
+    // ============================================================
 
-async function handleFotoUpload(input) {
-  const file = input.files[0];
-  if (!file) return;
+    function handleFotoUpload(input) {
+      const file = input.files[0];
+      if (!file) return;
 
-  const statusEl = document.getElementById('asetFotoStatus');
-  const nameEl = document.getElementById('asetFotoName');
-  const previewEl = document.getElementById('asetFotoPreview');
+      const statusEl = document.getElementById('asetFotoStatus');
+      const nameEl = document.getElementById('asetFotoName');
+      const previewEl = document.getElementById('asetFotoPreview');
 
-  nameEl.textContent = file.name;
-  statusEl.textContent = '📤 Mengupload...';
-  statusEl.className = 'upload-status';
+      nameEl.textContent = file.name;
+      statusEl.textContent = '📤 Mengupload...';
+      statusEl.className = 'upload-status';
 
-  try {
-    // Kompresi gambar
-    const compressed = await compressImageClient(file);
-    
-    // Konversi ke base64
-    const reader = new FileReader();
-    reader.onload = async function(e) {
-      try {
-        const base64Data = e.target.result;
-        
-        // 🔧 KIRIM VIA FETCH DENGAN CORS
-        const response = await fetch(APP_CONFIG.API_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            action: 'uploadFoto',
-            fotoData: base64Data,
-            fotoType: 'image/jpeg',
-            fotoName: file.name.replace(/\.[^/.]+$/, '') + '.jpg'
-          })
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-          uploadedFotoUrl = result.url;
-          document.getElementById('asetFotoUrl').value = result.url;
-          statusEl.textContent = '✅ Foto berhasil diupload!';
-          statusEl.className = 'upload-status success';
-          previewEl.innerHTML = `<img src="${result.url}" class="preview-img" alt="Preview">`;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          google.script.run
+            .withSuccessHandler(function(result) {
+              if (result.success) {
+                uploadedFotoUrl = result.url;
+                document.getElementById('asetFotoUrl').value = result.url;
+                statusEl.textContent = '✅ Foto berhasil diupload!';
+                statusEl.className = 'upload-status success';
+                previewEl.innerHTML = `<img src="${result.url}" class="preview-img" alt="Preview">`;
+              } else {
+                statusEl.textContent = '❌ ' + (result.error || 'Gagal upload');
+                statusEl.className = 'upload-status error';
+              }
+            })
+            .withFailureHandler(function(error) {
+              statusEl.textContent = '❌ ' + error.message;
+              statusEl.className = 'upload-status error';
+            })
+            .uploadFoto({
+              fotoData: e.target.result,
+              fotoType: 'image/jpeg',
+              fotoName: file.name.replace(/\.[^/.]+$/, '') + '.jpg'
+            });
         } else {
-          statusEl.textContent = '❌ Gagal upload: ' + (result.error || 'Error');
+          statusEl.textContent = '❌ google.script.run tidak tersedia';
           statusEl.className = 'upload-status error';
         }
-      } catch (err) {
-        statusEl.textContent = '❌ Gagal upload: ' + err.message;
-        statusEl.className = 'upload-status error';
-      }
-    };
-    reader.readAsDataURL(compressed);
-    
-  } catch (err) {
-    statusEl.textContent = '❌ Gagal kompresi: ' + err.message;
-    statusEl.className = 'upload-status error';
-  }
-}
-
-// ============================================================
-// KOMPRESI GAMBAR DI CLIENT
-// ============================================================
-
-function compressImageClient(file) {
-  return new Promise((resolve, reject) => {
-    const MAX_SIZE = 1200;
-    const QUALITY = 0.7;
-    
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const img = new Image();
-      img.onload = function() {
-        try {
-          const canvas = document.createElement('canvas');
-          let w = img.width, h = img.height;
-          if (w > MAX_SIZE || h > MAX_SIZE) {
-            if (w > h) {
-              h = h * MAX_SIZE / w;
-              w = MAX_SIZE;
-            } else {
-              w = w * MAX_SIZE / h;
-              h = MAX_SIZE;
-            }
-          }
-          canvas.width = w;
-          canvas.height = h;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, w, h);
-          
-          canvas.toBlob(function(blob) {
-            if (blob) {
-              resolve(new File([blob], file.name.replace(/\.[^/.]+$/, '') + '.jpg', {
-                type: 'image/jpeg',
-                lastModified: Date.now()
-              }));
-            } else {
-              reject(new Error('Gagal kompresi gambar'));
-            }
-          }, 'image/jpeg', QUALITY);
-        } catch (err) {
-          reject(err);
-        }
       };
-      img.onerror = function() {
-        reject(new Error('Gagal memuat gambar'));
-      };
-      img.src = e.target.result;
-    };
-    reader.onerror = function() {
-      reject(new Error('Gagal membaca file'));
-    };
-    reader.readAsDataURL(file);
-  });
-}
+      reader.readAsDataURL(file);
+    }
 
     // ============================================================
     // TOAST
     // ============================================================
+
     let toastTimeout;
 
     function showToast(msg, type = 'info') {
@@ -1515,6 +1443,7 @@ function compressImageClient(file) {
     // ============================================================
     // EVENT LISTENERS
     // ============================================================
+
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('tab-btn')) {
         const wrapper = e.target.closest('.tab-wrapper');
@@ -1543,19 +1472,23 @@ function compressImageClient(file) {
     document.addEventListener('change', function(e) {
       if (e.target.id === 'derekAlasan') {
         const lain = document.getElementById('derekAlasanLain');
-        if (e.target.value === 'Lainnya') { lain.style.display = 'block';
-          lain.required = true; } else { lain.style.display = 'none';
+        if (e.target.value === 'Lainnya') {
+          lain.style.display = 'block';
+          lain.required = true;
+        } else {
+          lain.style.display = 'none';
           lain.required = false;
-          lain.value = ''; }
+          lain.value = '';
+        }
       }
     });
 
     // ============================================================
     // INIT
     // ============================================================
+
     document.addEventListener('DOMContentLoaded', function() {
-      populateSelects();
-      populateTahunFilters();
+      loadMasterData();
       loadDashboard();
       loadLaporan('troble');
       loadLaporan('derek');
