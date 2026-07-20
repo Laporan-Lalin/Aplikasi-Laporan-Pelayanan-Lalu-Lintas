@@ -1411,69 +1411,110 @@
     }
 
     // ============================================================
-    // UPLOAD FOTO
-    // ============================================================
+// UPLOAD FOTO - MENGGUNAKAN IFRAME + postMessage
+// ============================================================
 
-    function handleFotoUpload(input) {
-      const file = input.files[0];
-      if (!file) return;
+let uploadIframeReady = false;
+let uploadCallbacks = [];
 
-      const statusEl = document.getElementById('asetFotoStatus');
-      const nameEl = document.getElementById('asetFotoName');
-      const previewEl = document.getElementById('asetFotoPreview');
+function initUploadIframe() {
+  // CEK APAKAH IFRAME SUDAH ADA
+  let iframe = document.getElementById('uploadIframe');
+  if (!iframe) {
+    iframe = document.createElement('iframe');
+    iframe.id = 'uploadIframe';
+    iframe.style.display = 'none';
+    iframe.src = 'upload.html'; // FILE upload.html di folder yang sama
+    document.body.appendChild(iframe);
+  }
+  
+  // LISTENER UNTUK PESAN DARI IFRAME
+  window.addEventListener('message', function(event) {
+    const data = event.data;
+    if (!data) return;
+    
+    if (data.type === 'UPLOAD_FOTO_READY') {
+      uploadIframeReady = true;
+      console.log('Upload iframe siap');
+    } else if (data.type === 'UPLOAD_FOTO_RESULT') {
+      const callback = uploadCallbacks.shift();
+      if (callback) callback(null, data.result);
+    } else if (data.type === 'UPLOAD_FOTO_ERROR') {
+      const callback = uploadCallbacks.shift();
+      if (callback) callback(data.error, null);
+    }
+  });
+}
 
-      nameEl.textContent = file.name;
-      statusEl.textContent = '📤 Mengupload...';
-      statusEl.className = 'upload-status';
+function uploadFotoViaIframe(base64Data, fileName, callback) {
+  if (!uploadIframeReady) {
+    // TUNGGU IFRAME SIAP
+    const checkReady = setInterval(function() {
+      if (uploadIframeReady) {
+        clearInterval(checkReady);
+        uploadFotoViaIframe(base64Data, fileName, callback);
+      }
+    }, 100);
+    return;
+  }
+  
+  uploadCallbacks.push(callback);
+  
+  const iframe = document.getElementById('uploadIframe');
+  iframe.contentWindow.postMessage({
+    type: 'UPLOAD_FOTO',
+    fotoData: base64Data,
+    fotoName: fileName
+  }, '*');
+}
 
-      const reader = new FileReader();
-      reader.onload = async function(e) {
-        try {
-          const base64Data = e.target.result;
-          
-          const response = await fetch(APP_CONFIG.API_URL, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              action: 'uploadFoto',
-              fotoData: base64Data,
-              fotoType: 'image/jpeg',
-              fotoName: file.name.replace(/\.[^/.]+$/, '') + '.jpg'
-            })
-          });
-          
-          if (!response.ok) {
-            throw new Error('HTTP ' + response.status + ': ' + response.statusText);
-          }
-          
-          const result = await response.json();
-          
-          if (result.success) {
-            uploadedFotoUrl = result.url;
-            document.getElementById('asetFotoUrl').value = result.url;
-            statusEl.textContent = '✅ Foto berhasil diupload!';
-            statusEl.className = 'upload-status success';
-            previewEl.innerHTML = `<img src="${result.url}" class="preview-img" alt="Preview">`;
-          } else {
-            statusEl.textContent = '❌ ' + (result.error || 'Gagal upload');
-            statusEl.className = 'upload-status error';
-          }
-        } catch (err) {
-          console.error('Upload error:', err);
-          statusEl.textContent = '❌ Gagal upload: ' + err.message;
+function handleFotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const statusEl = document.getElementById('asetFotoStatus');
+  const nameEl = document.getElementById('asetFotoName');
+  const previewEl = document.getElementById('asetFotoPreview');
+
+  nameEl.textContent = file.name;
+  statusEl.textContent = '📤 Mengupload...';
+  statusEl.className = 'upload-status';
+
+  // INIT IFRAME
+  initUploadIframe();
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const base64Data = e.target.result;
+    
+    uploadFotoViaIframe(
+      base64Data,
+      file.name.replace(/\.[^/.]+$/, '') + '.jpg',
+      function(error, result) {
+        if (error) {
+          statusEl.textContent = '❌ Gagal upload: ' + error;
+          statusEl.className = 'upload-status error';
+        } else if (result && result.success) {
+          uploadedFotoUrl = result.url;
+          document.getElementById('asetFotoUrl').value = result.url;
+          statusEl.textContent = '✅ Foto berhasil diupload!';
+          statusEl.className = 'upload-status success';
+          previewEl.innerHTML = `<img src="${result.url}" class="preview-img" alt="Preview">`;
+        } else {
+          statusEl.textContent = '❌ Gagal upload: ' + (result?.error || 'Error');
           statusEl.className = 'upload-status error';
         }
-      };
-      
-      reader.onerror = function() {
-        statusEl.textContent = '❌ Gagal membaca file';
-        statusEl.className = 'upload-status error';
-      };
-      
-      reader.readAsDataURL(file);
-    }
+      }
+    );
+  };
+  
+  reader.onerror = function() {
+    statusEl.textContent = '❌ Gagal membaca file';
+    statusEl.className = 'upload-status error';
+  };
+  
+  reader.readAsDataURL(file);
+}
 
     // ============================================================
     // TOAST
