@@ -952,6 +952,30 @@
       });
     }
 
+
+    // ============================================================
+// SET DEFAULT FILTER KE BULAN & TAHUN BERJALAN
+// ============================================================
+
+function setDefaultDateFilters() {
+  const now = new Date();
+  const currentMonth = String(now.getMonth() + 1).padStart(2, '0');
+  const currentYear = String(now.getFullYear());
+
+  // DASHBOARD
+  const bulanDashboard = document.getElementById('bulanFilterDashboard');
+  const tahunDashboard = document.getElementById('tahunFilterDashboard');
+  if (bulanDashboard) bulanDashboard.value = currentMonth;
+  if (tahunDashboard) tahunDashboard.value = currentYear;
+
+  // LIHAT LAPORAN: TROBLE, DEREK, KHUSUS, ASET
+  ['Troble', 'Derek', 'Khusus', 'Aset'].forEach(jenis => {
+    const bulanSel = document.getElementById('bulanFilter' + jenis);
+    const tahunSel = document.getElementById('tahunFilter' + jenis);
+    if (bulanSel) bulanSel.value = currentMonth;
+    if (tahunSel) tahunSel.value = currentYear;
+  });
+}
     // DASHBOARD DENGAN LOADING & FILTER BULAN/TAHUN
     async function loadDashboard() {
       const loadingEl = document.getElementById('dashboardLoading');
