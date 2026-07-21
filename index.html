@@ -410,7 +410,7 @@
       <img src="https://drive.google.com/uc?export=view&id=12ZmHCesB52Wwd2Enmmii_IpYMaVb8C5b" 
            alt="Logo MMN" 
            onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2270%22 height=%2270%22%3E%3Crect width=%2270%22 height=%2270%22 fill=%22%231a237e%22/%3E%3Ctext x=%2235%22 y=%2238%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2212%22 font-weight=%22bold%22%3EMMN%3C/text%3E%3C/svg%3E'">
-      <h2>Laporan Pelayanan</h2>
+      <h2>Laporan</h2>
       <small>Lalu Lintas Tol Makassar</small>
     </div>
 
@@ -430,7 +430,7 @@
         <span class="icon">🚗</span> Kendaraan Trouble
       </a>
       <a class="menu-item" data-page="lihat-derek" onclick="showPage('lihat-derek')">
-        <span class="icon">🔧</span> Penderekan
+        <span class="icon">🚛</span> Penderekan
       </a>
       <a class="menu-item" data-page="lihat-khusus" onclick="showPage('lihat-khusus')">
         <span class="icon">⚠️</span> Kejadian Khusus
@@ -448,7 +448,7 @@
         <span class="icon">🚗</span> Kendaraan Trouble
       </a>
       <a class="menu-item" data-page="form-derek" onclick="showPage('form-derek')">
-        <span class="icon">🔧</span> Penderekan
+        <span class="icon">🚛</span> Penderekan
       </a>
       <a class="menu-item" data-page="form-khusus" onclick="showPage('form-khusus')">
         <span class="icon">⚠️</span> Kejadian Khusus
@@ -500,19 +500,19 @@
 
       <div id="dashboardLoading" class="loading-overlay" style="padding: 20px 0;">
         <div class="loading-spinner"></div>
-        <div class="loading-text">⏳ Memuat ringkasan data...</div>
+        <div class="loading-text">⏳ Memuat data, Harap tunggu...</div>
       </div>
 
       <div class="stats-grid" id="dashboardStats">
         <div class="stat-card"><span class="icon-big">🚗</span><div class="number" id="totalTroble">0</div><div class="label">Kendaraan Trouble</div></div>
-        <div class="stat-card"><span class="icon-big">🔧</span><div class="number" id="totalDerek">0</div><div class="label">Penderekan</div></div>
+        <div class="stat-card"><span class="icon-big">🚛</span><div class="number" id="totalDerek">0</div><div class="label">Penderekan</div></div>
         <div class="stat-card"><span class="icon-big">⚠️</span><div class="number" id="totalKhusus">0</div><div class="label">Kejadian Khusus</div></div>
         <div class="stat-card"><span class="icon-big">🔧</span><div class="number" id="totalAset">0</div><div class="label">Pemantauan Aset</div></div>
       </div>
 
       <div style="margin-top:20px;background:var(--bg-card);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,255,255,0.06);">
         <p style="font-size:13px;color:var(--text-secondary);text-align:center;">
-          📌 <strong>Sistem Laporan Pelayanan Lalu Lintas</strong><br>Tol Makassar &bull; PT. Margautama Nusantara
+          📌 <strong>Laporan Layanan Lalu Lintas & Pemantauan Asset</strong><br>Tol Makassar &bull; PT. Margautama Nusantara
         </p>
       </div>
     </section>
@@ -595,7 +595,7 @@
 
     <!-- FORM DEREK -->
     <section class="page" id="page-form-derek">
-      <div class="page-title">🔧 Form Penderekan <small>Proses Penarikan Kendaraan</small></div>
+      <div class="page-title">🚛 Form Penderekan <small>Proses Penarikan Kendaraan</small></div>
       <form id="formDerek" onsubmit="submitLaporan(event,'derek')">
         <!-- Sama seperti sebelumnya - tidak diubah -->
         <div class="sub-form-card">
@@ -713,7 +713,7 @@
 
     <!-- LIHAT DEREK -->
     <section class="page" id="page-lihat-derek">
-      <div class="page-title">🔧 Laporan Penderekan <small>Proses Penarikan</small></div>
+      <div class="page-title">🚛 Laporan Penderekan <small>Proses Penarikan</small></div>
       <div class="tab-wrapper">
         <button class="tab-btn active" data-filter="semua">Semua</button>
         <button class="tab-btn" data-filter="mogok">Kendaraan Mogok</button>
@@ -1432,7 +1432,7 @@
           ctx.drawImage(img, 0, 0, width, height);
 
           const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
-          statusEl.textContent = '📤 Mengupload foto terkompresi...';
+          statusEl.textContent = '📤 Mengupload foto, harap tunggu hingga foto muncul...';
 
           try {
             const res = await API.post('uploadFoto', {
@@ -1443,7 +1443,7 @@
             if (res && res.success) {
               uploadedFotoUrl = res.url;
               document.getElementById('asetFotoUrl').value = res.url;
-              statusEl.textContent = '✅ Foto berhasil terkompresi & diupload!';
+              statusEl.textContent = '✅ Foto berhasil diupload!';
               statusEl.className = 'upload-status success';
               previewEl.innerHTML = `<img src="${compressedBase64}" alt="Preview Mini">`;
             } else {
