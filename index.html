@@ -858,7 +858,7 @@
     setInterval(updateClock, 1000);
 
     // ============================================================
-    // SET DEFAULT FILTER KE BULAN & TAHUN BERJALAN
+    // SET DEFAULT FILTER
     // ============================================================
 
     function setDefaultDateFilters() {
@@ -1115,7 +1115,7 @@
     }
 
     // ============================================================
-    // LOAD LAPORAN (DIPERBAIKI UNTUK ASET)
+    // LOAD LAPORAN (DENGAN KONVERSI HEADER ASET)
     // ============================================================
 
     async function loadLaporan(jenis) {
@@ -1134,7 +1134,56 @@
 
       try {
         const result = await API.get(mapAction[jenis]);
-        const data = result && result.data ? result.data : [];
+        let data = result && result.data ? result.data : [];
+        
+        // 🔧 KONVERSI HEADER ASET JIKA MASIH MENGGUNAKAN 'tanggal'
+        if (jenis === 'aset' && data.length > 0) {
+          const header = data[0];
+          if (header && header.some && header.some(h => String(h).toLowerCase() === 'tanggal')) {
+            const newHeaders = ['id', 'timestamp', 'tanggalBertugas', 'shift', 'jamTemuan', 
+                                'jalur', 'lokasiSTA', 'unit', 'namaPetugas', 
+                                'jenisAset', 'jenisKerusakan', 'fotoUrl'];
+            const oldHeader = data[0];
+            const rows = data.slice(1);
+            
+            const oldMap = {
+              id: oldHeader.indexOf('id'),
+              timestamp: oldHeader.indexOf('timestamp'),
+              tanggal: oldHeader.indexOf('tanggal'),
+              shift: oldHeader.indexOf('shift'),
+              jamTemuan: oldHeader.indexOf('jamTemuan'),
+              jalur: oldHeader.indexOf('jalur'),
+              lokasiSTA: oldHeader.indexOf('lokasiSTA'),
+              unit: oldHeader.indexOf('unit'),
+              namaPetugas: oldHeader.indexOf('namaPetugas'),
+              jenisAset: oldHeader.indexOf('jenisAset'),
+              jenisKerusakan: oldHeader.indexOf('jenisKerusakan'),
+              fotoUrl: oldHeader.indexOf('fotoUrl')
+            };
+            
+            const convertedRows = rows.map(row => {
+              return newHeaders.map(h => {
+                switch(h) {
+                  case 'id': return row[oldMap.id] || '';
+                  case 'timestamp': return row[oldMap.timestamp] || '';
+                  case 'tanggalBertugas': return row[oldMap.tanggal] || '';
+                  case 'shift': return row[oldMap.shift] || '';
+                  case 'jamTemuan': return row[oldMap.jamTemuan] || '';
+                  case 'jalur': return row[oldMap.jalur] || '';
+                  case 'lokasiSTA': return row[oldMap.lokasiSTA] || '';
+                  case 'unit': return row[oldMap.unit] || '';
+                  case 'namaPetugas': return row[oldMap.namaPetugas] || '';
+                  case 'jenisAset': return row[oldMap.jenisAset] || '';
+                  case 'jenisKerusakan': return row[oldMap.jenisKerusakan] || '';
+                  case 'fotoUrl': return row[oldMap.fotoUrl] || '';
+                  default: return '';
+                }
+              });
+            });
+            
+            data = [newHeaders, ...convertedRows];
+          }
+        }
         
         const filter = getActiveFilter('lihat-' + jenis);
         const bulan = document.getElementById('bulanFilter' + jenis.charAt(0).toUpperCase() + jenis.slice(1))?.value || 'semua';
@@ -1148,7 +1197,7 @@
         const headers = data[0];
         let rows = data.slice(1);
 
-        // FILTER UNTUK ASET (gunakan jenisAset atau subKategori)
+        // FILTER UNTUK ASET
         if (filter && filter !== 'semua') {
           let idx = -1;
           if (jenis === 'aset') {
