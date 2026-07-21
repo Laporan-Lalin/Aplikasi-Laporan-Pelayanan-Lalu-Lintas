@@ -745,7 +745,7 @@
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
-  <!-- JAVASCRIPT -->
+  <!-- JAVASCRIPT PERBAIKAN -->
   <script>
     let masterData = {};
     let uploadedFotoUrl = '';
@@ -765,6 +765,20 @@
         return await response.json();
       }
     };
+
+    // Helper Aman untuk Parse Tanggal Tanpa Terpengaruh UTC Shift
+    function parseLocalDate(dateStr) {
+      if (!dateStr) return null;
+      // Jika format YYYY-MM-DD
+      if (typeof dateStr === 'string' && dateStr.includes('-')) {
+        const parts = dateStr.split('T')[0].split('-');
+        if (parts.length === 3) {
+          return new Date(parts[0], parts[1] - 1, parts[2]);
+        }
+      }
+      const d = new Date(dateStr);
+      return isNaN(d.getTime()) ? null : d;
+    }
 
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('active');
@@ -831,7 +845,6 @@
     updateClock();
     setInterval(updateClock, 1000);
 
-    // DYNAMIC DEFAULT BULAN & TAHUN BERJALAN
     function setDefaultDateFilters() {
       const now = new Date();
       const currentMonth = String(now.getMonth() + 1).padStart(2, '0');
@@ -862,7 +875,7 @@
         populateSelects(masterData);
         populateFilterTabs(masterData);
         populateTahunFilters();
-        setDefaultDateFilters(); // Set ke Bulan & Tahun Berjalan
+        setDefaultDateFilters();
       } catch (err) {
         showToast('⚠️ Gagal memuat data master: ' + err.message, 'error');
       }
@@ -934,7 +947,7 @@
     function populateFilterTabs(data) {
       const trobleWrapper = document.querySelector('#page-lihat-troble .tab-wrapper');
       if (trobleWrapper) {
-        const semuaBtn = trobleWrapper.querySelector('.tab-btn') || createSemuaBtn();
+        const semuaBtn = createSemuaBtn();
         trobleWrapper.innerHTML = '';
         trobleWrapper.appendChild(semuaBtn);
         (data.jenisKerusakan || []).forEach(item => {
@@ -948,7 +961,7 @@
 
       const khususWrapper = document.querySelector('#page-lihat-khusus .tab-wrapper');
       if (khususWrapper) {
-        const semuaBtn = khususWrapper.querySelector('.tab-btn') || createSemuaBtn();
+        const semuaBtn = createSemuaBtn();
         khususWrapper.innerHTML = '';
         khususWrapper.appendChild(semuaBtn);
         (data.jenisKejadian || []).forEach(item => {
@@ -1012,17 +1025,14 @@
 
           return rows.filter(row => {
             const dateStr = row[dateIdx] || '';
-            if (!dateStr) return false;
-            try {
-              const d = new Date(dateStr);
-              if (isNaN(d.getTime())) return false;
-              const m = String(d.getMonth() + 1).padStart(2, '0');
-              const y = String(d.getFullYear());
-              let match = true;
-              if (bulan !== 'semua') match = match && (m === bulan);
-              if (tahun !== 'semua') match = match && (y === tahun);
-              return match;
-            } catch (e) { return false; }
+            const d = parseLocalDate(dateStr);
+            if (!d) return false;
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const y = String(d.getFullYear());
+            let match = true;
+            if (bulan !== 'semua') match = match && (m === bulan);
+            if (tahun !== 'semua') match = match && (y === tahun);
+            return match;
           }).length;
         };
 
@@ -1040,15 +1050,13 @@
 
     function formatDateDisplay(dateStr) {
       if (!dateStr || dateStr === '-') return '-';
-      try {
-        const d = new Date(dateStr);
-        if (isNaN(d.getTime())) return dateStr;
-        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-          'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-        ];
-        return days[d.getDay()] + ', ' + String(d.getDate()).padStart(2, '0') + '-' + months[d.getMonth()] + '-' + d.getFullYear();
-      } catch (e) { return dateStr; }
+      const d = parseLocalDate(dateStr);
+      if (!d) return dateStr;
+      const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+      ];
+      return days[d.getDay()] + ', ' + String(d.getDate()).padStart(2, '0') + '-' + months[d.getMonth()] + '-' + d.getFullYear();
     }
 
     function formatTimeDisplay(t) {
@@ -1092,17 +1100,14 @@
         if (dateIdx > -1 && (bulan !== 'semua' || tahun !== 'semua')) {
           rows = rows.filter(row => {
             const dateStr = row[dateIdx] || '';
-            if (!dateStr) return false;
-            try {
-              const d = new Date(dateStr);
-              if (isNaN(d.getTime())) return false;
-              const m = String(d.getMonth() + 1).padStart(2, '0');
-              const y = String(d.getFullYear());
-              let match = true;
-              if (bulan !== 'semua') match = match && (m === bulan);
-              if (tahun !== 'semua') match = match && (y === tahun);
-              return match;
-            } catch (e) { return false; }
+            const d = parseLocalDate(dateStr);
+            if (!d) return false;
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const y = String(d.getFullYear());
+            let match = true;
+            if (bulan !== 'semua') match = match && (m === bulan);
+            if (tahun !== 'semua') match = match && (y === tahun);
+            return match;
           });
         }
 
@@ -1172,7 +1177,6 @@
       }
     }
 
-    // POPUP ZOOM FOTO LOGIC
     function openImageModal(url) {
       const modal = document.getElementById('imageModal');
       const img = document.getElementById('imgModalSrc');
@@ -1304,7 +1308,6 @@
           }
           updateClock();
           loadDashboard();
-          loadLaporan(jenis);
         } else {
           showToast('❌ ' + ((result && result.message) || 'Gagal menyimpan'), 'error');
         }
@@ -1335,13 +1338,11 @@
       const nameEl = document.getElementById('asetFotoName');
       const previewEl = document.getElementById('asetFotoPreview');
 
-      // Ambil nilai data untuk penamaan file otomatis
       const jenisAset = document.getElementById('asetJenis').value || 'Aset';
       const jenisKerusakan = getMultiValues('asetKerusakan').join('-') || 'Kerusakan';
       const jalur = document.getElementById('asetJalur').value || 'Jalur';
       const lokasi = document.getElementById('asetLokasi').value || 'Lokasi';
 
-      // Clean & Format Nama File
       const cleanString = (str) => str.replace(/[/\\?%*:|"<>]/g, '-').trim();
       const customFileName = `${cleanString(jenisAset)}-${cleanString(jenisKerusakan)}-${cleanString(jalur)}-${cleanString(lokasi)}.jpg`;
 
@@ -1465,16 +1466,16 @@
       }
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-      loadMasterData();
-      loadDashboard();
-      loadLaporan('troble');
-      loadLaporan('derek');
-      loadLaporan('khusus');
-      loadLaporan('aset');
-      
+    // SINKRONISASI INIITAL LOAD AMAN:
+    document.addEventListener('DOMContentLoaded', async function() {
       const alasanLain = document.getElementById('derekAlasanLain');
       if (alasanLain) alasanLain.style.display = 'none';
+
+      // 1. Muat master data & atur default tanggal filter terlebih dahulu
+      await loadMasterData();
+      
+      // 2. Baru muat dashboard dengan filter bulan/tahun berjalan
+      loadDashboard();
     });
 
     window.addEventListener('online', function() {
