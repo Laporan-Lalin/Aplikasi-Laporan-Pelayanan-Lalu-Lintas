@@ -133,7 +133,7 @@
       margin-top: 4px; font-weight: 500; letter-spacing: 0.5px;
     }
     .stats-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; position: relative;
     }
     .stat-card {
       background: var(--bg-card); border-radius: var(--radius); padding: 16px;
@@ -246,11 +246,6 @@
     }
     .summary-card .total { font-size: 14px; font-weight: 600; }
     .summary-card .total span { color: var(--secondary); }
-    .summary-card .kategori-list { display: flex; flex-wrap: wrap; gap: 8px; }
-    .summary-card .kategori-item {
-      font-size: 12px; background: rgba(255,255,255,0.06);
-      padding: 2px 12px; border-radius: 12px;
-    }
 
     .loading-overlay { display: none; text-align: center; padding: 40px 20px; }
     .loading-overlay.show { display: block; }
@@ -289,12 +284,19 @@
     .offline-banner.show { display: block; }
     .auto-grow { overflow: hidden; resize: none; }
 
+    /* UPLOAD FOTO & PREVIEW PERBAIKAN */
     .upload-wrapper {
       display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
     }
     .upload-wrapper .file-input { flex: 1; min-width: 120px; }
     .upload-wrapper .file-name { font-size: 12px; color: var(--text-muted); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .upload-wrapper .preview-img { max-width: 80px; max-height: 80px; border-radius: 8px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
+    .preview-img-container {
+      margin-top: 10px; display: flex; align-items: center; gap: 10px;
+    }
+    .preview-img-container img {
+      width: 70px; height: 70px; border-radius: 10px; object-fit: cover;
+      border: 2px solid var(--secondary); box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
     .upload-status { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
     .upload-status.success { color: #2e7d32; }
     .upload-status.error { color: #c62828; }
@@ -399,12 +401,38 @@
         <div class="clock-time" id="clockTime">00:00:00</div>
         <div class="clock-date" id="clockDate">--</div>
       </div>
-      <div class="stats-grid">
+
+      <!-- FILTER BULAN & TAHUN DASHBOARD -->
+      <div class="filter-wrapper" style="justify-content: center; margin-bottom: 8px;">
+        <label>📅 Bulan:</label>
+        <select class="form-control" id="bulanFilterDashboard" onchange="loadDashboard()">
+          <option value="semua">Semua Bulan</option>
+          <option value="01">Januari</option><option value="02">Februari</option>
+          <option value="03">Maret</option><option value="04">April</option>
+          <option value="05">Mei</option><option value="06">Juni</option>
+          <option value="07">Juli</option><option value="08">Agustus</option>
+          <option value="09">September</option><option value="10">Oktober</option>
+          <option value="11">November</option><option value="12">Desember</option>
+        </select>
+        <label>📆 Tahun:</label>
+        <select class="form-control" id="tahunFilterDashboard" onchange="loadDashboard()">
+          <option value="semua">Semua Tahun</option>
+        </select>
+      </div>
+
+      <!-- INDIKATOR LOADING DASHBOARD -->
+      <div id="dashboardLoading" class="loading-overlay" style="padding: 20px 0;">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">⏳ Memuat ringkasan data...</div>
+      </div>
+
+      <div class="stats-grid" id="dashboardStats">
         <div class="stat-card"><span class="icon-big">🚗</span><div class="number" id="totalTroble">0</div><div class="label">Kendaraan Trouble</div></div>
         <div class="stat-card"><span class="icon-big">🔧</span><div class="number" id="totalDerek">0</div><div class="label">Penderekan</div></div>
         <div class="stat-card"><span class="icon-big">⚠️</span><div class="number" id="totalKhusus">0</div><div class="label">Kejadian Khusus</div></div>
         <div class="stat-card"><span class="icon-big">🔧</span><div class="number" id="totalAset">0</div><div class="label">Pemantauan Aset</div></div>
       </div>
+
       <div style="margin-top:20px;background:var(--bg-card);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,255,255,0.06);">
         <p style="font-size:13px;color:var(--text-secondary);text-align:center;">
           📌 <strong>Sistem Laporan Pelayanan Lalu Lintas</strong><br>Tol Makassar &bull; PT. Margautama Nusantara
@@ -570,7 +598,7 @@
               <span class="file-name" id="asetFotoName">Belum ada foto</span>
             </div>
             <div id="asetFotoStatus" class="upload-status"></div>
-            <div id="asetFotoPreview" style="margin-top:8px;"></div>
+            <div id="asetFotoPreview" class="preview-img-container"></div>
             <input type="hidden" id="asetFotoUrl" value="">
           </div>
         </div>
@@ -907,8 +935,8 @@
     function populateTahunFilters() {
       const tahunSekarang = new Date().getFullYear();
       const tahunMulai = tahunSekarang - 5;
-      ['troble', 'derek', 'khusus', 'aset'].forEach(jenis => {
-        const sel = document.getElementById('tahunFilter' + jenis.charAt(0).toUpperCase() + jenis.slice(1));
+      ['Dashboard', 'Troble', 'Derek', 'Khusus', 'Aset'].forEach(jenis => {
+        const sel = document.getElementById('tahunFilter' + jenis);
         if (!sel) return;
         sel.innerHTML = '<option value="semua">Semua Tahun</option>';
         for (let y = tahunSekarang; y >= tahunMulai; y--) {
@@ -920,15 +948,58 @@
       });
     }
 
+    // DASHBOARD DENGAN LOADING & FILTER BULAN/TAHUN
     async function loadDashboard() {
+      const loadingEl = document.getElementById('dashboardLoading');
+      const statsEl = document.getElementById('dashboardStats');
+      if (loadingEl) loadingEl.classList.add('show');
+      if (statsEl) statsEl.style.opacity = '0.3';
+
       try {
-        const data = await API.get('dashboard');
-        document.getElementById('totalTroble').textContent = data.totalTroble || 0;
-        document.getElementById('totalDerek').textContent = data.totalDerek || 0;
-        document.getElementById('totalKhusus').textContent = data.totalKhusus || 0;
-        document.getElementById('totalAset').textContent = data.totalAset || 0;
+        const bulan = document.getElementById('bulanFilterDashboard')?.value || 'semua';
+        const tahun = document.getElementById('tahunFilterDashboard')?.value || 'semua';
+
+        // Mengambil seluruh data sheet laporan untuk di-filter statistik
+        const [resTroble, resDerek, resKhusus, resAset] = await Promise.all([
+          API.get('getTroble'),
+          API.get('getDerek'),
+          API.get('getKhusus'),
+          API.get('getAset')
+        ]);
+
+        const filterCount = (res) => {
+          if (!res || !res.data || !Array.isArray(res.data) || res.data.length < 2) return 0;
+          const headers = res.data[0];
+          const rows = res.data.slice(1);
+          const dateIdx = headers.indexOf('tanggalBertugas') > -1 ? headers.indexOf('tanggalBertugas') : headers.indexOf('tanggal');
+
+          if (dateIdx === -1 || (bulan === 'semua' && tahun === 'semua')) return rows.length;
+
+          return rows.filter(row => {
+            const dateStr = row[dateIdx] || '';
+            if (!dateStr) return false;
+            try {
+              const d = new Date(dateStr);
+              if (isNaN(d.getTime())) return false;
+              const m = String(d.getMonth() + 1).padStart(2, '0');
+              const y = String(d.getFullYear());
+              let match = true;
+              if (bulan !== 'semua') match = match && (m === bulan);
+              if (tahun !== 'semua') match = match && (y === tahun);
+              return match;
+            } catch (e) { return false; }
+          }).length;
+        };
+
+        document.getElementById('totalTroble').textContent = filterCount(resTroble);
+        document.getElementById('totalDerek').textContent = filterCount(resDerek);
+        document.getElementById('totalKhusus').textContent = filterCount(resKhusus);
+        document.getElementById('totalAset').textContent = filterCount(resAset);
       } catch (err) {
         console.error('Dashboard error:', err);
+      } finally {
+        if (loadingEl) loadingEl.classList.remove('show');
+        if (statsEl) statsEl.style.opacity = '1';
       }
     }
 
@@ -1045,7 +1116,7 @@
             const kr = headers.indexOf('jenisKerusakan') > -1 ? row[headers.indexOf('jenisKerusakan')] || '-' : '-';
             const ft = headers.indexOf('fotoUrl') > -1 ? row[headers.indexOf('fotoUrl')] || '' : '';
             subTitle = as;
-            detail = `<div style="font-size:13px;color:var(--text-secondary);">🔧 ${kr}</div>${ft ? `<div style="margin-top:4px;"><img src="${ft}" style="max-width:60px;max-height:60px;border-radius:6px;object-fit:cover;border:1px solid rgba(255,255,255,0.1);"></div>` : ''}`;
+            detail = `<div style="font-size:13px;color:var(--text-secondary);">🔧 ${kr}</div>${ft ? `<div style="margin-top:6px;"><img src="${ft}" style="max-width:70px;max-height:70px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.2);"></div>` : ''}`;
           }
 
           html += `
@@ -1206,7 +1277,7 @@
       return values;
     }
 
-    // UPLOAD FOTO VIA DIRECT POST API
+    // KOMPRESI & UPLOAD FOTO VIA CANVAS
     function handleFotoUpload(input) {
       const file = input.files[0];
       if (!file) return;
@@ -1216,31 +1287,64 @@
       const previewEl = document.getElementById('asetFotoPreview');
 
       nameEl.textContent = file.name;
-      statusEl.textContent = '📤 Mengupload...';
+      statusEl.textContent = '🔄 Mengompres foto...';
       statusEl.className = 'upload-status';
 
       const reader = new FileReader();
-      reader.onload = async function(e) {
-        const base64Data = e.target.result;
-        try {
-          const res = await API.post('uploadFoto', {
-            fotoData: base64Data,
-            fotoName: file.name
-          });
-          if (res && res.success) {
-            uploadedFotoUrl = res.url;
-            document.getElementById('asetFotoUrl').value = res.url;
-            statusEl.textContent = '✅ Foto berhasil diupload!';
-            statusEl.className = 'upload-status success';
-            previewEl.innerHTML = `<img src="${res.url}" class="preview-img" alt="Preview">`;
+      reader.onload = function(e) {
+        const img = new Image();
+        img.src = e.target.result;
+        img.onload = async function() {
+          // Kompresi Gambar menggunakan Canvas HTML5
+          const canvas = document.createElement('canvas');
+          const maxDimension = 800; // Maksimal dimensi panjang/lebar px
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > maxDimension) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            }
           } else {
-            statusEl.textContent = '❌ ' + ((res && res.error) || 'Gagal upload foto');
+            if (height > maxDimension) {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Quality 0.7 = Kompresi Kualitas JPEG 70% (Sangat Hemat Ruang Penyimpanan)
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+
+          statusEl.textContent = '📤 Mengupload foto terkompresi...';
+
+          try {
+            const res = await API.post('uploadFoto', {
+              fotoData: compressedBase64,
+              fotoName: file.name.replace(/\.[^/.]+$/, "") + ".jpg"
+            });
+
+            if (res && res.success) {
+              uploadedFotoUrl = res.url;
+              document.getElementById('asetFotoUrl').value = res.url;
+              statusEl.textContent = '✅ Foto berhasil terkompresi & diupload!';
+              statusEl.className = 'upload-status success';
+              previewEl.innerHTML = `<img src="${compressedBase64}" alt="Preview Mini">`;
+            } else {
+              statusEl.textContent = '❌ ' + ((res && res.error) || 'Gagal upload foto');
+              statusEl.className = 'upload-status error';
+            }
+          } catch (err) {
+            statusEl.textContent = '❌ Gagal upload: ' + err.message;
             statusEl.className = 'upload-status error';
           }
-        } catch (err) {
-          statusEl.textContent = '❌ Gagal upload: ' + err.message;
-          statusEl.className = 'upload-status error';
-        }
+        };
       };
 
       reader.onerror = function() {
