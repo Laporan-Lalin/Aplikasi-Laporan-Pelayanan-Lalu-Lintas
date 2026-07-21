@@ -1421,18 +1421,48 @@ function handleFotoUpload(input) {
       }
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-      loadMasterData();
-      loadDashboard();
-      loadLaporan('troble');
-      loadLaporan('derek');
-      loadLaporan('khusus');
-      loadLaporan('aset');
-      
-      const alasanLain = document.getElementById('derekAlasanLain');
-      if (alasanLain) alasanLain.style.display = 'none';
-    });
+    // ============================================================
+// SET DEFAULT FILTER KE BULAN & TAHUN BERJALAN
+// ============================================================
 
+function setDefaultDateFilters() {
+  const now = new Date();
+  const currentMonth = String(now.getMonth() + 1).padStart(2, '0');
+  const currentYear = String(now.getFullYear());
+
+  // Dashboard
+  const bulanDashboard = document.getElementById('bulanFilterDashboard');
+  const tahunDashboard = document.getElementById('tahunFilterDashboard');
+  if (bulanDashboard) bulanDashboard.value = currentMonth;
+  if (tahunDashboard) tahunDashboard.value = currentYear;
+
+  // Lihat Laporan
+  ['Troble', 'Derek', 'Khusus', 'Aset'].forEach(jenis => {
+    const bulanSel = document.getElementById('bulanFilter' + jenis);
+    const tahunSel = document.getElementById('tahunFilter' + jenis);
+    if (bulanSel) bulanSel.value = currentMonth;
+    if (tahunSel) tahunSel.value = currentYear;
+  });
+}
+
+// ============================================================
+// DOMContentLoaded - TAMBAHKAN PANGGILAN setDefaultDateFilters
+// ============================================================
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadMasterData();
+  loadDashboard();
+  loadLaporan('troble');
+  loadLaporan('derek');
+  loadLaporan('khusus');
+  loadLaporan('aset');
+  
+  // 🔧 SET DEFAULT FILTER KE BULAN & TAHUN BERJALAN
+  setDefaultDateFilters();
+  
+  const alasanLain = document.getElementById('derekAlasanLain');
+  if (alasanLain) alasanLain.style.display = 'none';
+});
     window.addEventListener('online', function() {
       document.getElementById('offlineBanner').classList.remove('show');
       loadDashboard();
