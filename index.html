@@ -382,6 +382,60 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
+
+    /* TEXT WRAPPING UNTUK LAPORAN - LENGKAP */
+.laporan-item {
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+}
+
+.laporan-item * {
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  max-width: 100%;
+}
+
+.laporan-item .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.laporan-item .title {
+  flex: 1;
+  min-width: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.laporan-item .time {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.laporan-item .desc,
+.laporan-item .detail-text,
+.laporan-item div[style*="font-size"] {
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  white-space: pre-wrap !important;
+  max-width: 100%;
+}
+
+/* KHUSUS UNTUK DIV YANG MENGANDUNG TEKS PANJANG */
+.laporan-item > div {
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  white-space: pre-wrap !important;
+  max-width: 100%;
+}
   </style>
 </head>
 
