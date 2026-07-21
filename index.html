@@ -506,7 +506,7 @@
 
       <div id="dashboardLoading" class="loading-overlay" style="padding: 20px 0;">
         <div class="loading-spinner"></div>
-        <div class="loading-text">⏳ Memuat data, Harap tunggu...</div>
+        <div class="loading-text">⏳ Memuat ringkasan data...</div>
       </div>
 
       <div class="stats-grid" id="dashboardStats">
@@ -518,7 +518,7 @@
 
       <div style="margin-top:20px;background:var(--bg-card);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,255,255,0.06);">
         <p style="font-size:13px;color:var(--text-secondary);text-align:center;">
-          📌 <strong>Laporan Layanan Lalu Lintas & Pemantauan Asset</strong><br>Tol Makassar &bull; PT. Margautama Nusantara
+          📌 <strong>Sistem Laporan Pelayanan Lalu Lintas</strong><br>Tol Makassar &bull; PT. Margautama Nusantara
         </p>
       </div>
     </section>
@@ -1433,7 +1433,7 @@
           ctx.drawImage(img, 0, 0, width, height);
 
           const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
-          statusEl.textContent = '📤 Mengupload foto, tunggu hingga foto muncul sebelum kirim...';
+          statusEl.textContent = '📤 Mengupload foto terkompresi...';
 
           try {
             const res = await API.post('uploadFoto', {
