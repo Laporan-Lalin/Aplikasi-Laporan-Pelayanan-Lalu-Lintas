@@ -1277,84 +1277,97 @@
       return values;
     }
 
-    // KOMPRESI & UPLOAD FOTO VIA CANVAS
-    function handleFotoUpload(input) {
-      const file = input.files[0];
-      if (!file) return;
+  // KOMPRESI & UPLOAD FOTO VIA CANVAS
+function handleFotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
 
-      const statusEl = document.getElementById('asetFotoStatus');
-      const nameEl = document.getElementById('asetFotoName');
-      const previewEl = document.getElementById('asetFotoPreview');
+  const statusEl = document.getElementById('asetFotoStatus');
+  const nameEl = document.getElementById('asetFotoName');
+  const previewEl = document.getElementById('asetFotoPreview');
 
-      nameEl.textContent = file.name;
-      statusEl.textContent = '🔄 Mengompres foto...';
-      statusEl.className = 'upload-status';
+  // 🔧 AMBIL DATA DARI FORM UNTUK NAMA FILE
+  const jenisAset = document.getElementById('asetJenis').value || 'Aset';
+  const jenisKerusakan = getMultiValues('asetKerusakan').join('-') || 'Kerusakan';
+  const jalur = document.getElementById('asetJalur').value || 'Jalur';
+  const lokasi = document.getElementById('asetLokasi').value || 'Lokasi';
 
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const img = new Image();
-        img.src = e.target.result;
-        img.onload = async function() {
-          // Kompresi Gambar menggunakan Canvas HTML5
-          const canvas = document.createElement('canvas');
-          const maxDimension = 800; // Maksimal dimensi panjang/lebar px
-          let width = img.width;
-          let height = img.height;
+  // 🔧 CLEAN STRING (HAPUS KARAKTER ILEGAL UNTUK NAMA FILE)
+  const cleanString = (str) => str.replace(/[/\\?%*:|"<>]/g, '-').trim();
+  
+  // 🔧 FORMAT NAMA FILE: JenisAset-JenisKerusakan-Jalur-Lokasi.jpg
+  const customFileName = `${cleanString(jenisAset)}-${cleanString(jenisKerusakan)}-${cleanString(jalur)}-${cleanString(lokasi)}.jpg`;
 
-          if (width > height) {
-            if (width > maxDimension) {
-              height = Math.round((height * maxDimension) / width);
-              width = maxDimension;
-            }
-          } else {
-            if (height > maxDimension) {
-              width = Math.round((width * maxDimension) / height);
-              height = maxDimension;
-            }
-          }
+  // TAMPILKAN NAMA FILE YANG AKAN DISIMPAN
+  nameEl.textContent = customFileName;
+  statusEl.textContent = '🔄 Mengompres foto...';
+  statusEl.className = 'upload-status';
 
-          canvas.width = width;
-          canvas.height = height;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.src = e.target.result;
+    img.onload = async function() {
+      // Kompresi Gambar menggunakan Canvas HTML5
+      const canvas = document.createElement('canvas');
+      const maxDimension = 800;
+      let width = img.width;
+      let height = img.height;
 
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
+      if (width > height) {
+        if (width > maxDimension) {
+          height = Math.round((height * maxDimension) / width);
+          width = maxDimension;
+        }
+      } else {
+        if (height > maxDimension) {
+          width = Math.round((width * maxDimension) / height);
+          height = maxDimension;
+        }
+      }
 
-          // Quality 0.7 = Kompresi Kualitas JPEG 70% (Sangat Hemat Ruang Penyimpanan)
-          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+      canvas.width = width;
+      canvas.height = height;
 
-          statusEl.textContent = '📤 Mengupload foto terkompresi...';
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
 
-          try {
-            const res = await API.post('uploadFoto', {
-              fotoData: compressedBase64,
-              fotoName: file.name.replace(/\.[^/.]+$/, "") + ".jpg"
-            });
+      const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
 
-            if (res && res.success) {
-              uploadedFotoUrl = res.url;
-              document.getElementById('asetFotoUrl').value = res.url;
-              statusEl.textContent = '✅ Foto berhasil terkompresi & diupload!';
-              statusEl.className = 'upload-status success';
-              previewEl.innerHTML = `<img src="${compressedBase64}" alt="Preview Mini">`;
-            } else {
-              statusEl.textContent = '❌ ' + ((res && res.error) || 'Gagal upload foto');
-              statusEl.className = 'upload-status error';
-            }
-          } catch (err) {
-            statusEl.textContent = '❌ Gagal upload: ' + err.message;
-            statusEl.className = 'upload-status error';
-          }
-        };
-      };
+      statusEl.textContent = '📤 Mengupload foto terkompresi...';
 
-      reader.onerror = function() {
-        statusEl.textContent = '❌ Gagal membaca file';
+      try {
+        // 🔧 KIRIM DENGAN NAMA FILE CUSTOM
+        const res = await API.post('uploadFoto', {
+          fotoData: compressedBase64,
+          fotoName: customFileName  // <-- NAMA FILE BARU
+        });
+
+        if (res && res.success) {
+          uploadedFotoUrl = res.url;
+          document.getElementById('asetFotoUrl').value = res.url;
+          statusEl.textContent = '✅ Foto berhasil terkompresi & diupload!';
+          statusEl.className = 'upload-status success';
+          previewEl.innerHTML = `<img src="${compressedBase64}" alt="Preview Mini">`;
+        } else {
+          statusEl.textContent = '❌ ' + ((res && res.error) || 'Gagal upload foto');
+          statusEl.className = 'upload-status error';
+        }
+      } catch (err) {
+        statusEl.textContent = '❌ Gagal upload: ' + err.message;
         statusEl.className = 'upload-status error';
-      };
+      }
+    };
+  };
 
-      reader.readAsDataURL(file);
-    }
+  reader.onerror = function() {
+    statusEl.textContent = '❌ Gagal membaca file';
+    statusEl.className = 'upload-status error';
+  };
 
+  reader.readAsDataURL(file);
+}
+    
     let toastTimeout;
     function showToast(msg, type = 'info') {
       const toast = document.getElementById('toast');
