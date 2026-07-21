@@ -7,7 +7,7 @@
   
   <script>
     // ============================================================
-    // KONFIGURASI - GANTI DENGAN URL WEB APP ANDA
+    // KONFIGURASI - URL WEB APP GOOGLE APPS SCRIPT
     // ============================================================
     const APP_CONFIG = {
       API_URL: 'https://script.google.com/macros/s/AKfycbx9EFphJqXK0sm7G0qlMjZEMwLdi7EN3LS5znj3GkPG3P6JMDTpei5HG3nUbwR1WDGmrA/exec',
@@ -133,7 +133,7 @@
       margin-top: 4px; font-weight: 500; letter-spacing: 0.5px;
     }
     .stats-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; position: relative;
     }
     .stat-card {
       background: var(--bg-card); border-radius: var(--radius); padding: 16px;
@@ -284,29 +284,22 @@
     .offline-banner.show { display: block; }
     .auto-grow { overflow: hidden; resize: none; }
 
+    /* UPLOAD FOTO & PREVIEW PERBAIKAN */
     .upload-wrapper {
       display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
     }
     .upload-wrapper .file-input { flex: 1; min-width: 120px; }
     .upload-wrapper .file-name { font-size: 12px; color: var(--text-muted); max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .preview-img-container { margin-top: 10px; display: flex; align-items: center; gap: 10px; }
-    .preview-img-container img { width: 70px; height: 70px; border-radius: 10px; object-fit: cover; border: 2px solid var(--secondary); }
+    .preview-img-container {
+      margin-top: 10px; display: flex; align-items: center; gap: 10px;
+    }
+    .preview-img-container img {
+      width: 70px; height: 70px; border-radius: 10px; object-fit: cover;
+      border: 2px solid var(--secondary); box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
     .upload-status { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
     .upload-status.success { color: #2e7d32; }
     .upload-status.error { color: #c62828; }
-
-    .image-modal {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.9); z-index: 3000;
-      align-items: center; justify-content: center; padding: 16px;
-    }
-    .image-modal.show { display: flex; }
-    .image-modal-content { max-width: 100%; max-height: 85vh; border-radius: 12px; object-fit: contain; }
-    .image-modal-close {
-      position: absolute; top: 20px; right: 20px;
-      background: rgba(255,255,255,0.2); border: none; color: #fff; font-size: 24px;
-      border-radius: 50%; width: 40px; height: 40px; cursor: pointer;
-    }
 
     @media (min-width: 768px) {
       .sidebar { left: 0; width: 260px; }
@@ -332,9 +325,7 @@
   <div class="bg-gradient"></div>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-  <!-- ============================================================
-       SIDEBAR
-       ============================================================ -->
+  <!-- SIDEBAR -->
   <nav class="sidebar" id="sidebar">
     <div class="sidebar-brand">
       <img src="https://drive.google.com/uc?export=view&id=12ZmHCesB52Wwd2Enmmii_IpYMaVb8C5b" 
@@ -345,6 +336,7 @@
     </div>
 
     <div class="menu-label">Navigasi</div>
+    
     <a class="menu-item active" data-page="dashboard" onclick="showPage('dashboard')">
       <span class="icon">📊</span> Dashboard
     </a>
@@ -403,16 +395,15 @@
   <main class="main-content" id="mainContent">
     <div class="offline-banner" id="offlineBanner">⚠️ Koneksi terputus. Data mungkin tidak sinkron.</div>
 
-    <!-- ============================================================
-         DASHBOARD
-         ============================================================ -->
+    <!-- DASHBOARD -->
     <section class="dashboard active" id="page-dashboard">
       <div class="clock-wrapper">
         <div class="clock-time" id="clockTime">00:00:00</div>
         <div class="clock-date" id="clockDate">--</div>
       </div>
 
-      <div class="filter-wrapper" style="justify-content:center;margin-bottom:8px;">
+      <!-- FILTER BULAN & TAHUN DASHBOARD -->
+      <div class="filter-wrapper" style="justify-content: center; margin-bottom: 8px;">
         <label>📅 Bulan:</label>
         <select class="form-control" id="bulanFilterDashboard" onchange="loadDashboard()">
           <option value="semua">Semua Bulan</option>
@@ -429,7 +420,8 @@
         </select>
       </div>
 
-      <div id="dashboardLoading" class="loading-overlay" style="padding:20px 0;">
+      <!-- INDIKATOR LOADING DASHBOARD -->
+      <div id="dashboardLoading" class="loading-overlay" style="padding: 20px 0;">
         <div class="loading-spinner"></div>
         <div class="loading-text">⏳ Memuat ringkasan data...</div>
       </div>
@@ -448,9 +440,7 @@
       </div>
     </section>
 
-    <!-- ============================================================
-         FORM TROUBLE
-         ============================================================ -->
+    <!-- FORM TROUBLE -->
     <section class="page" id="page-form-troble">
       <div class="page-title">🚗 Form Kendaraan Trouble <small>Penanganan Kendaraan Bermasalah</small></div>
       <form id="formTroble" onsubmit="submitLaporan(event,'troble')">
@@ -490,9 +480,7 @@
       </form>
     </section>
 
-    <!-- ============================================================
-         FORM KHUSUS
-         ============================================================ -->
+    <!-- FORM KHUSUS -->
     <section class="page" id="page-form-khusus">
       <div class="page-title">⚠️ Form Kejadian Khusus <small>Kejadian Luar Biasa</small></div>
       <form id="formKhusus" onsubmit="submitLaporan(event,'khusus')">
@@ -526,9 +514,7 @@
       </form>
     </section>
 
-    <!-- ============================================================
-         FORM DEREK
-         ============================================================ -->
+    <!-- FORM DEREK -->
     <section class="page" id="page-form-derek">
       <div class="page-title">🔧 Form Penderekan <small>Proses Penarikan Kendaraan</small></div>
       <form id="formDerek" onsubmit="submitLaporan(event,'derek')">
@@ -576,9 +562,7 @@
       </form>
     </section>
 
-    <!-- ============================================================
-         FORM ASET
-         ============================================================ -->
+    <!-- FORM ASET -->
     <section class="page" id="page-form-aset">
       <div class="page-title">🔧 Form Pemantauan Aset <small>Infrastruktur Tol</small></div>
       <form id="formAset" onsubmit="submitLaporan(event,'aset')">
@@ -622,9 +606,7 @@
       </form>
     </section>
 
-    <!-- ============================================================
-         LIHAT TROUBLE
-         ============================================================ -->
+    <!-- LIHAT TROUBLE -->
     <section class="page" id="page-lihat-troble">
       <div class="page-title">🚗 Laporan Kendaraan Trouble <small>Penanganan Kendaraan</small></div>
       <div class="tab-wrapper"><button class="tab-btn active" data-filter="semua">Semua</button></div>
@@ -649,9 +631,7 @@
       </div>
     </section>
 
-    <!-- ============================================================
-         LIHAT DEREK
-         ============================================================ -->
+    <!-- LIHAT DEREK -->
     <section class="page" id="page-lihat-derek">
       <div class="page-title">🔧 Laporan Penderekan <small>Proses Penarikan</small></div>
       <div class="tab-wrapper">
@@ -680,9 +660,7 @@
       </div>
     </section>
 
-    <!-- ============================================================
-         LIHAT KHUSUS
-         ============================================================ -->
+    <!-- LIHAT KHUSUS -->
     <section class="page" id="page-lihat-khusus">
       <div class="page-title">⚠️ Laporan Kejadian Khusus <small>Kejadian Luar Biasa</small></div>
       <div class="tab-wrapper"><button class="tab-btn active" data-filter="semua">Semua</button></div>
@@ -707,9 +685,7 @@
       </div>
     </section>
 
-    <!-- ============================================================
-         LIHAT ASET
-         ============================================================ -->
+    <!-- LIHAT ASET -->
     <section class="page" id="page-lihat-aset">
       <div class="page-title">🔧 Laporan Pemantauan Aset <small>Infrastruktur Tol</small></div>
       <div class="tab-wrapper">
@@ -744,29 +720,13 @@
 
   </main>
 
-  <!-- MODAL ZOOM FOTO -->
-  <div class="image-modal" id="imageModal" onclick="closeImageModal()">
-    <button class="image-modal-close" onclick="closeImageModal()">✕</button>
-    <img class="image-modal-content" id="imgModalSrc" src="" alt="Foto Aset Full">
-  </div>
-
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
-  <!-- ============================================================
-       JAVASCRIPT
-       ============================================================ -->
+  <!-- JAVASCRIPT -->
   <script>
-    // ============================================================
-    // KONFIGURASI
-    // ============================================================
-
     let masterData = {};
     let uploadedFotoUrl = '';
-
-    // ============================================================
-    // API HELPER
-    // ============================================================
 
     const API = {
       async get(action) {
@@ -777,16 +737,12 @@
       async post(action, payload) {
         const response = await fetch(APP_CONFIG.API_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({ action: action, ...payload })
         });
         return await response.json();
       }
     };
-
-    // ============================================================
-    // SIDEBAR
-    // ============================================================
 
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('active');
@@ -829,10 +785,6 @@
       }
     }
 
-    // ============================================================
-    // JAM DIGITAL
-    // ============================================================
-
     function updateClock() {
       const now = new Date();
       document.getElementById('clockTime').textContent = now.toTimeString().split(' ')[0];
@@ -857,27 +809,6 @@
     updateClock();
     setInterval(updateClock, 1000);
 
-    // ============================================================
-    // SET DEFAULT FILTER
-    // ============================================================
-
-    function setDefaultDateFilters() {
-      const now = new Date();
-      const currentMonth = String(now.getMonth() + 1).padStart(2, '0');
-      const currentYear = String(now.getFullYear());
-
-      ['Dashboard', 'Troble', 'Derek', 'Khusus', 'Aset'].forEach(jenis => {
-        const bulanSel = document.getElementById('bulanFilter' + jenis);
-        const tahunSel = document.getElementById('tahunFilter' + jenis);
-        if (bulanSel) bulanSel.value = currentMonth;
-        if (tahunSel) tahunSel.value = currentYear;
-      });
-    }
-
-    // ============================================================
-    // LOAD MASTER DATA
-    // ============================================================
-
     async function loadMasterData() {
       try {
         const result = await API.get('getMaster');
@@ -895,26 +826,15 @@
         populateSelects(masterData);
         populateFilterTabs(masterData);
         populateTahunFilters();
-        setDefaultDateFilters();
       } catch (err) {
         showToast('⚠️ Gagal memuat data master: ' + err.message, 'error');
       }
     }
 
-    // ============================================================
-    // POPULATE SELECT
-    // ============================================================
-
     function populateSelects(data) {
-      ['trobleJalur', 'khususJalur', 'derekJalur', 'asetJalur'].forEach(id => {
-        populateSelect(id, data.jalur || [], '-- Pilih Jalur --');
-      });
-      ['trobleUnit', 'khususUnit', 'asetUnit'].forEach(id => {
-        populateSelect(id, data.unit || [], '-- Pilih Unit --');
-      });
-      ['troblePetugas', 'khususPetugas', 'asetPetugas'].forEach(id => {
-        populateMulti(id, data.petugasLayanan || []);
-      });
+      ['trobleJalur', 'khususJalur', 'derekJalur', 'asetJalur'].forEach(id => populateSelect(id, data.jalur || [], '-- Pilih Jalur --'));
+      ['trobleUnit', 'khususUnit', 'asetUnit'].forEach(id => populateSelect(id, data.unit || [], '-- Pilih Unit --'));
+      ['troblePetugas', 'khususPetugas', 'asetPetugas'].forEach(id => populateMulti(id, data.petugasLayanan || []));
 
       populateMulti('derekPetugas', data.petugasDerek || []);
       populateSelect('trobleKerusakan', data.jenisKerusakan || [], '-- Pilih Jenis Kerusakan --');
@@ -974,10 +894,6 @@
       });
     }
 
-    // ============================================================
-    // POPULATE FILTER TABS
-    // ============================================================
-
     function populateFilterTabs(data) {
       const trobleWrapper = document.querySelector('#page-lihat-troble .tab-wrapper');
       if (trobleWrapper) {
@@ -1032,10 +948,7 @@
       });
     }
 
-    // ============================================================
-    // LOAD DASHBOARD
-    // ============================================================
-
+    // DASHBOARD DENGAN LOADING & FILTER BULAN/TAHUN
     async function loadDashboard() {
       const loadingEl = document.getElementById('dashboardLoading');
       const statsEl = document.getElementById('dashboardStats');
@@ -1046,6 +959,7 @@
         const bulan = document.getElementById('bulanFilterDashboard')?.value || 'semua';
         const tahun = document.getElementById('tahunFilterDashboard')?.value || 'semua';
 
+        // Mengambil seluruh data sheet laporan untuk di-filter statistik
         const [resTroble, resDerek, resKhusus, resAset] = await Promise.all([
           API.get('getTroble'),
           API.get('getDerek'),
@@ -1057,9 +971,7 @@
           if (!res || !res.data || !Array.isArray(res.data) || res.data.length < 2) return 0;
           const headers = res.data[0];
           const rows = res.data.slice(1);
-          const dateIdx = headers.findIndex(h => 
-            ['tanggalbertugas', 'tanggal', 'tgl'].includes(String(h).toLowerCase())
-          );
+          const dateIdx = headers.indexOf('tanggalBertugas') > -1 ? headers.indexOf('tanggalBertugas') : headers.indexOf('tanggal');
 
           if (dateIdx === -1 || (bulan === 'semua' && tahun === 'semua')) return rows.length;
 
@@ -1091,10 +1003,6 @@
       }
     }
 
-    // ============================================================
-    // FORMAT TANGGAL
-    // ============================================================
-
     function formatDateDisplay(dateStr) {
       if (!dateStr || dateStr === '-') return '-';
       try {
@@ -1114,10 +1022,6 @@
       return t;
     }
 
-    // ============================================================
-    // LOAD LAPORAN (DENGAN KONVERSI HEADER ASET)
-    // ============================================================
-
     async function loadLaporan(jenis) {
       const containerId = 'list' + jenis.charAt(0).toUpperCase() + jenis.slice(1);
       const container = document.getElementById(containerId);
@@ -1125,66 +1029,11 @@
 
       container.innerHTML = `<div class="loading-overlay show"><div class="loading-spinner"></div><div class="loading-text">⏳ Memuat data...</div></div>`;
 
-      const mapAction = { 
-        troble: 'getTroble', 
-        derek: 'getDerek', 
-        khusus: 'getKhusus', 
-        aset: 'getAset' 
-      };
+      const mapAction = { troble: 'getTroble', derek: 'getDerek', khusus: 'getKhusus', aset: 'getAset' };
 
       try {
         const result = await API.get(mapAction[jenis]);
-        let data = result && result.data ? result.data : [];
-        
-        // 🔧 KONVERSI HEADER ASET JIKA MASIH MENGGUNAKAN 'tanggal'
-        if (jenis === 'aset' && data.length > 0) {
-          const header = data[0];
-          if (header && header.some && header.some(h => String(h).toLowerCase() === 'tanggal')) {
-            const newHeaders = ['id', 'timestamp', 'tanggalBertugas', 'shift', 'jamTemuan', 
-                                'jalur', 'lokasiSTA', 'unit', 'namaPetugas', 
-                                'jenisAset', 'jenisKerusakan', 'fotoUrl'];
-            const oldHeader = data[0];
-            const rows = data.slice(1);
-            
-            const oldMap = {
-              id: oldHeader.indexOf('id'),
-              timestamp: oldHeader.indexOf('timestamp'),
-              tanggal: oldHeader.indexOf('tanggal'),
-              shift: oldHeader.indexOf('shift'),
-              jamTemuan: oldHeader.indexOf('jamTemuan'),
-              jalur: oldHeader.indexOf('jalur'),
-              lokasiSTA: oldHeader.indexOf('lokasiSTA'),
-              unit: oldHeader.indexOf('unit'),
-              namaPetugas: oldHeader.indexOf('namaPetugas'),
-              jenisAset: oldHeader.indexOf('jenisAset'),
-              jenisKerusakan: oldHeader.indexOf('jenisKerusakan'),
-              fotoUrl: oldHeader.indexOf('fotoUrl')
-            };
-            
-            const convertedRows = rows.map(row => {
-              return newHeaders.map(h => {
-                switch(h) {
-                  case 'id': return row[oldMap.id] || '';
-                  case 'timestamp': return row[oldMap.timestamp] || '';
-                  case 'tanggalBertugas': return row[oldMap.tanggal] || '';
-                  case 'shift': return row[oldMap.shift] || '';
-                  case 'jamTemuan': return row[oldMap.jamTemuan] || '';
-                  case 'jalur': return row[oldMap.jalur] || '';
-                  case 'lokasiSTA': return row[oldMap.lokasiSTA] || '';
-                  case 'unit': return row[oldMap.unit] || '';
-                  case 'namaPetugas': return row[oldMap.namaPetugas] || '';
-                  case 'jenisAset': return row[oldMap.jenisAset] || '';
-                  case 'jenisKerusakan': return row[oldMap.jenisKerusakan] || '';
-                  case 'fotoUrl': return row[oldMap.fotoUrl] || '';
-                  default: return '';
-                }
-              });
-            });
-            
-            data = [newHeaders, ...convertedRows];
-          }
-        }
-        
+        const data = result && result.data ? result.data : [];
         const filter = getActiveFilter('lihat-' + jenis);
         const bulan = document.getElementById('bulanFilter' + jenis.charAt(0).toUpperCase() + jenis.slice(1))?.value || 'semua';
         const tahun = document.getElementById('tahunFilter' + jenis.charAt(0).toUpperCase() + jenis.slice(1))?.value || 'semua';
@@ -1197,37 +1046,14 @@
         const headers = data[0];
         let rows = data.slice(1);
 
-        // FILTER UNTUK ASET
         if (filter && filter !== 'semua') {
-          let idx = -1;
-          if (jenis === 'aset') {
-            idx = headers.findIndex(h => 
-              String(h).toLowerCase() === 'jenisaset' || 
-              String(h).toLowerCase() === 'subkategori'
-            );
-          } else if (jenis === 'troble') {
-            idx = headers.findIndex(h => String(h).toLowerCase() === 'jeniskerusakan');
-          } else if (jenis === 'derek') {
-            idx = headers.findIndex(h => String(h).toLowerCase() === 'alasanpenderekan');
-          } else if (jenis === 'khusus') {
-            idx = headers.findIndex(h => String(h).toLowerCase() === 'jeniskejadian');
-          }
-          
-          if (idx > -1) {
-            const filterLower = filter.toLowerCase().trim();
-            rows = rows.filter(row => {
-              const val = String(row[idx] || '').toLowerCase().trim();
-              return val.includes(filterLower) || filterLower.includes(val);
-            });
-          }
+          const idx = headers.indexOf(jenis === 'troble' ? 'jenisKerusakan' :
+            jenis === 'derek' ? 'alasanPenderekan' :
+            jenis === 'khusus' ? 'jenisKejadian' : 'jenisAset');
+          if (idx > -1) rows = rows.filter(row => String(row[idx] || '').toLowerCase().includes(filter));
         }
 
-        // FILTER BULAN & TAHUN
-        let dateIdx = headers.findIndex(h => 
-          String(h).toLowerCase() === 'tanggalbertugas' || 
-          String(h).toLowerCase() === 'tanggal'
-        );
-        
+        const dateIdx = headers.indexOf('tanggalBertugas') > -1 ? headers.indexOf('tanggalBertugas') : headers.indexOf('tanggal');
         if (dateIdx > -1 && (bulan !== 'semua' || tahun !== 'semua')) {
           rows = rows.filter(row => {
             const dateStr = row[dateIdx] || '';
@@ -1252,82 +1078,45 @@
 
         let html = `<div class="summary-card"><div class="summary-content"><div class="total">📊 Total: <span>${rows.length}</span> Kejadian</div></div></div>`;
 
-        // DETEKSI HEADER UNTUK ASET
-        const timeIdx = headers.findIndex(h => 
-          ['jamkejadian', 'jamtemuan', 'waktu', 'jam'].includes(String(h).toLowerCase())
-        );
-        const petugasIdx = headers.findIndex(h => 
-          ['namapetugas', 'petugas'].includes(String(h).toLowerCase())
-        );
-        const lokasiIdx = headers.findIndex(h => 
-          ['lokasista', 'lokasi', 'sta'].includes(String(h).toLowerCase())
-        );
-        const jalurIdx = headers.findIndex(h => 
-          ['jalur'].includes(String(h).toLowerCase())
-        );
-        const shiftIdx = headers.findIndex(h => 
-          ['shift'].includes(String(h).toLowerCase())
-        );
-        
-        // UNTUK ASET
-        const asetIdx = headers.findIndex(h => 
-          String(h).toLowerCase() === 'jenisaset' || 
-          String(h).toLowerCase() === 'subkategori'
-        );
-        const kerusakanIdx = headers.findIndex(h => 
-          String(h).toLowerCase() === 'jeniskerusakan' || 
-          String(h).toLowerCase() === 'kondisi'
-        );
-        const fotoIdx = headers.findIndex(h => 
-          String(h).toLowerCase() === 'fotourl'
-        );
+        const timeIdx2 = headers.indexOf('jamKejadian') > -1 ? headers.indexOf('jamKejadian') : (headers.indexOf('jamTemuan') > -1 ? headers.indexOf('jamTemuan') : headers.indexOf('waktu'));
+        const petugasIdx = headers.indexOf('namaPetugas');
+        const lokasiIdx = headers.indexOf('lokasiSTA') > -1 ? headers.indexOf('lokasiSTA') : headers.indexOf('lokasi');
+        const jalurIdx = headers.indexOf('jalur');
+        const shiftIdx = headers.indexOf('shift');
 
         rows.slice().reverse().forEach(row => {
           const tgl = formatDateDisplay((dateIdx > -1) ? row[dateIdx] || '-' : '-');
-          const jam = formatTimeDisplay((timeIdx > -1) ? row[timeIdx] || '-' : '-');
+          const jam = formatTimeDisplay((timeIdx2 > -1) ? row[timeIdx2] || '-' : '-');
           const petugas = (petugasIdx > -1) ? row[petugasIdx] || '-' : '-';
           const lokasi = (lokasiIdx > -1) ? row[lokasiIdx] || '-' : '-';
           const jalur = (jalurIdx > -1) ? row[jalurIdx] || '-' : '-';
           const shift = (shiftIdx > -1) ? row[shiftIdx] || '-' : '-';
 
           let detail = '', subTitle = '';
-          
-          if (jenis === 'aset') {
-            const aset = (asetIdx > -1) ? row[asetIdx] || '-' : '-';
-            const kerusakan = (kerusakanIdx > -1) ? row[kerusakanIdx] || '-' : '-';
-            const foto = (fotoIdx > -1) ? row[fotoIdx] || '' : '';
-            subTitle = aset;
-            detail = `<div style="font-size:13px;color:var(--text-secondary);">🔧 ${kerusakan}</div>`;
-            if (foto) {
-              detail += `<div style="margin-top:8px;"><img src="${foto}" onclick="openImageModal('${foto}')" style="max-width:100px;max-height:100px;border-radius:8px;object-fit:cover;border:2px solid var(--secondary);cursor:pointer;" title="Klik untuk memperbesar"></div>`;
-            }
-          } else if (jenis === 'troble') {
-            const kr = headers.findIndex(h => String(h).toLowerCase() === 'jeniskerusakan');
-            const gol = headers.findIndex(h => String(h).toLowerCase() === 'golongankendaraan');
-            const jk = headers.findIndex(h => String(h).toLowerCase() === 'jeniskendaraan');
-            const tl = headers.findIndex(h => String(h).toLowerCase() === 'tindaklanjut');
-            const krVal = (kr > -1) ? row[kr] || '-' : '-';
-            const golVal = (gol > -1) ? row[gol] || '-' : '-';
-            const jkVal = (jk > -1) ? row[jk] || '-' : '-';
-            const tlVal = (tl > -1) ? row[tl] || '' : '';
-            subTitle = golVal + ' - ' + jkVal;
-            detail = `<div style="font-size:13px;color:var(--text-secondary);">🔧 ${krVal}</div><div style="font-size:12px;color:var(--text-muted);">${tlVal.substring(0,100)}${tlVal.length>100?'...':''}</div>`;
+          if (jenis === 'troble') {
+            const kr = headers.indexOf('jenisKerusakan') > -1 ? row[headers.indexOf('jenisKerusakan')] || '-' : '-';
+            const gol = headers.indexOf('golonganKendaraan') > -1 ? row[headers.indexOf('golonganKendaraan')] || '-' : '-';
+            const jk = headers.indexOf('jenisKendaraan') > -1 ? row[headers.indexOf('jenisKendaraan')] || '-' : '-';
+            const tl = headers.indexOf('tindakLanjut') > -1 ? row[headers.indexOf('tindakLanjut')] || '' : '';
+            subTitle = gol + ' - ' + jk;
+            detail = `<div style="font-size:13px;color:var(--text-secondary);">🔧 ${kr}</div><div style="font-size:12px;color:var(--text-muted);">${tl.substring(0,100)}${tl.length>100?'...':''}</div>`;
           } else if (jenis === 'derek') {
-            const al = headers.findIndex(h => String(h).toLowerCase() === 'alasanpenderekan');
-            const tj = headers.findIndex(h => String(h).toLowerCase() === 'tujuanpenderekan');
-            const dr = headers.findIndex(h => String(h).toLowerCase() === 'derekdigunakan');
-            const alVal = (al > -1) ? row[al] || '-' : '-';
-            const tjVal = (tj > -1) ? row[tj] || '-' : '-';
-            const drVal = (dr > -1) ? row[dr] || '-' : '-';
-            subTitle = drVal;
-            detail = `<div style="font-size:13px;color:var(--text-secondary);">📌 ${alVal}</div><div style="font-size:12px;color:var(--text-muted);">Tujuan: ${tjVal}</div>`;
+            const al = headers.indexOf('alasanPenderekan') > -1 ? row[headers.indexOf('alasanPenderekan')] || '-' : '-';
+            const tj = headers.indexOf('tujuanPenderekan') > -1 ? row[headers.indexOf('tujuanPenderekan')] || '-' : '-';
+            const dr = headers.indexOf('derekDigunakan') > -1 ? row[headers.indexOf('derekDigunakan')] || '-' : '-';
+            subTitle = dr;
+            detail = `<div style="font-size:13px;color:var(--text-secondary);">📌 ${al}</div><div style="font-size:12px;color:var(--text-muted);">Tujuan: ${tj}</div>`;
           } else if (jenis === 'khusus') {
-            const jk = headers.findIndex(h => String(h).toLowerCase() === 'jeniskejadian');
-            const ur = headers.findIndex(h => String(h).toLowerCase() === 'uraiankejadian');
-            const jkVal = (jk > -1) ? row[jk] || '-' : '-';
-            const urVal = (ur > -1) ? row[ur] || '' : '';
-            subTitle = jkVal;
-            detail = `<div style="font-size:12px;color:var(--text-muted);">${urVal.substring(0,100)}${urVal.length>100?'...':''}</div>`;
+            const jk = headers.indexOf('jenisKejadian') > -1 ? row[headers.indexOf('jenisKejadian')] || '-' : '-';
+            const ur = headers.indexOf('uraianKejadian') > -1 ? row[headers.indexOf('uraianKejadian')] || '' : '';
+            subTitle = jk;
+            detail = `<div style="font-size:12px;color:var(--text-muted);">${ur.substring(0,100)}${ur.length>100?'...':''}</div>`;
+          } else if (jenis === 'aset') {
+            const as = headers.indexOf('jenisAset') > -1 ? row[headers.indexOf('jenisAset')] || '-' : '-';
+            const kr = headers.indexOf('jenisKerusakan') > -1 ? row[headers.indexOf('jenisKerusakan')] || '-' : '-';
+            const ft = headers.indexOf('fotoUrl') > -1 ? row[headers.indexOf('fotoUrl')] || '' : '';
+            subTitle = as;
+            detail = `<div style="font-size:13px;color:var(--text-secondary);">🔧 ${kr}</div>${ft ? `<div style="margin-top:6px;"><img src="${ft}" style="max-width:70px;max-height:70px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.2);"></div>` : ''}`;
           }
 
           html += `
@@ -1347,28 +1136,6 @@
         container.innerHTML = `<div class="empty-state"><span class="icon">⚠️</span><p>Gagal memuat data: ${err.message || 'Error'}</p></div>`;
       }
     }
-
-    // ============================================================
-    // OPEN IMAGE MODAL
-    // ============================================================
-
-    function openImageModal(url) {
-      const modal = document.getElementById('imageModal');
-      const img = document.getElementById('imgModalSrc');
-      if (modal && img && url) {
-        img.src = url;
-        modal.classList.add('show');
-      }
-    }
-
-    function closeImageModal() {
-      const modal = document.getElementById('imageModal');
-      if (modal) modal.classList.remove('show');
-    }
-
-    // ============================================================
-    // SUBMIT LAPORAN
-    // ============================================================
 
     async function submitLaporan(event, jenis) {
       event.preventDefault();
@@ -1510,10 +1277,7 @@
       return values;
     }
 
-    // ============================================================
-    // UPLOAD FOTO
-    // ============================================================
-
+    // KOMPRESI & UPLOAD FOTO VIA CANVAS
     function handleFotoUpload(input) {
       const file = input.files[0];
       if (!file) return;
@@ -1522,15 +1286,7 @@
       const nameEl = document.getElementById('asetFotoName');
       const previewEl = document.getElementById('asetFotoPreview');
 
-      const jenisAset = document.getElementById('asetJenis').value || 'Aset';
-      const jenisKerusakan = getMultiValues('asetKerusakan').join('-') || 'Kerusakan';
-      const jalur = document.getElementById('asetJalur').value || 'Jalur';
-      const lokasi = document.getElementById('asetLokasi').value || 'Lokasi';
-
-      const cleanString = (str) => str.replace(/[/\\?%*:|"<>]/g, '-').trim();
-      const customFileName = `${cleanString(jenisAset)}-${cleanString(jenisKerusakan)}-${cleanString(jalur)}-${cleanString(lokasi)}.jpg`;
-
-      nameEl.textContent = customFileName;
+      nameEl.textContent = file.name;
       statusEl.textContent = '🔄 Mengompres foto...';
       statusEl.className = 'upload-status';
 
@@ -1539,8 +1295,9 @@
         const img = new Image();
         img.src = e.target.result;
         img.onload = async function() {
+          // Kompresi Gambar menggunakan Canvas HTML5
           const canvas = document.createElement('canvas');
-          const maxDimension = 800;
+          const maxDimension = 800; // Maksimal dimensi panjang/lebar px
           let width = img.width;
           let height = img.height;
 
@@ -1562,6 +1319,7 @@
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
 
+          // Quality 0.7 = Kompresi Kualitas JPEG 70% (Sangat Hemat Ruang Penyimpanan)
           const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
 
           statusEl.textContent = '📤 Mengupload foto terkompresi...';
@@ -1569,7 +1327,7 @@
           try {
             const res = await API.post('uploadFoto', {
               fotoData: compressedBase64,
-              fotoName: customFileName
+              fotoName: file.name.replace(/\.[^/.]+$/, "") + ".jpg"
             });
 
             if (res && res.success) {
@@ -1597,12 +1355,7 @@
       reader.readAsDataURL(file);
     }
 
-    // ============================================================
-    // TOAST
-    // ============================================================
-
     let toastTimeout;
-
     function showToast(msg, type = 'info') {
       const toast = document.getElementById('toast');
       toast.textContent = msg;
@@ -1612,10 +1365,6 @@
       toast.classList.add('show');
       toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
     }
-
-    // ============================================================
-    // EVENT LISTENERS
-    // ============================================================
 
     document.addEventListener('click', function(e) {
       const btn = e.target.closest('.tab-btn');
@@ -1658,10 +1407,6 @@
         }
       }
     });
-
-    // ============================================================
-    // INIT
-    // ============================================================
 
     document.addEventListener('DOMContentLoaded', function() {
       loadMasterData();
