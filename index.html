@@ -1058,120 +1058,130 @@
     }
 
     async function loadLaporan(jenis) {
-      const containerId = 'list' + jenis.charAt(0).toUpperCase() + jenis.slice(1);
-      const container = document.getElementById(containerId);
-      if (!container) return;
+  const containerId = 'list' + jenis.charAt(0).toUpperCase() + jenis.slice(1);
+  const container = document.getElementById(containerId);
+  if (!container) return;
 
-      container.innerHTML = `<div class="loading-overlay show"><div class="loading-spinner"></div><div class="loading-text">⏳ Memuat data...</div></div>`;
+  container.innerHTML = `<div class="loading-overlay show"><div class="loading-spinner"></div><div class="loading-text">⏳ Memuat data...</div></div>`;
 
-      const mapAction = { troble: 'getTroble', derek: 'getDerek', khusus: 'getKhusus', aset: 'getAset' };
+  const mapAction = { troble: 'getTroble', derek: 'getDerek', khusus: 'getKhusus', aset: 'getAset' };
 
-      try {
-        const result = await API.get(mapAction[jenis]);
-        const data = result && result.data ? result.data : [];
-        const filter = getActiveFilter('lihat-' + jenis);
-        const bulan = document.getElementById('bulanFilter' + jenis.charAt(0).toUpperCase() + jenis.slice(1))?.value || 'semua';
-        const tahun = document.getElementById('tahunFilter' + jenis.charAt(0).toUpperCase() + jenis.slice(1))?.value || 'semua';
+  try {
+    const result = await API.get(mapAction[jenis]);
+    const data = result && result.data ? result.data : [];
+    const filter = getActiveFilter('lihat-' + jenis);
+    const bulan = document.getElementById('bulanFilter' + jenis.charAt(0).toUpperCase() + jenis.slice(1))?.value || 'semua';
+    const tahun = document.getElementById('tahunFilter' + jenis.charAt(0).toUpperCase() + jenis.slice(1))?.value || 'semua';
 
-        if (!Array.isArray(data) || data.length < 2) {
-          container.innerHTML = `<div class="empty-state"><span class="icon">📭</span><p>Belum ada data laporan</p></div>`;
-          return;
-        }
+    if (!Array.isArray(data) || data.length < 2) {
+      container.innerHTML = `<div class="empty-state"><span class="icon">📭</span><p>Belum ada data laporan</p></div>`;
+      return;
+    }
 
-        const headers = data[0];
-        let rows = data.slice(1);
+    const headers = data[0];
+    let rows = data.slice(1);
 
-        if (filter && filter !== 'semua') {
-          const idx = headers.indexOf(jenis === 'troble' ? 'jenisKerusakan' :
-            jenis === 'derek' ? 'alasanPenderekan' :
-            jenis === 'khusus' ? 'jenisKejadian' : 'jenisAset');
-          if (idx > -1) rows = rows.filter(row => String(row[idx] || '').toLowerCase().includes(filter));
-        }
-
-        const dateIdx = headers.indexOf('tanggalBertugas') > -1 ? headers.indexOf('tanggalBertugas') : headers.indexOf('tanggal');
-        if (dateIdx > -1 && (bulan !== 'semua' || tahun !== 'semua')) {
-          rows = rows.filter(row => {
-            const dateStr = row[dateIdx] || '';
-            if (!dateStr) return false;
-            try {
-              const d = new Date(dateStr);
-              if (isNaN(d.getTime())) return false;
-              const m = String(d.getMonth() + 1).padStart(2, '0');
-              const y = String(d.getFullYear());
-              let match = true;
-              if (bulan !== 'semua') match = match && (m === bulan);
-              if (tahun !== 'semua') match = match && (y === tahun);
-              return match;
-            } catch (e) { return false; }
-          });
-        }
-
-        if (rows.length === 0) {
-          container.innerHTML = `<div class="empty-state"><span class="icon">🔍</span><p>Tidak ada data untuk filter ini</p></div>`;
-          return;
-        }
-
-        let html = `<div class="summary-card"><div class="summary-content"><div class="total">📊 Total: <span>${rows.length}</span> Kejadian</div></div></div>`;
-
-        const timeIdx2 = headers.indexOf('jamKejadian') > -1 ? headers.indexOf('jamKejadian') : (headers.indexOf('jamTemuan') > -1 ? headers.indexOf('jamTemuan') : headers.indexOf('waktu'));
-        const petugasIdx = headers.indexOf('namaPetugas');
-        const lokasiIdx = headers.indexOf('lokasiSTA') > -1 ? headers.indexOf('lokasiSTA') : headers.indexOf('lokasi');
-        const jalurIdx = headers.indexOf('jalur');
-        const shiftIdx = headers.indexOf('shift');
-
-        rows.slice().reverse().forEach(row => {
-          const tgl = formatDateDisplay((dateIdx > -1) ? row[dateIdx] || '-' : '-');
-          const jam = formatTimeDisplay((timeIdx2 > -1) ? row[timeIdx2] || '-' : '-');
-          const petugas = (petugasIdx > -1) ? row[petugasIdx] || '-' : '-';
-          const lokasi = (lokasiIdx > -1) ? row[lokasiIdx] || '-' : '-';
-          const jalur = (jalurIdx > -1) ? row[jalurIdx] || '-' : '-';
-          const shift = (shiftIdx > -1) ? row[shiftIdx] || '-' : '-';
-
-          let detail = '', subTitle = '';
-          if (jenis === 'troble') {
-            const kr = headers.indexOf('jenisKerusakan') > -1 ? row[headers.indexOf('jenisKerusakan')] || '-' : '-';
-            const gol = headers.indexOf('golonganKendaraan') > -1 ? row[headers.indexOf('golonganKendaraan')] || '-' : '-';
-            const jk = headers.indexOf('jenisKendaraan') > -1 ? row[headers.indexOf('jenisKendaraan')] || '-' : '-';
-            const tl = headers.indexOf('tindakLanjut') > -1 ? row[headers.indexOf('tindakLanjut')] || '' : '';
-            subTitle = gol + ' - ' + jk;
-            detail = `<div style="font-size:13px;color:var(--text-secondary);">🔧 ${kr}</div><div style="font-size:12px;color:var(--text-muted);">${tl.substring(0,100)}${tl.length>100?'...':''}</div>`;
-          } else if (jenis === 'derek') {
-            const al = headers.indexOf('alasanPenderekan') > -1 ? row[headers.indexOf('alasanPenderekan')] || '-' : '-';
-            const tj = headers.indexOf('tujuanPenderekan') > -1 ? row[headers.indexOf('tujuanPenderekan')] || '-' : '-';
-            const dr = headers.indexOf('derekDigunakan') > -1 ? row[headers.indexOf('derekDigunakan')] || '-' : '-';
-            subTitle = dr;
-            detail = `<div style="font-size:13px;color:var(--text-secondary);">📌 ${al}</div><div style="font-size:12px;color:var(--text-muted);">Tujuan: ${tj}</div>`;
-          } else if (jenis === 'khusus') {
-            const jk = headers.indexOf('jenisKejadian') > -1 ? row[headers.indexOf('jenisKejadian')] || '-' : '-';
-            const ur = headers.indexOf('uraianKejadian') > -1 ? row[headers.indexOf('uraianKejadian')] || '' : '';
-            subTitle = jk;
-            detail = `<div style="font-size:12px;color:var(--text-muted);">${ur.substring(0,100)}${ur.length>100?'...':''}</div>`;
-          } else if (jenis === 'aset') {
-            const as = headers.indexOf('jenisAset') > -1 ? row[headers.indexOf('jenisAset')] || '-' : '-';
-            const kr = headers.indexOf('jenisKerusakan') > -1 ? row[headers.indexOf('jenisKerusakan')] || '-' : '-';
-            const ft = headers.indexOf('fotoUrl') > -1 ? row[headers.indexOf('fotoUrl')] || '' : '';
-            subTitle = as;
-            detail = `<div style="font-size:13px;color:var(--text-secondary);">🔧 ${kr}</div>${ft ? `<div style="margin-top:8px;"><img src="${ft}" onclick="openImageModal('${ft}')" style="max-width:100px;max-height:100px;border-radius:8px;object-fit:cover;border:2px solid var(--secondary);cursor:pointer;" title="Klik untuk memperbesar"></div>` : ''}`;
-          }
-
-          html += `
-            <div class="laporan-item fade-in">
-              <div class="header">
-                <span class="title">${subTitle || jalur}</span>
-                <span class="time">${tgl} ${jam}</span>
-              </div>
-              <div style="font-size:13px;color:var(--text-muted);">📍 ${lokasi} &bull; 👤 ${petugas} &bull; 🕐 ${shift}</div>
-              <div style="margin-top:6px;">${detail}</div>
-            </div>
-          `;
+    // 1. FILTER BERDASARKAN TAB CATEGORY (DIPERBAIKI AGAR LEBIH FLEKSIBEL)
+    if (filter && filter !== 'semua') {
+      const idx = headers.indexOf(jenis === 'troble' ? 'jenisKerusakan' :
+        jenis === 'derek' ? 'alasanPenderekan' :
+        jenis === 'khusus' ? 'jenisKejadian' : 'jenisAset');
+      
+      if (idx > -1) {
+        rows = rows.filter(row => {
+          const val = String(row[idx] || '').toLowerCase().trim();
+          const targetFilter = filter.toLowerCase().trim();
+          return val.includes(targetFilter) || targetFilter.includes(val);
         });
-
-        container.innerHTML = html;
-      } catch (err) {
-        container.innerHTML = `<div class="empty-state"><span class="icon">⚠️</span><p>Gagal memuat data: ${err.message || 'Error'}</p></div>`;
       }
     }
 
+    // 2. FILTER BERDASARKAN BULAN DAN TAHUN
+    const dateIdx = headers.findIndex(h => ['tanggalbertugas', 'tanggal', 'tgl'].includes(String(h).toLowerCase()));
+    
+    if (dateIdx > -1 && (bulan !== 'semua' || tahun !== 'semua')) {
+      rows = rows.filter(row => {
+        const dateStr = row[dateIdx] || '';
+        if (!dateStr) return false;
+        try {
+          const d = new Date(dateStr);
+          if (isNaN(d.getTime())) return false;
+          const m = String(d.getMonth() + 1).padStart(2, '0');
+          const y = String(d.getFullYear());
+          let match = true;
+          if (bulan !== 'semua') match = match && (m === bulan);
+          if (tahun !== 'semua') match = match && (y === tahun);
+          return match;
+        } catch (e) { return false; }
+      });
+    }
+
+    if (rows.length === 0) {
+      container.innerHTML = `<div class="empty-state"><span class="icon">🔍</span><p>Tidak ada data untuk filter ini</p></div>`;
+      return;
+    }
+
+    let html = `<div class="summary-card"><div class="summary-content"><div class="total">📊 Total: <span>${rows.length}</span> Kejadian</div></div></div>`;
+
+    // DETEKSI HEADER FLEKSIBEL (TERMASUK jamTemuan UNTUK ASET)
+    const timeIdx2 = headers.findIndex(h => ['jamkejadian', 'jamtemuan', 'waktu', 'jam'].includes(String(h).toLowerCase()));
+    const petugasIdx = headers.findIndex(h => ['namapetugas', 'petugas'].includes(String(h).toLowerCase()));
+    const lokasiIdx = headers.findIndex(h => ['lokasista', 'lokasi', 'sta'].includes(String(h).toLowerCase()));
+    const jalurIdx = headers.findIndex(h => ['jalur'].includes(String(h).toLowerCase()));
+    const shiftIdx = headers.findIndex(h => ['shift'].includes(String(h).toLowerCase()));
+
+    rows.slice().reverse().forEach(row => {
+      const tgl = formatDateDisplay((dateIdx > -1) ? row[dateIdx] || '-' : '-');
+      const jam = formatTimeDisplay((timeIdx2 > -1) ? row[timeIdx2] || '-' : '-');
+      const petugas = (petugasIdx > -1) ? row[petugasIdx] || '-' : '-';
+      const lokasi = (lokasiIdx > -1) ? row[lokasiIdx] || '-' : '-';
+      const jalur = (jalurIdx > -1) ? row[jalurIdx] || '-' : '-';
+      const shift = (shiftIdx > -1) ? row[shiftIdx] || '-' : '-';
+
+      let detail = '', subTitle = '';
+      if (jenis === 'troble') {
+        const kr = headers.indexOf('jenisKerusakan') > -1 ? row[headers.indexOf('jenisKerusakan')] || '-' : '-';
+        const gol = headers.indexOf('golonganKendaraan') > -1 ? row[headers.indexOf('golonganKendaraan')] || '-' : '-';
+        const jk = headers.indexOf('jenisKendaraan') > -1 ? row[headers.indexOf('jenisKendaraan')] || '-' : '-';
+        const tl = headers.indexOf('tindakLanjut') > -1 ? row[headers.indexOf('tindakLanjut')] || '' : '';
+        subTitle = gol + ' - ' + jk;
+        detail = `<div style="font-size:13px;color:var(--text-secondary);">🔧 ${kr}</div><div style="font-size:12px;color:var(--text-muted);">${tl.substring(0,100)}${tl.length>100?'...':''}</div>`;
+      } else if (jenis === 'derek') {
+        const al = headers.indexOf('alasanPenderekan') > -1 ? row[headers.indexOf('alasanPenderekan')] || '-' : '-';
+        const tj = headers.indexOf('tujuanPenderekan') > -1 ? row[headers.indexOf('tujuanPenderekan')] || '-' : '-';
+        const dr = headers.indexOf('derekDigunakan') > -1 ? row[headers.indexOf('derekDigunakan')] || '-' : '-';
+        subTitle = dr;
+        detail = `<div style="font-size:13px;color:var(--text-secondary);">📌 ${al}</div><div style="font-size:12px;color:var(--text-muted);">Tujuan: ${tj}</div>`;
+      } else if (jenis === 'khusus') {
+        const jk = headers.indexOf('jenisKejadian') > -1 ? row[headers.indexOf('jenisKejadian')] || '-' : '-';
+        const ur = headers.indexOf('uraianKejadian') > -1 ? row[headers.indexOf('uraianKejadian')] || '' : '';
+        subTitle = jk;
+        detail = `<div style="font-size:12px;color:var(--text-muted);">${ur.substring(0,100)}${ur.length>100?'...':''}</div>`;
+      } else if (jenis === 'aset') {
+        const as = headers.indexOf('jenisAset') > -1 ? row[headers.indexOf('jenisAset')] || '-' : '-';
+        const kr = headers.indexOf('jenisKerusakan') > -1 ? row[headers.indexOf('jenisKerusakan')] || '-' : '-';
+        const ft = headers.indexOf('fotoUrl') > -1 ? row[headers.indexOf('fotoUrl')] || '' : '';
+        subTitle = as;
+        detail = `<div style="font-size:13px;color:var(--text-secondary);">🔧 ${kr}</div>${ft ? `<div style="margin-top:8px;"><img src="${ft}" onclick="openImageModal('${ft}')" style="max-width:100px;max-height:100px;border-radius:8px;object-fit:cover;border:2px solid var(--secondary);cursor:pointer;" title="Klik untuk memperbesar"></div>` : ''}`;
+      }
+
+      html += `
+        <div class="laporan-item fade-in">
+          <div class="header">
+            <span class="title">${subTitle || jalur}</span>
+            <span class="time">${tgl} ${jam}</span>
+          </div>
+          <div style="font-size:13px;color:var(--text-muted);">📍 ${lokasi} &bull; 👤 ${petugas} &bull; 🕐 ${shift}</div>
+          <div style="margin-top:6px;">${detail}</div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+  } catch (err) {
+    container.innerHTML = `<div class="empty-state"><span class="icon">⚠️</span><p>Gagal memuat data: ${err.message || 'Error'}</p></div>`;
+  }
+}
     // POPUP ZOOM FOTO LOGIC
     function openImageModal(url) {
       const modal = document.getElementById('imageModal');
