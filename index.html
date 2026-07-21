@@ -317,6 +317,49 @@
     ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     .fade-in { animation: fadeIn 0.4s ease forwards; }
+
+    /* MODAL ZOOM FOTO */
+.image-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 3000;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.image-modal.show {
+  display: flex;
+}
+.image-modal-content {
+  max-width: 100%;
+  max-height: 85vh;
+  border-radius: 12px;
+  object-fit: contain;
+}
+.image-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.image-modal-close:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
   </style>
 </head>
 
@@ -719,6 +762,11 @@
     </section>
 
   </main>
+  <!-- MODAL ZOOM FOTO -->
+<div class="image-modal" id="imageModal" onclick="closeImageModal()">
+  <button class="image-modal-close" onclick="closeImageModal()">✕</button>
+  <img class="image-modal-content" id="imgModalSrc" src="" alt="Foto Aset Full">
+</div>
 
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
@@ -1140,12 +1188,14 @@ function setDefaultDateFilters() {
             subTitle = jk;
             detail = `<div style="font-size:12px;color:var(--text-muted);">${ur.substring(0,100)}${ur.length>100?'...':''}</div>`;
           } else if (jenis === 'aset') {
-            const as = headers.indexOf('jenisAset') > -1 ? row[headers.indexOf('jenisAset')] || '-' : '-';
-            const kr = headers.indexOf('jenisKerusakan') > -1 ? row[headers.indexOf('jenisKerusakan')] || '-' : '-';
-            const ft = headers.indexOf('fotoUrl') > -1 ? row[headers.indexOf('fotoUrl')] || '' : '';
-            subTitle = as;
-            detail = `<div style="font-size:13px;color:var(--text-secondary);">🔧 ${kr}</div>${ft ? `<div style="margin-top:6px;"><img src="${ft}" style="max-width:70px;max-height:70px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.2);"></div>` : ''}`;
-          }
+  const as = headers.indexOf('jenisAset') > -1 ? row[headers.indexOf('jenisAset')] || '-' : '-';
+  const kr = headers.indexOf('jenisKerusakan') > -1 ? row[headers.indexOf('jenisKerusakan')] || '-' : '-';
+  const ft = headers.indexOf('fotoUrl') > -1 ? row[headers.indexOf('fotoUrl')] || '' : '';
+  subTitle = as;
+  detail = `<div style="font-size:13px;color:var(--text-secondary);">🔧 ${kr}</div>`;
+  if (ft) {
+    detail += `<div style="margin-top:6px;"><img src="${ft}" onclick="openImageModal('${ft}')" style="max-width:70px;max-height:70px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.2);cursor:pointer;" title="Klik untuk memperbesar"></div>`;
+  }
 
           html += `
             <div class="laporan-item fade-in">
@@ -1407,6 +1457,26 @@ function handleFotoUpload(input) {
       toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
     }
 
+
+    // ============================================================
+// MODAL ZOOM FOTO
+// ============================================================
+
+function openImageModal(url) {
+  const modal = document.getElementById('imageModal');
+  const img = document.getElementById('imgModalSrc');
+  if (modal && img && url) {
+    img.src = url;
+    modal.classList.add('show');
+  }
+}
+
+function closeImageModal() {
+  const modal = document.getElementById('imageModal');
+  if (modal) modal.classList.remove('show');
+}
+
+    
     document.addEventListener('click', function(e) {
       const btn = e.target.closest('.tab-btn');
       if (btn) {
