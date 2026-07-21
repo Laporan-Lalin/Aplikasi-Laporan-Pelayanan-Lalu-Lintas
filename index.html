@@ -784,9 +784,9 @@
     async function loadMasterData() {
       try {
         const result = await API.get('getMaster');
-        masterData = result;
+        masterData = result || {};
 
-        const isEmpty = !result.jalur || result.jalur.length === 0;
+        const isEmpty = !masterData.jalur || masterData.jalur.length === 0;
         if (isEmpty) {
           showToast('⚠️ Sheet Data kosong atau tidak ditemukan!', 'error');
           document.querySelectorAll('select:not([id*="Filter"])').forEach(sel => {
@@ -795,8 +795,8 @@
           return;
         }
 
-        populateSelects(result);
-        populateFilterTabs(result);
+        populateSelects(masterData);
+        populateFilterTabs(masterData);
         populateTahunFilters();
       } catch (err) {
         showToast('⚠️ Gagal memuat data master: ' + err.message, 'error');
@@ -815,7 +815,7 @@
       const asetSelect = document.getElementById('asetJenis');
       if (asetSelect) {
         populateSelect('asetJenis', data.jenisAset || [], '-- Pilih Jenis Aset --');
-        asetSelect.addEventListener('change', function() { updateAsetKerusakan(this.value); });
+        asetSelect.onchange = function() { updateAsetKerusakan(this.value); };
       }
 
       const kerusakanSelect = document.getElementById('asetKerusakan');
@@ -869,7 +869,7 @@
     function populateFilterTabs(data) {
       const trobleWrapper = document.querySelector('#page-lihat-troble .tab-wrapper');
       if (trobleWrapper) {
-        const semuaBtn = trobleWrapper.querySelector('.tab-btn');
+        const semuaBtn = trobleWrapper.querySelector('.tab-btn') || createSemuaBtn();
         trobleWrapper.innerHTML = '';
         trobleWrapper.appendChild(semuaBtn);
         (data.jenisKerusakan || []).forEach(item => {
@@ -883,7 +883,7 @@
 
       const khususWrapper = document.querySelector('#page-lihat-khusus .tab-wrapper');
       if (khususWrapper) {
-        const semuaBtn = khususWrapper.querySelector('.tab-btn');
+        const semuaBtn = khususWrapper.querySelector('.tab-btn') || createSemuaBtn();
         khususWrapper.innerHTML = '';
         khususWrapper.appendChild(semuaBtn);
         (data.jenisKejadian || []).forEach(item => {
@@ -894,6 +894,14 @@
           khususWrapper.appendChild(btn);
         });
       }
+    }
+
+    function createSemuaBtn() {
+      const btn = document.createElement('button');
+      btn.className = 'tab-btn active';
+      btn.dataset.filter = 'semua';
+      btn.textContent = 'Semua';
+      return btn;
     }
 
     function populateTahunFilters() {
@@ -925,7 +933,7 @@
     }
 
     function formatDateDisplay(dateStr) {
-      if (!dateStr) return '-';
+      if (!dateStr || dateStr === '-') return '-';
       try {
         const d = new Date(dateStr);
         if (isNaN(d.getTime())) return dateStr;
@@ -938,8 +946,8 @@
     }
 
     function formatTimeDisplay(t) {
-      if (!t) return '-';
-      if (t.includes('T')) { try { return new Date(t).toTimeString().split(' ')[0]; } catch (e) {} }
+      if (!t || t === '-') return '-';
+      if (String(t).includes('T')) { try { return new Date(t).toTimeString().split(' ')[0]; } catch (e) {} }
       return t;
     }
 
@@ -954,12 +962,12 @@
 
       try {
         const result = await API.get(mapAction[jenis]);
-        const data = result.data || [];
+        const data = result && result.data ? result.data : [];
         const filter = getActiveFilter('lihat-' + jenis);
         const bulan = document.getElementById('bulanFilter' + jenis.charAt(0).toUpperCase() + jenis.slice(1))?.value || 'semua';
         const tahun = document.getElementById('tahunFilter' + jenis.charAt(0).toUpperCase() + jenis.slice(1))?.value || 'semua';
 
-        if (!data || data.length < 2) {
+        if (!Array.isArray(data) || data.length < 2) {
           container.innerHTML = `<div class="empty-state"><span class="icon">📭</span><p>Belum ada data laporan</p></div>`;
           return;
         }
@@ -1079,6 +1087,12 @@
       btnText.style.display = 'none';
       btnSpinner.style.display = 'inline-block';
 
+      function resetButton() {
+        btn.disabled = false;
+        btnText.style.display = 'inline';
+        btnSpinner.style.display = 'none';
+      }
+
       let data = {};
 
       if (jenis === 'troble') {
@@ -1157,30 +1171,26 @@
 
       try {
         const result = await API.post(config.action, { data: data });
-        if (result.success) {
+        if (result && result.success) {
           showToast('✅ Laporan berhasil disimpan!', 'success');
           document.getElementById(config.form).reset();
           uploadedFotoUrl = '';
-          document.getElementById('asetFotoUrl').value = '';
-          document.getElementById('asetFotoName').textContent = 'Belum ada foto';
-          document.getElementById('asetFotoStatus').textContent = '';
-          document.getElementById('asetFotoPreview').innerHTML = '';
+          if (jenis === 'aset') {
+            document.getElementById('asetFotoUrl').value = '';
+            document.getElementById('asetFotoName').textContent = 'Belum ada foto';
+            document.getElementById('asetFotoStatus').textContent = '';
+            document.getElementById('asetFotoPreview').innerHTML = '';
+          }
           updateClock();
           loadDashboard();
           loadLaporan(jenis);
         } else {
-          showToast('❌ ' + (result.message || 'Gagal menyimpan'), 'error');
+          showToast('❌ ' + ((result && result.message) || 'Gagal menyimpan'), 'error');
         }
       } catch (err) {
         showToast('❌ Gagal menyimpan: ' + err.message, 'error');
       } finally {
         resetButton();
-      }
-
-      function resetButton() {
-        btn.disabled = false;
-        btnText.style.display = 'inline';
-        btnSpinner.style.display = 'none';
       }
     }
 
@@ -1217,14 +1227,14 @@
             fotoData: base64Data,
             fotoName: file.name
           });
-          if (res.success) {
+          if (res && res.success) {
             uploadedFotoUrl = res.url;
             document.getElementById('asetFotoUrl').value = res.url;
             statusEl.textContent = '✅ Foto berhasil diupload!';
             statusEl.className = 'upload-status success';
             previewEl.innerHTML = `<img src="${res.url}" class="preview-img" alt="Preview">`;
           } else {
-            statusEl.textContent = '❌ ' + (res.error || 'Gagal upload foto');
+            statusEl.textContent = '❌ ' + ((res && res.error) || 'Gagal upload foto');
             statusEl.className = 'upload-status error';
           }
         } catch (err) {
@@ -1253,12 +1263,13 @@
     }
 
     document.addEventListener('click', function(e) {
-      if (e.target.classList.contains('tab-btn')) {
-        const wrapper = e.target.closest('.tab-wrapper');
+      const btn = e.target.closest('.tab-btn');
+      if (btn) {
+        const wrapper = btn.closest('.tab-wrapper');
         if (!wrapper) return;
         wrapper.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        const page = e.target.closest('.page');
+        btn.classList.add('active');
+        const page = btn.closest('.page');
         if (!page) return;
         const id = page.id;
         let jenis = '';
@@ -1280,13 +1291,15 @@
     document.addEventListener('change', function(e) {
       if (e.target.id === 'derekAlasan') {
         const lain = document.getElementById('derekAlasanLain');
-        if (e.target.value === 'Lainnya') {
-          lain.style.display = 'block';
-          lain.required = true;
-        } else {
-          lain.style.display = 'none';
-          lain.required = false;
-          lain.value = '';
+        if (lain) {
+          if (e.target.value === 'Lainnya') {
+            lain.style.display = 'block';
+            lain.required = true;
+          } else {
+            lain.style.display = 'none';
+            lain.required = false;
+            lain.value = '';
+          }
         }
       }
     });
