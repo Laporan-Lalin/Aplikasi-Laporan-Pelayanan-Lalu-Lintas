@@ -284,7 +284,6 @@
     .offline-banner.show { display: block; }
     .auto-grow { overflow: hidden; resize: none; }
 
-    /* UPLOAD FOTO & PREVIEW PERBAIKAN */
     .upload-wrapper {
       display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
     }
@@ -402,7 +401,6 @@
         <div class="clock-date" id="clockDate">--</div>
       </div>
 
-      <!-- FILTER BULAN & TAHUN DASHBOARD -->
       <div class="filter-wrapper" style="justify-content: center; margin-bottom: 8px;">
         <label>📅 Bulan:</label>
         <select class="form-control" id="bulanFilterDashboard" onchange="loadDashboard()">
@@ -420,7 +418,6 @@
         </select>
       </div>
 
-      <!-- INDIKATOR LOADING DASHBOARD -->
       <div id="dashboardLoading" class="loading-overlay" style="padding: 20px 0;">
         <div class="loading-spinner"></div>
         <div class="loading-text">⏳ Memuat ringkasan data...</div>
@@ -948,7 +945,6 @@
       });
     }
 
-    // DASHBOARD DENGAN LOADING & FILTER BULAN/TAHUN
     async function loadDashboard() {
       const loadingEl = document.getElementById('dashboardLoading');
       const statsEl = document.getElementById('dashboardStats');
@@ -959,7 +955,6 @@
         const bulan = document.getElementById('bulanFilterDashboard')?.value || 'semua';
         const tahun = document.getElementById('tahunFilterDashboard')?.value || 'semua';
 
-        // Mengambil seluruh data sheet laporan untuk di-filter statistik
         const [resTroble, resDerek, resKhusus, resAset] = await Promise.all([
           API.get('getTroble'),
           API.get('getDerek'),
@@ -1277,7 +1272,6 @@
       return values;
     }
 
-    // KOMPRESI & UPLOAD FOTO VIA CANVAS
     function handleFotoUpload(input) {
       const file = input.files[0];
       if (!file) return;
@@ -1295,9 +1289,8 @@
         const img = new Image();
         img.src = e.target.result;
         img.onload = async function() {
-          // Kompresi Gambar menggunakan Canvas HTML5
           const canvas = document.createElement('canvas');
-          const maxDimension = 800; // Maksimal dimensi panjang/lebar px
+          const maxDimension = 800;
           let width = img.width;
           let height = img.height;
 
@@ -1319,7 +1312,6 @@
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
 
-          // Quality 0.7 = Kompresi Kualitas JPEG 70% (Sangat Hemat Ruang Penyimpanan)
           const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
 
           statusEl.textContent = '📤 Mengupload foto terkompresi...';
