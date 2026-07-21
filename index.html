@@ -133,7 +133,7 @@
       margin-top: 4px; font-weight: 500; letter-spacing: 0.5px;
     }
     .stats-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; position: relative;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px;
     }
     .stat-card {
       background: var(--bg-card); border-radius: var(--radius); padding: 16px;
@@ -205,9 +205,7 @@
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,111,0,0.3); }
     .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
-    /* ============================================================
-       LAPORAN LIST & TEXT WRAPPING - FINAL
-       ============================================================ */
+    /* LAPORAN LIST & TEXT WRAPPING */
     .laporan-list { margin-top: 16px; }
     
     .laporan-item {
@@ -255,8 +253,6 @@
       white-space: nowrap;
       margin-left: auto;
     }
-    .laporan-item .desc,
-    .laporan-item .detail-text,
     .laporan-item > div {
       word-wrap: break-word !important;
       overflow-wrap: break-word !important;
@@ -330,7 +326,6 @@
     .offline-banner.show { display: block; }
     .auto-grow { overflow: hidden; resize: none; }
 
-    /* UPLOAD FOTO & PREVIEW PERBAIKAN */
     .upload-wrapper {
       display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
     }
@@ -347,7 +342,6 @@
     .upload-status.success { color: #2e7d32; }
     .upload-status.error { color: #c62828; }
 
-    /* MODAL ZOOM FOTO */
     .image-modal {
       display: none;
       position: fixed;
@@ -527,6 +521,7 @@
     <section class="page" id="page-form-troble">
       <div class="page-title">🚗 Form Kendaraan Trouble <small>Penanganan Kendaraan Bermasalah</small></div>
       <form id="formTroble" onsubmit="submitLaporan(event,'troble')">
+        <!-- Sama seperti sebelumnya - tidak diubah -->
         <div class="sub-form-card">
           <div class="card-title">📋 Data Kejadian <span class="badge-sub">Wajib diisi</span></div>
           <div class="form-row">
@@ -567,6 +562,7 @@
     <section class="page" id="page-form-khusus">
       <div class="page-title">⚠️ Form Kejadian Khusus <small>Kejadian Luar Biasa</small></div>
       <form id="formKhusus" onsubmit="submitLaporan(event,'khusus')">
+        <!-- Sama seperti sebelumnya - tidak diubah -->
         <div class="sub-form-card">
           <div class="card-title">📋 Data Kejadian <span class="badge-sub">Wajib diisi</span></div>
           <div class="form-row">
@@ -601,6 +597,7 @@
     <section class="page" id="page-form-derek">
       <div class="page-title">🔧 Form Penderekan <small>Proses Penarikan Kendaraan</small></div>
       <form id="formDerek" onsubmit="submitLaporan(event,'derek')">
+        <!-- Sama seperti sebelumnya - tidak diubah -->
         <div class="sub-form-card">
           <div class="card-title">📋 Data Kejadian <span class="badge-sub">Wajib diisi</span></div>
           <div class="form-row">
@@ -1123,7 +1120,9 @@
 
     function formatTimeDisplay(t) {
       if (!t || t === '-') return '-';
-      if (String(t).includes('T')) { try { return new Date(t).toTimeString().split(' ')[0]); } catch (e) {} }
+      if (String(t).includes('T')) {
+        try { return new Date(t).toTimeString().split(' ')[0]; } catch (e) {}
+      }
       return t;
     }
 
