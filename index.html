@@ -1397,75 +1397,65 @@
     }
 
     // ============================================================
-    // UPLOAD FOTO - PASTI BERHASIL (FORM SUBMIT + IFRAME)
-    // ============================================================
+// UPLOAD FOTO - TANPA DriveApp (Pakai Form Submit)
+// ============================================================
 
-    function handleFotoUpload(input) {
-      const file = input.files[0];
-      if (!file) return;
+function handleFotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
 
-      const statusEl = document.getElementById('asetFotoStatus');
-      const nameEl = document.getElementById('asetFotoName');
-      const previewEl = document.getElementById('asetFotoPreview');
+  const statusEl = document.getElementById('asetFotoStatus');
+  const nameEl = document.getElementById('asetFotoName');
+  const previewEl = document.getElementById('asetFotoPreview');
 
-      nameEl.textContent = file.name;
-      statusEl.textContent = '📤 Mengupload...';
-      statusEl.className = 'upload-status';
+  nameEl.textContent = file.name;
+  statusEl.textContent = '📤 Mengupload...';
+  statusEl.className = 'upload-status';
 
-      // BACA FILE
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const base64Data = e.target.result;
-        
-        // KIRIM KE UPLOAD.HTML VIA POST MESSAGE
-        const iframe = document.getElementById('uploadIframe');
-        
-        // TUNGGU IFRAME LOAD
-        iframe.onload = function() {
-          // KIRIM PESAN KE IFRAME
-          iframe.contentWindow.postMessage({
-            type: 'UPLOAD_FOTO',
-            fotoData: base64Data,
-            fotoName: file.name.replace(/\.[^/.]+$/, '') + '.jpg'
-          }, '*');
-        };
-        
-        // LOAD IFRAME (upload.html)
-        iframe.src = 'upload.html';
-      };
-      
-      reader.onerror = function() {
-        statusEl.textContent = '❌ Gagal membaca file';
+  // BACA FILE SEBAGAI BASE64
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const base64Data = e.target.result;
+    
+    // KIRIM KE WEB APP VIA FETCH (JSON)
+    fetch(APP_CONFIG.API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        action: 'uploadFoto',
+        fotoData: base64Data,
+        fotoType: 'image/jpeg',
+        fotoName: file.name.replace(/\.[^/.]+$/, '') + '.jpg'
+      })
+    })
+    .then(response => response.json())
+    .then(result => {
+      if (result.success) {
+        uploadedFotoUrl = result.url;
+        document.getElementById('asetFotoUrl').value = result.url;
+        statusEl.textContent = '✅ Foto berhasil diupload! (simulasi)';
+        statusEl.className = 'upload-status success';
+        previewEl.innerHTML = `<img src="${result.url}" class="preview-img" alt="Preview">`;
+      } else {
+        statusEl.textContent = '❌ ' + (result.error || 'Gagal upload');
         statusEl.className = 'upload-status error';
-      };
-      
-      reader.readAsDataURL(file);
-      
-      // LISTENER UNTUK RESPONSE DARI IFRAME
-      window.addEventListener('message', function onMessage(event) {
-        const data = event.data;
-        if (!data) return;
-        
-        if (data.type === 'UPLOAD_FOTO_RESULT') {
-          window.removeEventListener('message', onMessage);
-          if (data.result && data.result.success) {
-            uploadedFotoUrl = data.result.url;
-            document.getElementById('asetFotoUrl').value = data.result.url;
-            statusEl.textContent = '✅ Foto berhasil diupload!';
-            statusEl.className = 'upload-status success';
-            previewEl.innerHTML = `<img src="${data.result.url}" class="preview-img" alt="Preview">`;
-          } else {
-            statusEl.textContent = '❌ ' + (data.result?.error || 'Gagal upload');
-            statusEl.className = 'upload-status error';
-          }
-        } else if (data.type === 'UPLOAD_FOTO_ERROR') {
-          window.removeEventListener('message', onMessage);
-          statusEl.textContent = '❌ ' + (data.error || 'Gagal upload');
-          statusEl.className = 'upload-status error';
-        }
-      });
-    }
-
+      }
+    })
+    .catch(err => {
+      statusEl.textContent = '❌ Gagal upload: ' + err.message;
+      statusEl.className = 'upload-status error';
+    });
+  };
+  
+  reader.onerror = function() {
+    statusEl.textContent = '❌ Gagal membaca file';
+    statusEl.className = 'upload-status error';
+  };
+  
+  reader.readAsDataURL(file);
+}
     // ============================================================
     // TOAST
     // ============================================================
